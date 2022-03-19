@@ -92,11 +92,13 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+	  uint8_t ch = 'a';
   while (1)
   {
-	  uint8_t ch = 'a';
-	  HAL_UART_Transmit(&huart1, &ch, 1, 10);
-	  HAL_Delay(1000);
+	  if(HAL_UART_Receive(&huart1, &ch, 1, 10) == HAL_OK)
+	  {
+		  HAL_UART_Transmit(&huart1, &ch, 1, 10);
+	  }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
