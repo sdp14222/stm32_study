@@ -1,4 +1,6 @@
-# stm32_practice1
+# stm32_study
+## 목표
+- Wonyeob Chris Park - HAL, CubeMX, TrueSTUDIO를 이용한 STM32F4 속성 강의 강좌 따라하기
 
 ## Target board
 1. STM32F103C8T6
@@ -8,5 +10,5 @@
 ## 실습환경
 STM32CubeIDE
 
-## Reference
+## 출처
 [Wonyeob Chris Park - HAL, CubeMX, TrueSTUDIO를 이용한 STM32F4 속성 강의 강좌](https://www.youtube.com/watch?v=WzmPlObIr_c&list=PLUaCOzp6U-RqMo-QEJQOkVOl1Us8BNgXk)
