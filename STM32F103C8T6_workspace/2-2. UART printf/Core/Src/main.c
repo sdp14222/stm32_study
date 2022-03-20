@@ -49,7 +49,11 @@
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-
+int _write(int file, char* p, int len)
+{
+	HAL_UART_Transmit(&huart1, p, len, 10);
+	return len;
+}
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -95,6 +99,7 @@ int main(void)
   while (1)
   {
 	  printf("Hello World!\n");
+	  HAL_Delay(1000);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
