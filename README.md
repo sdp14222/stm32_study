@@ -1,4 +1,6 @@
 # stm32_study
+stm32 공부
+
 ## 목표
 - Wonyeob Chris Park - HAL, CubeMX, TrueSTUDIO를 이용한 STM32F4 속성 강의 강좌 따라하기
 
