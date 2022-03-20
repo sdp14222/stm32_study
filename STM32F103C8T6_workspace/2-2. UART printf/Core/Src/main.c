@@ -97,10 +97,11 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   uint16_t cnt = 0;
+  float f = 0.123456789;
 
   while (1)
   {
-	  printf("Hello World! %d\n", cnt++);
+	  printf("Hello World! %d %f\n", cnt++, f);
 	  HAL_Delay(1000);
     /* USER CODE END WHILE */
 
