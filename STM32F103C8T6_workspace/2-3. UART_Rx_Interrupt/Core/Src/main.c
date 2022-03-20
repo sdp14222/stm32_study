@@ -44,6 +44,8 @@
 
 /* USER CODE BEGIN PV */
 
+uint8_t rx1_data;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -91,6 +93,8 @@ int main(void)
   /* Initialize interrupts */
   MX_NVIC_Init();
   /* USER CODE BEGIN 2 */
+
+  HAL_UART_Receive_IT(&huart1, &rx1_data, 1);
 
   /* USER CODE END 2 */
 
@@ -156,7 +160,14 @@ static void MX_NVIC_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+	if(huart->Instance == USART1)
+	{
+		HAL_UART_Receive_IT(&huart1, &rx1_data, 1);
+		HAL_UART_Transmit(&huart1, &rx1_data, 1, 10);
+	}
+}
 /* USER CODE END 4 */
 
 /**
