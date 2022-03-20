@@ -96,9 +96,11 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  uint16_t cnt = 0;
+
   while (1)
   {
-	  printf("Hello World!\n");
+	  printf("Hello World! %d\n", cnt++);
 	  HAL_Delay(1000);
     /* USER CODE END WHILE */
 
