@@ -51,7 +51,7 @@ void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
 int _write(int file, char* p, int len)
 {
-	HAL_UART_Transmit(&huart1, p, len, 10);
+	HAL_UART_Transmit(&huart1, (uint8_t*)p, len, 10);
 	return len;
 }
 /* USER CODE END PFP */
@@ -96,6 +96,7 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+
   uint16_t cnt = 0;
   float f = 0.123456789;
 
