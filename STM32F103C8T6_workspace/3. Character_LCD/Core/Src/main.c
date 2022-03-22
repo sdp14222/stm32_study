@@ -22,7 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "Character_LCD.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -86,6 +86,51 @@ int main(void)
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
 
+  // test
+//  HAL_Delay(1000);
+////  Display_clear();
+////  HAL_Delay(1000);
+//  Function_set();
+//  HAL_Delay(1000);
+//  Function_set();
+//  HAL_Delay(1000);
+//  Function_set();
+//  HAL_Delay(1000);
+//
+//  Display_on_off_control();
+//  HAL_Delay(1000);
+//  Entry_mode_set();
+//  HAL_Delay(1000);
+//  Write_data_to_CGRAM_DDRAM();
+//  HAL_Delay(1000);
+
+  	Character_LCD_init();
+//  	Function_set();
+//  	Function_set();
+//  	Function_set();
+	Display_on_off_control();
+	Entry_mode_set();
+	Write_data_to_CGRAM_DDRAM();
+
+	int i;
+	for(i = 0; i < 10; i++)
+		Write_data_to_CGRAM_DDRAM();
+//	Display_clear();
+
+//	Lcd_PortType ports[] = {
+//  		  D4_GPIO_Port, D5_GPIO_Port, D6_GPIO_Port, D7_GPIO_Port
+//    };
+//
+//    Lcd_PinType pins[] = {D4_Pin, D5_Pin, D6_Pin, D7_Pin};
+//
+//    Lcd_HandleTypeDef lcd = Lcd_create(ports, pins, RS_GPIO_Port, RS_Pin, EN_GPIO_Port, EN_Pin, LCD_4_BIT_MODE);
+//
+//    Lcd_string(&lcd, "4ilo");
+//
+//    Lcd_cursor(&lcd, 1,6);
+//    Lcd_int(&lcd, -500);
+
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -93,6 +138,13 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
+
+//	  HAL_Delay(5000);
+//
+//	  Lcd_string(&lcd, "4ilo");
+//
+//	  Lcd_cursor(&lcd, 1,6);
+//	  Lcd_int(&lcd, -500);
 
     /* USER CODE BEGIN 3 */
   }
