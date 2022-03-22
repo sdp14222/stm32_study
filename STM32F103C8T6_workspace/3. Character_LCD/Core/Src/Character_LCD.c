@@ -3,6 +3,10 @@
  *
  *  Created on: Mar 21, 2022
  *      Author: SangDon Park
+ *
+ *  Datasheet : HD44780U(LCD-2)
+ *             (Doc Matrix Liquid Crystal Display Controller/Driver)
+ *
  */
 
 #include "Character_LCD.h"
