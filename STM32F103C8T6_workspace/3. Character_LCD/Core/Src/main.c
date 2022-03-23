@@ -112,9 +112,9 @@ int main(void)
 	Entry_mode_set();
 	Write_data_to_CGRAM_DDRAM();
 
-	int i;
-	for(i = 0; i < 10; i++)
-		Write_data_to_CGRAM_DDRAM();
+//	int i;
+//	for(i = 0; i < 10; i++)
+//		Write_data_to_CGRAM_DDRAM();
 //	Display_clear();
 
 //	Lcd_PortType ports[] = {
