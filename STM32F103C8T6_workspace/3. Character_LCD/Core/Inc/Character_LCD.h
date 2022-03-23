@@ -17,5 +17,6 @@ void Function_set(void);
 void Display_on_off_control(void);
 void Entry_mode_set(void);
 void Write_data_to_CGRAM_DDRAM(void);
+void Set_DDRRAM_address(void);
 
 #endif /* INC_CHARACTER_LCD_H_ */

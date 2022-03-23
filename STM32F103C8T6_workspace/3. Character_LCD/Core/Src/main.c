@@ -111,6 +111,8 @@ int main(void)
 	Display_on_off_control();
 	Entry_mode_set();
 	Write_data_to_CGRAM_DDRAM();
+	Set_DDRRAM_address();
+	Write_data_to_CGRAM_DDRAM();
 
 //	int i;
 //	for(i = 0; i < 10; i++)
