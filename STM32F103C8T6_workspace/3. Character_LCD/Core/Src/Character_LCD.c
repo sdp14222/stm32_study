@@ -11,6 +11,108 @@
 
 #include "Character_LCD.h"
 
+static CLCD_I_EMS	ems_ctrl;
+static CLCD_I_DOC	doc_ctrl;
+static CLCD_I_CODS	cods_ctrl;
+static CLCD_I_FS	fs_ctrl;
+
+void CLCD_Set_Port()
+{
+
+}
+
+void CLCD_Init(void)
+{
+	fs_ctrl.d_l = CLCD_I_FS_D_L;
+
+	HAL_Delay(50);
+
+	CLCD_SET(DB5, DB4);
+
+	HAL_Delay(4.1);
+
+	CLCD_SET(DB5, DB4);
+
+	HAL_Delay(1);
+
+	CLCD_SET(DB5, DB4);
+
+
+
+
+	CLCD_SET(DB5);
+
+
+
+
+	ems_ctrl.i_d = CLCD_I_EMS_I_D;
+	ems_ctrl.s = CLCD_I_EMS_S;
+
+	doc_ctrl.d = CLCD_I_DOC_D;
+	doc_ctrl.c = CLCD_I_DOC_C;
+	doc_ctrl.b = CLCD_I_DOC_B;
+
+	cods_ctrl.s_c = CLCD_I_CODS_S_C;
+	cods_ctrl.r_l = CLCD_I_CODS_R_L;
+
+	fs_ctrl.d_l = CLCD_I_FS_D_L;
+	fs_ctrl.n = CLCD_I_FS_N;
+	fs_ctrl.f = CLCD_I_FS_F;
+
+
+}
+
+void CLCD_Clear_Display(void)
+{
+
+}
+
+void CLCD_Return_Home(void)
+{
+
+}
+
+void CLCD_Entry_Mode_Set(void)
+{
+
+}
+
+void CLCD_Display_ON_OFF_Control(void)
+{
+
+}
+
+void CLCD_Cursor_Or_Display_Shift(void)
+{
+
+}
+
+void CLCD_Function_Set(void)
+{
+
+}
+
+void CLCD_Set_CGRAM_Address(void)
+{
+
+}
+
+void CLCD_Read_Busy_Flag_And_Address(void)
+{
+
+}
+
+void CLCD_Write_Data_To_CG_OR_DDRAM(void)
+{
+
+}
+
+void CLCD_Read_Data_From_CG_OR_DDRAM(void)
+{
+
+}
+
+
 static void Reset_LCD_func(void)
 {
 	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET); // RS = 0

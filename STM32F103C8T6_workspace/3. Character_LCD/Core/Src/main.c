@@ -114,24 +114,6 @@ int main(void)
 	Set_DDRRAM_address();
 	Write_data_to_CGRAM_DDRAM();
 
-//	int i;
-//	for(i = 0; i < 10; i++)
-//		Write_data_to_CGRAM_DDRAM();
-//	Display_clear();
-
-//	Lcd_PortType ports[] = {
-//  		  D4_GPIO_Port, D5_GPIO_Port, D6_GPIO_Port, D7_GPIO_Port
-//    };
-//
-//    Lcd_PinType pins[] = {D4_Pin, D5_Pin, D6_Pin, D7_Pin};
-//
-//    Lcd_HandleTypeDef lcd = Lcd_create(ports, pins, RS_GPIO_Port, RS_Pin, EN_GPIO_Port, EN_Pin, LCD_4_BIT_MODE);
-//
-//    Lcd_string(&lcd, "4ilo");
-//
-//    Lcd_cursor(&lcd, 1,6);
-//    Lcd_int(&lcd, -500);
-
 
   /* USER CODE END 2 */
 
