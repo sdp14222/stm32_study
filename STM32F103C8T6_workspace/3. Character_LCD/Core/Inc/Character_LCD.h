@@ -20,36 +20,40 @@
 #define CLCD_PIN_E_TYPE		GPIOC
 #define CLCD_PIN_E_NUM		GPIO_PIN_15
 
-#define CLCD_PIN_D0_TYPE	GPIOB
-#define CLCD_PIN_D0_NUM		GPIO_PIN_5
-#define CLCD_PIN_D1_TYPE	GPIOB
-#define CLCD_PIN_D1_NUM		GPIO_PIN_6
-#define CLCD_PIN_D2_TYPE	GPIOB
-#define CLCD_PIN_D2_NUM		GPIO_PIN_7
-#define CLCD_PIN_D3_TYPE	GPIOB
-#define CLCD_PIN_D3_NUM		GPIO_PIN_8
-
-#define CLCD_PIN_D4_TYPE	GPIOB
-#define CLCD_PIN_D4_NUM		GPIO_PIN_0
-#define CLCD_PIN_D5_TYPE	GPIOB
-#define CLCD_PIN_D5_NUM		GPIO_PIN_1
-#define CLCD_PIN_D6_TYPE	GPIOB
-#define CLCD_PIN_D6_NUM		GPIO_PIN_3
 #define CLCD_PIN_D7_TYPE	GPIOB
 #define CLCD_PIN_D7_NUM		GPIO_PIN_4
+#define CLCD_PIN_D6_TYPE	GPIOB
+#define CLCD_PIN_D6_NUM		GPIO_PIN_3
+#define CLCD_PIN_D5_TYPE	GPIOB
+#define CLCD_PIN_D5_NUM		GPIO_PIN_1
+#define CLCD_PIN_D4_TYPE	GPIOB
+#define CLCD_PIN_D4_NUM		GPIO_PIN_0
+
+#define CLCD_PIN_D3_TYPE	GPIOB
+#define CLCD_PIN_D3_NUM		GPIO_PIN_8
+#define CLCD_PIN_D2_TYPE	GPIOB
+#define CLCD_PIN_D2_NUM		GPIO_PIN_7
+#define CLCD_PIN_D1_TYPE	GPIOB
+#define CLCD_PIN_D1_NUM		GPIO_PIN_6
+#define CLCD_PIN_D0_TYPE	GPIOB
+#define CLCD_PIN_D0_NUM		GPIO_PIN_5
 
 
-#define CLCD_PIN_RS	0x001
-#define CLCD_PIN_RW	0x002
-#define CLCD_PIN_E	0x004
-#define CLCD_PIN_D0	0x008
-#define CLCD_PIN_D1	0x010
-#define CLCD_PIN_D2	0x020
-#define CLCD_PIN_D3	0x040
-#define CLCD_PIN_D4	0x080
-#define CLCD_PIN_D5	0x100
-#define CLCD_PIN_D6	0x200
-#define CLCD_PIN_D7	0x400
+//---- 0000 0000 0000
+/********* CLCD_PIN_SELECT *********/
+#define CLCD_PIN_RS			((uint16_t)0x001)
+#define CLCD_PIN_RW			((uint16_t)0x002)
+#define CLCD_PIN_E			((uint16_t)0x004)
+#define CLCD_PIN_DB7		((uint16_t)0x008)
+#define CLCD_PIN_DB6		((uint16_t)0x010)
+#define CLCD_PIN_DB5		((uint16_t)0x020)
+#define CLCD_PIN_DB4		((uint16_t)0x040)
+#define CLCD_PIN_DB3		((uint16_t)0x080)
+#define CLCD_PIN_DB2		((uint16_t)0x100)
+#define CLCD_PIN_DB1		((uint16_t)0x200)
+#define CLCD_PIN_DB0		((uint16_t)0x400)
+#define CLCD_PIN_ALL_SET	((uint16_t)0x7FF)
+#define CLCD_PIN_ALL_RESET	((uint16_t)0x000)
 
 
 /********* INSTRUCTIONS_INIT_CONFIG *********/

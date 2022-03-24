@@ -123,13 +123,6 @@ int main(void)
   {
     /* USER CODE END WHILE */
 
-//	  HAL_Delay(5000);
-//
-//	  Lcd_string(&lcd, "4ilo");
-//
-//	  Lcd_cursor(&lcd, 1,6);
-//	  Lcd_int(&lcd, -500);
-
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
