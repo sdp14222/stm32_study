@@ -112,21 +112,21 @@ typedef struct
 /********* CLCD_Entry_Mode_Set_SELECT *********/
 #define CLCD_EMS_S_I_D				((uint16_t)0x001)
 #define CLCD_EMS_S_S				((uint16_t)0x002)
-#define CLCD_EMS_S_ALL_SET			((uint16_t)0x003)
-#define CLCD_EMS_S_ALL_RESET		((uint16_t)0x000)
+#define CLCD_EMS_S_ALL				((uint16_t)0x003)
+#define CLCD_EMS_S_NONE				((uint16_t)0x000)
 
 /********* CLCD_Display_ON_OFF_Control_SELECT *********/
 #define CLCD_DOC_S_D				((uint16_t)0x001)
 #define CLCD_DOC_S_C				((uint16_t)0x002)
 #define CLCD_DOC_S_B				((uint16_t)0x004)
-#define CLCD_DOC_S_ALL_SET			((uint16_t)0x007)
-#define CLCD_DOC_S_ALL_RESET		((uint16_t)0x000)
+#define CLCD_DOC_S_ALL				((uint16_t)0x007)
+#define CLCD_DOC_S_NONE				((uint16_t)0x000)
 
 /********* CLCD_Cursor_Or_Display_Shift_SELECT *********/
 #define CLCD_CODS_S_S_C				((uint16_t)0x001)
 #define CLCD_CODS_S_R_L				((uint16_t)0x002)
-#define CLCD_CODS_S_ALL_SET			((uint16_t)0x003)
-#define CLCD_CODS_S_ALL_RESET		((uint16_t)0x000)
+#define CLCD_CODS_S_ALL				((uint16_t)0x003)
+#define CLCD_CODS_S_NONE			((uint16_t)0x000)
 
 
 

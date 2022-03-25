@@ -151,7 +151,7 @@ void CLCD_Entry_Mode_Set(void)
 	CLCD_Pin_Set_Exec(clcd_pin);
 }
 
-void CLCD_Display_ON_OFF_Control(void)
+void CLCD_Display_ON_OFF_Control(uint16_t display_select)
 {
 	uint16_t clcd_pin = 0;
 
