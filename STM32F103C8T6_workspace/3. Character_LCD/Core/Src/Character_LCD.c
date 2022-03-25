@@ -143,17 +143,44 @@ void CLCD_Return_Home(void)
 
 void CLCD_Entry_Mode_Set(void)
 {
+	uint16_t clcd_pin = 0;
+	ems_ctrl.i_d = CLCD_I_EMS_I_D;
+	ems_ctrl.s = CLCD_I_EMS_S;
 
+	clcd_pin |= CLCD_PIN_DB2;
+	clcd_pin |= (ems_ctrl.i_d ? CLCD_PIN_DB1 : 0);
+	clcd_pin |= (ems_ctrl.s ? CLCD_PIN_DB0 : 0);
+
+
+	CLCD_Pin_Set_Exec(clcd_pin);
 }
 
 void CLCD_Display_ON_OFF_Control(void)
 {
+	uint16_t clcd_pin = 0;
+	doc_ctrl.d = CLCD_I_DOC_D;
+	doc_ctrl.c = CLCD_I_DOC_C;
+	doc_ctrl.b = CLCD_I_DOC_B;
 
+	clcd_pin |= CLCD_PIN_DB3;
+	clcd_pin |= (doc_ctrl.d ? CLCD_PIN_DB2 : 0);
+	clcd_pin |= (doc_ctrl.c ? CLCD_PIN_DB1 : 0);
+	clcd_pin |= (doc_ctrl.b ? CLCD_PIN_DB0 : 0);
+
+	CLCD_Pin_Set_Exec(clcd_pin);
 }
 
 void CLCD_Cursor_Or_Display_Shift(void)
 {
+	uint16_t clcd_pin = 0;
+	cods_ctrl.s_c = CLCD_I_CODS_S_C;
+	cods_ctrl.r_l = CLCD_I_CODS_R_L;
 
+	clcd_pin |= CLCD_PIN_DB4;
+	clcd_pin |= (cods_ctrl.s_c ? CLCD_PIN_DB3 : 0);
+	clcd_pin |= (cods_ctrl.r_l ? CLCD_PIN_DB2 : 0);
+
+	CLCD_Pin_Set_Exec(clcd_pin);
 }
 
 void CLCD_Function_Set(void)
