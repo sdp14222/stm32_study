@@ -104,6 +104,9 @@ int main(void)
 //  Write_data_to_CGRAM_DDRAM();
 //  HAL_Delay(1000);
 
+  	CLCD_Init();
+
+/*
   	Character_LCD_init();
 //  	Function_set();
 //  	Function_set();
@@ -113,7 +116,7 @@ int main(void)
 	Write_data_to_CGRAM_DDRAM();
 	Set_DDRRAM_address();
 	Write_data_to_CGRAM_DDRAM();
-
+*/
 
   /* USER CODE END 2 */
 

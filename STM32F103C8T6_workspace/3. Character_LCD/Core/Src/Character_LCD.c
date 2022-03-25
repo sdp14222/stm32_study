@@ -14,7 +14,7 @@
 static CLCD_I_EMS	ems_ctrl;
 static CLCD_I_DOC	doc_ctrl;
 static CLCD_I_CODS	cods_ctrl;
-static CLCD_I_FS	fs_ctrl;
+static const CLCD_I_FS*	fs_ctrl;
 static CLCD_PIN* 	clcd_pin;
 
 void CLCD_Pin_Set_Exec(uint16_t clcd_pin)
@@ -67,9 +67,7 @@ void CLCD_GPIO_Set(uint16_t clcd_pin, uint16_t last_pin_idx)
 
 void CLCD_Config_Init()
 {
-	uint16_t i = 0;
-
-	const static CLCD_PIN clcd_pin_cs[] = {
+	static const CLCD_PIN clcd_pin_cs[] = {
 			{ CLCD_PIN_D0_TYPE, CLCD_PIN_D0_NUM },	// idx =  0
 			{ CLCD_PIN_D1_TYPE, CLCD_PIN_D1_NUM },  // idx =  1
 			{ CLCD_PIN_D2_TYPE, CLCD_PIN_D2_NUM },  // idx =  2
@@ -95,9 +93,12 @@ void CLCD_Config_Init()
 	cods_ctrl.s_c = CLCD_I_CODS_S_C;
 	cods_ctrl.r_l = CLCD_I_CODS_R_L;
 
-	fs_ctrl.d_l = CLCD_I_FS_D_L;
-	fs_ctrl.n = CLCD_I_FS_N;
-	fs_ctrl.f = CLCD_I_FS_F;
+	static const CLCD_I_FS fs_ctrl_v = {
+		CLCD_I_FS_D_L,
+		CLCD_I_FS_N,
+		CLCD_I_FS_F
+	};
+	fs_ctrl = &fs_ctrl_v;
 }
 
 void CLCD_Inst_Exec(void)
@@ -112,7 +113,6 @@ void CLCD_Inst_Exec(void)
 void CLCD_Init(void)
 {
 	CLCD_Config_Init();
-	fs_ctrl.d_l = CLCD_I_FS_D_L;
 	HAL_Delay(40);
 	CLCD_Pin_Set_Exec(CLCD_PIN_DB5 | CLCD_PIN_DB4);
 	HAL_Delay(5);
@@ -124,6 +124,9 @@ void CLCD_Init(void)
 	CLCD_Display_ON_OFF_Control();
 	CLCD_Clear_Display();
 	CLCD_Entry_Mode_Set();
+	// Initialization Ends
+
+	CLCD_Display_ON_OFF_Control();
 }
 
 void CLCD_Clear_Display(void)
@@ -179,7 +182,6 @@ void CLCD_Function_Set(void)
 	clcd_pin |= (fs_ctrl.d_l ? CLCD_PIN_DB4 : 0);
 	clcd_pin |= (fs_ctrl.n ? CLCD_PIN_DB3 : 0);
 	clcd_pin |= (fs_ctrl.f ? CLCD_PIN_DB2 : 0);
-
 
 	CLCD_Pin_Set_Exec(clcd_pin);
 }
