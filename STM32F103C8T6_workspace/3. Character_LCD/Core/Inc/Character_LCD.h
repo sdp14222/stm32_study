@@ -39,24 +39,6 @@
 #define CLCD_PIN_D0_NUM		GPIO_PIN_5
 
 
-//---- 0000 0000 0000
-/********* CLCD_PIN_SELECT *********/
-#define CLCD_PIN_S_4_BIT_OP_ONCE	((uint16_t)0x800)
-#define CLCD_PIN_S_RS				((uint16_t)0x400)
-#define CLCD_PIN_S_RW				((uint16_t)0x200)
-#define CLCD_PIN_S_E				((uint16_t)0x100)
-#define CLCD_PIN_S_DB7				((uint16_t)0x080)
-#define CLCD_PIN_S_DB6				((uint16_t)0x040)
-#define CLCD_PIN_S_DB5				((uint16_t)0x020)
-#define CLCD_PIN_S_DB4				((uint16_t)0x010)
-#define CLCD_PIN_S_DB3				((uint16_t)0x008)
-#define CLCD_PIN_S_DB2				((uint16_t)0x004)
-#define CLCD_PIN_S_DB1				((uint16_t)0x002)
-#define CLCD_PIN_S_DB0				((uint16_t)0x001)
-#define CLCD_PIN_S_ALL_SET			((uint16_t)0x7FF)
-#define CLCD_PIN_S_ALL_RESET		((uint16_t)0x000)
-
-
 /********* INSTRUCTIONS_INIT_CONFIG *********/
 
 /********* ENTRY_MODE_SET_INIT_CONFIG *********/
@@ -109,6 +91,43 @@ typedef struct
 	GPIO_TypeDef* lcd_gpio_type;
 	uint16_t pin_num;
 } CLCD_PIN;
+
+
+/********* CLCD_PIN_SELECT *********/
+#define CLCD_PIN_S_4_BIT_OP_ONCE	((uint16_t)0x800)
+#define CLCD_PIN_S_RS				((uint16_t)0x400)
+#define CLCD_PIN_S_RW				((uint16_t)0x200)
+#define CLCD_PIN_S_E				((uint16_t)0x100)
+#define CLCD_PIN_S_DB7				((uint16_t)0x080)
+#define CLCD_PIN_S_DB6				((uint16_t)0x040)
+#define CLCD_PIN_S_DB5				((uint16_t)0x020)
+#define CLCD_PIN_S_DB4				((uint16_t)0x010)
+#define CLCD_PIN_S_DB3				((uint16_t)0x008)
+#define CLCD_PIN_S_DB2				((uint16_t)0x004)
+#define CLCD_PIN_S_DB1				((uint16_t)0x002)
+#define CLCD_PIN_S_DB0				((uint16_t)0x001)
+#define CLCD_PIN_S_ALL_SET			((uint16_t)0x7FF)
+#define CLCD_PIN_S_ALL_RESET		((uint16_t)0x000)
+
+/********* CLCD_Entry_Mode_Set_SELECT *********/
+#define CLCD_EMS_S_I_D				((uint16_t)0x001)
+#define CLCD_EMS_S_S				((uint16_t)0x002)
+#define CLCD_EMS_S_ALL_SET			((uint16_t)0x003)
+#define CLCD_EMS_S_ALL_RESET		((uint16_t)0x000)
+
+/********* CLCD_Display_ON_OFF_Control_SELECT *********/
+#define CLCD_DOC_S_D				((uint16_t)0x001)
+#define CLCD_DOC_S_C				((uint16_t)0x002)
+#define CLCD_DOC_S_B				((uint16_t)0x004)
+#define CLCD_DOC_S_ALL_SET			((uint16_t)0x007)
+#define CLCD_DOC_S_ALL_RESET		((uint16_t)0x000)
+
+/********* CLCD_Cursor_Or_Display_Shift_SELECT *********/
+#define CLCD_CODS_S_S_C				((uint16_t)0x001)
+#define CLCD_CODS_S_R_L				((uint16_t)0x002)
+#define CLCD_CODS_S_ALL_SET			((uint16_t)0x003)
+#define CLCD_CODS_S_ALL_RESET		((uint16_t)0x000)
+
 
 
 void CLCD_Init(void);
