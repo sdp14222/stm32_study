@@ -23,7 +23,7 @@ void CLCD_Pin_Set_Exec(uint16_t clcd_pin)
 	uint16_t last_pin_idx;
 	uint16_t tmp_pin;
 
-	if(fs_ctrl.d_l)
+	if(fs_ctrl->d_l)
 	{
 		last_pin_idx = 0;
 		CLCD_GPIO_Set(clcd_pin, last_pin_idx);
@@ -179,9 +179,9 @@ void CLCD_Function_Set(void)
 	uint16_t clcd_pin = 0;
 
 	clcd_pin |= CLCD_PIN_DB5;
-	clcd_pin |= (fs_ctrl.d_l ? CLCD_PIN_DB4 : 0);
-	clcd_pin |= (fs_ctrl.n ? CLCD_PIN_DB3 : 0);
-	clcd_pin |= (fs_ctrl.f ? CLCD_PIN_DB2 : 0);
+	clcd_pin |= (fs_ctrl->d_l ? CLCD_PIN_DB4 : 0);
+	clcd_pin |= (fs_ctrl->n ? CLCD_PIN_DB3 : 0);
+	clcd_pin |= (fs_ctrl->f ? CLCD_PIN_DB2 : 0);
 
 	CLCD_Pin_Set_Exec(clcd_pin);
 }
