@@ -65,7 +65,7 @@ void CLCD_GPIO_Set(uint16_t clcd_pin, uint16_t last_pin_idx)
 	}
 }
 
-void CLCD_GPIO_Config_Init()
+void CLCD_Config_Init()
 {
 	uint16_t i = 0;
 
@@ -84,34 +84,6 @@ void CLCD_GPIO_Config_Init()
 	};
 
 	clcd_pin = clcd_pin_cs;
-}
-
-void CLCD_Inst_Exec(void)
-{
-	uint16_t e_idx = 8;
-	HAL_GPIO_WritePin(clcd_pin[e_idx].lcd_gpio_type, clcd_pin[e_idx].pin_num, GPIO_PIN_SET);
-	HAL_Delay(1);
-	HAL_GPIO_WritePin(clcd_pin[e_idx].lcd_gpio_type, clcd_pin[e_idx].pin_num, GPIO_PIN_RESET);
-	HAL_Delay(1);
-}
-
-
-void CLCD_Init(void)
-{
-	CLCD_GPIO_Config_Init();
-	fs_ctrl.d_l = CLCD_I_FS_D_L;
-	HAL_Delay(40);
-	CLCD_Pin_Set_Exec(CLCD_PIN_DB5 | CLCD_PIN_DB4);
-	HAL_Delay(5);
-	CLCD_Pin_Set_Exec(CLCD_PIN_DB5 | CLCD_PIN_DB4);
-	HAL_Delay(1);
-	CLCD_Pin_Set_Exec(CLCD_PIN_DB5 | CLCD_PIN_DB4);
-	CLCD_Pin_Set_Exec(CLCD_PIN_DB5);
-	CLCD_Function_Set();
-	CLCD_Display_ON_OFF_Control();
-	CLCD_Clear_Display();
-	CLCD_Entry_Mode_Set();
-
 
 	ems_ctrl.i_d = CLCD_I_EMS_I_D;
 	ems_ctrl.s = CLCD_I_EMS_S;
@@ -126,8 +98,32 @@ void CLCD_Init(void)
 	fs_ctrl.d_l = CLCD_I_FS_D_L;
 	fs_ctrl.n = CLCD_I_FS_N;
 	fs_ctrl.f = CLCD_I_FS_F;
+}
 
+void CLCD_Inst_Exec(void)
+{
+	uint16_t e_idx = 8;
+	HAL_GPIO_WritePin(clcd_pin[e_idx].lcd_gpio_type, clcd_pin[e_idx].pin_num, GPIO_PIN_SET);
+	HAL_Delay(1);
+	HAL_GPIO_WritePin(clcd_pin[e_idx].lcd_gpio_type, clcd_pin[e_idx].pin_num, GPIO_PIN_RESET);
+	HAL_Delay(1);
+}
 
+void CLCD_Init(void)
+{
+	CLCD_Config_Init();
+	fs_ctrl.d_l = CLCD_I_FS_D_L;
+	HAL_Delay(40);
+	CLCD_Pin_Set_Exec(CLCD_PIN_DB5 | CLCD_PIN_DB4);
+	HAL_Delay(5);
+	CLCD_Pin_Set_Exec(CLCD_PIN_DB5 | CLCD_PIN_DB4);
+	HAL_Delay(1);
+	CLCD_Pin_Set_Exec(CLCD_PIN_DB5 | CLCD_PIN_DB4);
+	CLCD_Pin_Set_Exec(CLCD_PIN_DB5);
+	CLCD_Function_Set();
+	CLCD_Display_ON_OFF_Control();
+	CLCD_Clear_Display();
+	CLCD_Entry_Mode_Set();
 }
 
 void CLCD_Clear_Display(void)
@@ -144,13 +140,10 @@ void CLCD_Return_Home(void)
 void CLCD_Entry_Mode_Set(void)
 {
 	uint16_t clcd_pin = 0;
-	ems_ctrl.i_d = CLCD_I_EMS_I_D;
-	ems_ctrl.s = CLCD_I_EMS_S;
 
 	clcd_pin |= CLCD_PIN_DB2;
 	clcd_pin |= (ems_ctrl.i_d ? CLCD_PIN_DB1 : 0);
 	clcd_pin |= (ems_ctrl.s ? CLCD_PIN_DB0 : 0);
-
 
 	CLCD_Pin_Set_Exec(clcd_pin);
 }
@@ -158,9 +151,6 @@ void CLCD_Entry_Mode_Set(void)
 void CLCD_Display_ON_OFF_Control(void)
 {
 	uint16_t clcd_pin = 0;
-	doc_ctrl.d = CLCD_I_DOC_D;
-	doc_ctrl.c = CLCD_I_DOC_C;
-	doc_ctrl.b = CLCD_I_DOC_B;
 
 	clcd_pin |= CLCD_PIN_DB3;
 	clcd_pin |= (doc_ctrl.d ? CLCD_PIN_DB2 : 0);
@@ -173,8 +163,6 @@ void CLCD_Display_ON_OFF_Control(void)
 void CLCD_Cursor_Or_Display_Shift(void)
 {
 	uint16_t clcd_pin = 0;
-	cods_ctrl.s_c = CLCD_I_CODS_S_C;
-	cods_ctrl.r_l = CLCD_I_CODS_R_L;
 
 	clcd_pin |= CLCD_PIN_DB4;
 	clcd_pin |= (cods_ctrl.s_c ? CLCD_PIN_DB3 : 0);
@@ -186,9 +174,6 @@ void CLCD_Cursor_Or_Display_Shift(void)
 void CLCD_Function_Set(void)
 {
 	uint16_t clcd_pin = 0;
-	fs_ctrl.d_l = CLCD_I_FS_D_L;
-	fs_ctrl.n = CLCD_I_FS_N;
-	fs_ctrl.f = CLCD_I_FS_F;
 
 	clcd_pin |= CLCD_PIN_DB5;
 	clcd_pin |= (fs_ctrl.d_l ? CLCD_PIN_DB4 : 0);
