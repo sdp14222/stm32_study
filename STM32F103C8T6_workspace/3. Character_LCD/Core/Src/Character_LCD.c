@@ -11,10 +11,10 @@
 
 #include "Character_LCD.h"
 
-static CLCD_I_EMS	ems_ctrl;
-static CLCD_I_DOC	doc_ctrl;
-static CLCD_I_CODS	cods_ctrl;
-static const CLCD_I_FS*	fs_ctrl;
+static CLCD_EMS	ems_ctrl;
+static CLCD_DOC	doc_ctrl;
+static CLCD_CODS	cods_ctrl;
+static const CLCD_FS*	fs_ctrl;
 static CLCD_PIN* 	clcd_pin;
 
 void CLCD_Pin_Set_Exec(uint16_t clcd_pin)
@@ -93,7 +93,7 @@ void CLCD_Config_Init()
 	cods_ctrl.s_c = CLCD_I_CODS_S_C;
 	cods_ctrl.r_l = CLCD_I_CODS_R_L;
 
-	static const CLCD_I_FS fs_ctrl_v = {
+	static const CLCD_FS fs_ctrl_v = {
 		CLCD_I_FS_D_L,
 		CLCD_I_FS_N,
 		CLCD_I_FS_F

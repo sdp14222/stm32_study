@@ -82,27 +82,27 @@ typedef struct
 {
 	uint16_t i_d;
 	uint16_t s;
-} CLCD_I_EMS;
+} CLCD_EMS;
 
 typedef struct
 {
 	uint16_t d;
 	uint16_t c;
 	uint16_t b;
-} CLCD_I_DOC;
+} CLCD_DOC;
 
 typedef struct
 {
 	uint16_t s_c;
 	uint16_t r_l;
-} CLCD_I_CODS;
+} CLCD_CODS;
 
 typedef struct
 {
 	uint16_t d_l;
 	uint16_t n;
 	uint16_t f;
-} CLCD_I_FS;
+} CLCD_FS;
 
 typedef struct
 {
