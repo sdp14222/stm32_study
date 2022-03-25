@@ -105,7 +105,9 @@ int main(void)
 //  HAL_Delay(1000);
 
   	CLCD_Init();
-
+  	CLCD_Write_Data_To_CG_OR_DDRAM();
+//  	CLCD_Write_Data_To_CG_OR_DDRAM();
+//  	CLCD_Write_Data_To_CG_OR_DDRAM();
 /*
   	Character_LCD_init();
 //  	Function_set();
