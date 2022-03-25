@@ -157,7 +157,18 @@ void CLCD_Cursor_Or_Display_Shift(void)
 
 void CLCD_Function_Set(void)
 {
+	uint16_t clcd_pin = 0;
+	fs_ctrl.d_l = CLCD_I_FS_D_L;
+	fs_ctrl.n = CLCD_I_FS_N;
+	fs_ctrl.f = CLCD_I_FS_F;
 
+	clcd_pin |= CLCD_PIN_DB5;
+	clcd_pin |= (fs_ctrl.d_l ? CLCD_PIN_DB4 : 0);
+	clcd_pin |= (fs_ctrl.n ? CLCD_PIN_DB3 : 0);
+	clcd_pin |= (fs_ctrl.f ? CLCD_PIN_DB2 : 0);
+
+
+	CLCD_Pin_Set_Exec(clcd_pin);
 }
 
 void CLCD_Set_CGRAM_Address(void)
