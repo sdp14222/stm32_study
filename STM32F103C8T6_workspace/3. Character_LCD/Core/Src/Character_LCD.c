@@ -17,25 +17,42 @@ static CLCD_I_CODS	cods_ctrl;
 static CLCD_I_FS	fs_ctrl;
 static CLCD_PIN* 	clcd_pin;
 
-void CLCD_Port_Set(uint16_t clcd_pin)
+void CLCD_Pin_Set_Exec(uint16_t clcd_pin)
 {
 	//	---- 0000 0000 0000
+	uint16_t last_pin_idx;
+	uint16_t tmp_pin;
+
 	if(fs_ctrl.d_l)
 	{
-		CLCD_GPIO_Set(11);
+		last_pin_idx = 0;
+		CLCD_GPIO_Set(clcd_pin, last_pin_idx);
+		CLCD_Inst_Exec();
 	}
 	else
 	{
-		CLCD_GPIO_Set(7);
+		last_pin_idx = 4;
+		CLCD_GPIO_Set(clcd_pin, last_pin_idx);
+		CLCD_Inst_Exec();
+		if(clcd_pin & CLCD_PIN_4_BIT_OP_ONCE)
+			return;
+		else
+		{
+			tmp_pin = (clcd_pin & 0x00f) << 4;
+			clcd_pin &= 0x600;
+			clcd_pin |= tmp_pin;
+			CLCD_GPIO_Set(clcd_pin, last_pin_idx);
+			CLCD_Inst_Exec();
+		}
 	}
-
 }
 
-void CLCD_GPIO_Set(uint16_t r)
+void CLCD_GPIO_Set(uint16_t clcd_pin, uint16_t last_pin_idx)
 {
 	uint16_t i;
+	uint16_t start_pin_idx = 10;
 
-	for(i = 0; i < r; i++)
+	for(i = start_pin_idx; i >= last_pin_idx; i--)
 	{
 		if((clcd_pin >> i) & 0x001)
 		{
@@ -52,28 +69,29 @@ void CLCD_GPIO_Config_Init()
 {
 	uint16_t i = 0;
 
-	const static CLCD_PIN clcd_pin1[11] = {
-			{ CLCD_PIN_RS_TYPE, CLCD_PIN_RS_NUM },
-			{ CLCD_PIN_RW_TYPE, CLCD_PIN_RW_NUM },
-			{ CLCD_PIN_E_TYPE, CLCD_PIN_E_NUM },
-			{ CLCD_PIN_D7_TYPE, CLCD_PIN_D7_NUM },
-			{ CLCD_PIN_D6_TYPE, CLCD_PIN_D6_NUM },
-			{ CLCD_PIN_D5_TYPE, CLCD_PIN_D5_NUM },
-			{ CLCD_PIN_D4_TYPE, CLCD_PIN_D4_NUM },
-			{ CLCD_PIN_D3_TYPE, CLCD_PIN_D3_NUM },
-			{ CLCD_PIN_D2_TYPE, CLCD_PIN_D2_NUM },
-			{ CLCD_PIN_D1_TYPE, CLCD_PIN_D1_NUM },
-			{ CLCD_PIN_D0_TYPE, CLCD_PIN_D0_NUM }
+	const static CLCD_PIN clcd_pin_cs[] = {
+			{ CLCD_PIN_D0_TYPE, CLCD_PIN_D0_NUM },	// idx =  0
+			{ CLCD_PIN_D1_TYPE, CLCD_PIN_D1_NUM },  // idx =  1
+			{ CLCD_PIN_D2_TYPE, CLCD_PIN_D2_NUM },  // idx =  2
+			{ CLCD_PIN_D3_TYPE, CLCD_PIN_D3_NUM },  // idx =  3
+			{ CLCD_PIN_D4_TYPE, CLCD_PIN_D4_NUM },  // idx =  4
+			{ CLCD_PIN_D5_TYPE, CLCD_PIN_D5_NUM },  // idx =  5
+			{ CLCD_PIN_D6_TYPE, CLCD_PIN_D6_NUM },  // idx =  6
+			{ CLCD_PIN_D7_TYPE, CLCD_PIN_D7_NUM },  // idx =  7
+			{ CLCD_PIN_E_TYPE, 	CLCD_PIN_E_NUM 	},  // idx =  8
+			{ CLCD_PIN_RW_TYPE, CLCD_PIN_RW_NUM },	// idx =  9
+			{ CLCD_PIN_RS_TYPE, CLCD_PIN_RS_NUM }   // idx = 10
 	};
 
-	clcd_pin = clcd_pin1;
+	clcd_pin = clcd_pin_cs;
 }
 
 void CLCD_Inst_Exec(void)
 {
-	HAL_GPIO_WritePin(clcd_pin[2].lcd_gpio_type, clcd_pin[2].pin_num, GPIO_PIN_SET);
+	uint16_t e_idx = 8;
+	HAL_GPIO_WritePin(clcd_pin[e_idx].lcd_gpio_type, clcd_pin[e_idx].pin_num, GPIO_PIN_SET);
 	HAL_Delay(1);
-	HAL_GPIO_WritePin(clcd_pin[2].lcd_gpio_type, clcd_pin[2].pin_num, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(clcd_pin[e_idx].lcd_gpio_type, clcd_pin[e_idx].pin_num, GPIO_PIN_RESET);
 	HAL_Delay(1);
 }
 
@@ -82,37 +100,17 @@ void CLCD_Init(void)
 {
 	CLCD_GPIO_Config_Init();
 	fs_ctrl.d_l = CLCD_I_FS_D_L;
-
-	if(fs_ctrl.d_l)
-	{
-
-	}
-	else
-	{
-		HAL_Delay(50);
-
-		CLCD_Set_Port(CLCD_PIN_DB5 | CLCD_PIN_DB4);
-		CLCD_Inst_Exec();
-
-		HAL_Delay(5);
-
-		CLCD_Set_Port(CLCD_PIN_DB5 | CLCD_PIN_DB4);
-		CLCD_Inst_Exec();
-
-		HAL_Delay(1);
-
-		CLCD_Set_Port(CLCD_PIN_DB5 | CLCD_PIN_DB4);
-		CLCD_Inst_Exec();
-
-		CLCD_SET(DB5);
-		CLCD_Inst_Exec();
-	}
-
-
-
-
-
-
+	HAL_Delay(40);
+	CLCD_Pin_Set_Exec(CLCD_PIN_DB5 | CLCD_PIN_DB4);
+	HAL_Delay(5);
+	CLCD_Pin_Set_Exec(CLCD_PIN_DB5 | CLCD_PIN_DB4);
+	HAL_Delay(1);
+	CLCD_Pin_Set_Exec(CLCD_PIN_DB5 | CLCD_PIN_DB4);
+	CLCD_Pin_Set_Exec(CLCD_PIN_DB5);
+	CLCD_Function_Set();
+	CLCD_Display_ON_OFF_Control();
+	CLCD_Clear_Display();
+	CLCD_Entry_Mode_Set();
 
 
 	ems_ctrl.i_d = CLCD_I_EMS_I_D;
@@ -134,7 +132,7 @@ void CLCD_Init(void)
 
 void CLCD_Clear_Display(void)
 {
-
+	CLCD_Port_Set(CLCD_PIN_DB0);
 }
 
 void CLCD_Return_Home(void)
