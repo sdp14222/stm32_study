@@ -20,7 +20,7 @@ static CLCD_PIN* 	clcd_pin;
 void CLCD_Pin_Set_Exec(uint16_t clcd_pin)
 {
 	//	---- 0000 0000 0000
-	uint16_t last_pin_idx;
+	int16_t last_pin_idx;
 	uint16_t tmp_pin;
 
 	if(fs_ctrl->d_l)
@@ -47,10 +47,10 @@ void CLCD_Pin_Set_Exec(uint16_t clcd_pin)
 	}
 }
 
-void CLCD_GPIO_Set(uint16_t select_pin, uint16_t last_pin_idx)
+void CLCD_GPIO_Set(uint16_t select_pin, int16_t last_pin_idx)
 {
-	uint16_t i;
-	uint16_t start_pin_idx = 10;
+	int16_t i;
+	int16_t start_pin_idx = 10;
 
 	for(i = start_pin_idx; i >= last_pin_idx; i--)
 	{
@@ -126,10 +126,7 @@ void CLCD_Init(void)
 	CLCD_Entry_Mode_Set(CLCD_EMS_S_I_D);
 	// Initialization Ends
 
-//	CLCD_Pin_Set_Exec(CLCD_PIN_S_DB5);
-//	CLCD_Function_Set();
 	CLCD_Display_ON_OFF_Control(CLCD_DOC_S_D | CLCD_DOC_S_C);
-//	CLCD_Entry_Mode_Set(CLCD_EMS_S_I_D);
 }
 
 void CLCD_Clear_Display(void)
@@ -149,23 +146,13 @@ void CLCD_Entry_Mode_Set(uint16_t select)
 	uint16_t i = 0;
 	uint16_t *p = (uint16_t*)&ems_ctrl;
 
-//	for(i = 0; i < 2; i++)
-//	{
-//		if(select & ((0x001) << i))
-//			p[i] = 1;
-//		else
-//			p[i] = 0;
-//	}
-	if(select & ((0x001) << i))
-		ems_ctrl.i_d = 1;
-	else
-		ems_ctrl.i_d = 0;
-	i++;
-
-	if(select & ((0x001) << i))
-		ems_ctrl.s = 1;
-	else
-		ems_ctrl.s = 0;
+	for(i = 0; i < 2; i++)
+	{
+		if(select & ((0x001) << i))
+			p[i] = 1;
+		else
+			p[i] = 0;
+	}
 
 	clcd_pin |= CLCD_PIN_S_DB2;
 	clcd_pin |= (ems_ctrl.i_d ? CLCD_PIN_S_DB1 : 0);
@@ -180,30 +167,13 @@ void CLCD_Display_ON_OFF_Control(uint16_t select)
 	uint16_t i = 0;
 	uint16_t *p = (uint16_t*)&doc_ctrl;
 
-//	for(i = 0; i < 3; i++)
-//	{
-//		if(select & ((0x001) << i))
-//			p[i] = 1;
-//		else
-//			p[i] = 0;
-//	}
-
-	if(select & ((0x001) << i))
-		doc_ctrl.d = 1;
-	else
-		doc_ctrl.d = 0;
-	i++;
-
-	if(select & ((0x001) << i))
-		doc_ctrl.c = 1;
-	else
-		doc_ctrl.c = 0;
-	i++;
-
-	if(select & ((0x001) << i))
-		doc_ctrl.b = 1;
-	else
-		doc_ctrl.b = 0;
+	for(i = 0; i < 3; i++)
+	{
+		if(select & ((0x001) << i))
+			p[i] = 1;
+		else
+			p[i] = 0;
+	}
 
 	clcd_pin |= CLCD_PIN_S_DB3;
 	clcd_pin |= (doc_ctrl.d ? CLCD_PIN_S_DB2 : 0);
