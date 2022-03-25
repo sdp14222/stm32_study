@@ -132,12 +132,13 @@ void CLCD_Init(void)
 
 void CLCD_Clear_Display(void)
 {
-	CLCD_Port_Set(CLCD_PIN_DB0);
+	CLCD_Pin_Set_Exec(CLCD_PIN_DB0);
 }
 
 void CLCD_Return_Home(void)
 {
-
+	CLCD_Pin_Set_Exec(CLCD_PIN_DB1);
+	HAL_Delay(1);
 }
 
 void CLCD_Entry_Mode_Set(void)
