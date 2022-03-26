@@ -236,6 +236,11 @@ void CLCD_Read_Data_From_CG_OR_DDRAM(void)
 
 }
 
+void CLCD_Write(uint8_t row, uint8_t col, const char* str)
+{
+
+}
+
 
 static void Reset_LCD_func(void)
 {
