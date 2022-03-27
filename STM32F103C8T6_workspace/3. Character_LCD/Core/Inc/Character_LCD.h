@@ -141,7 +141,7 @@ void CLCD_Set_CGRAM_Address(void);
 void CLCD_Read_Busy_Flag_And_Address(void);
 void CLCD_Write_Data_To_CG_OR_DDRAM(void);
 void CLCD_Read_Data_From_CG_OR_DDRAM(void);
-void CLCD_Write(uint8_t row, uint8_t col, const char* str);
+void CLCD_Write(uint16_t row, uint16_t col, const char* str);
 
 
 

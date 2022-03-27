@@ -9,6 +9,7 @@
  *
  */
 
+#include <string.h>
 #include "Character_LCD.h"
 
 static CLCD_EMS	ems_ctrl;
@@ -228,7 +229,7 @@ void CLCD_Read_Busy_Flag_And_Address(void)
 
 void CLCD_Write_Data_To_CG_OR_DDRAM(void)
 {
-	CLCD_Pin_Set_Exec(CLCD_PIN_S_RS | CLCD_PIN_S_DB6 | CLCD_PIN_S_DB3);
+
 }
 
 void CLCD_Read_Data_From_CG_OR_DDRAM(void)
@@ -236,9 +237,32 @@ void CLCD_Read_Data_From_CG_OR_DDRAM(void)
 
 }
 
-void CLCD_Write(uint8_t row, uint8_t col, const char* str)
+void CLCD_Write(uint16_t row, uint16_t col, const char* str)
 {
+	int16_t i, ch, pin_loop;
+	uint16_t pin_s;
+	int32_t str_size;
+	str_size = strlen(str);
 
+	if(str_size > 16)
+		str_size = 16;
+
+	for(i = 0; i < str_size; i++)
+	{
+		ch = str[i];
+		if(ch < 0x21 || ch > 0x7D)
+		{
+			ch = 0x20;
+		}
+
+		pin_s = CLCD_PIN_S_RS;
+		for(pin_loop = 0; pin_loop < 8; pin_loop++)
+		{
+			pin_s |= (ch & (0x080 >> pin_loop));
+		}
+
+		CLCD_Pin_Set_Exec(pin_s);
+	}
 }
 
 
