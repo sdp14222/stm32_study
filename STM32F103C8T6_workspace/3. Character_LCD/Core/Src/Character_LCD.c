@@ -227,10 +227,10 @@ void CLCD_Read_Busy_Flag_And_Address(void)
 
 }
 
-void CLCD_Write_Data_To_CG_OR_DDRAM(uint16_t addr)
+void CLCD_Write_Data_To_CG_OR_DDRAM(uint16_t data)
 {
 	uint16_t pin_s = CLCD_PIN_S_RS;
-	pin_s |= addr;
+	pin_s |= data;
 	CLCD_Pin_Set_Exec(pin_s);
 }
 
@@ -242,7 +242,7 @@ void CLCD_Read_Data_From_CG_OR_DDRAM(void)
 void CLCD_Write(uint16_t row, uint16_t col, const char* str)
 {
 	int16_t i, ch, pin_loop;
-	uint16_t addr;
+	uint16_t data;
 	int32_t str_size;
 	str_size = strlen(str);
 
@@ -255,11 +255,11 @@ void CLCD_Write(uint16_t row, uint16_t col, const char* str)
 		if(ch < 0x21 || ch > 0x7D)
 			ch = 0x20;
 
-		addr = 0;
+		data = 0;
 		for(pin_loop = 0; pin_loop < 8; pin_loop++)
-			addr |= (ch & (0x080 >> pin_loop));
+			data |= (ch & (0x080 >> pin_loop));
 
-		CLCD_Write_Data_To_CG_OR_DDRAM(addr);
+		CLCD_Write_Data_To_CG_OR_DDRAM(data);
 	}
 }
 
