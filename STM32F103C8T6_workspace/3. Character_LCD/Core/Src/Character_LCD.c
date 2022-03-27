@@ -228,17 +228,18 @@ void CLCD_Set_DDRAM_address(uint16_t row, uint16_t col)
 
 	if(fs_ctrl->n)
 	{
-
+		if(row)
+			row = 0x40;
+		pin_s |= (row | col);
 	}
 	else
 	{
 		if(row)
 			return;
 		else
-		{
 			pin_s |= col;
-		}
 	}
+	CLCD_Pin_Set_Exec(pin_s);
 }
 
 void CLCD_Read_Busy_Flag_And_Address(void)
@@ -267,10 +268,10 @@ void CLCD_Write(uint16_t row, uint16_t col, const uint8_t* str)
 	if(str_size > 16)
 		str_size = 16;
 
+	CLCD_Set_DDRAM_address(row, col);
+
 	for(i = 0; i < str_size; i++)
-	{
 		CLCD_Write_Data_To_CG_OR_DDRAM(str[i]);
-	}
 }
 
 

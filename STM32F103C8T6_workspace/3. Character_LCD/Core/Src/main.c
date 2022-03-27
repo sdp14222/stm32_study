@@ -105,9 +105,10 @@ int main(void)
 //  HAL_Delay(1000);
 
   	CLCD_Init();
-//  	CLCD_Write(0, 0, "Hello World!!");
-  	uint8_t str[] = { 0xc0, 0xc1, 0xc2, 0xc3, 0xc4 };
+  	uint8_t str[] = "Hello World!!";
+//  	uint8_t str[] = { 0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0xe0, 0xf0, 0xf1, 'f', 'F', 'e', 'E', 'i', 'I', 'j', 'J', 'y', 'Y' };
   	CLCD_Write(0, 0, str);
+  	CLCD_Write(1, 0, str);
 //  	CLCD_Write_Data_To_CG_OR_DDRAM();
 //  	CLCD_Write_Data_To_CG_OR_DDRAM();
 //  	CLCD_Write_Data_To_CG_OR_DDRAM();

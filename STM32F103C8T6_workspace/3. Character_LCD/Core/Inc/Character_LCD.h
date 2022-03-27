@@ -142,7 +142,7 @@ void CLCD_Set_DDRAM_address(uint16_t row, uint16_t col);
 void CLCD_Read_Busy_Flag_And_Address(void);
 void CLCD_Write_Data_To_CG_OR_DDRAM(uint16_t addr);
 void CLCD_Read_Data_From_CG_OR_DDRAM(void);
-void CLCD_Write(uint16_t row, uint16_t col, const char* str);
+void CLCD_Write(uint16_t row, uint16_t col, const uint8_t* str);
 
 
 
