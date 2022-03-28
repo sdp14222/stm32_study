@@ -22,9 +22,6 @@ static void CLCD_Pin_Set_Exec(uint16_t clcd_pin);
 static void CLCD_GPIO_Set(uint16_t select_pin, int16_t last_pin_idx);
 static void CLCD_Config_Init();
 static void CLCD_Inst_Exec(void);
-//void CLCD_Init(void);
-//void CLCD_Clear_Display(void);
-//void CLCD_Return_Home(void);
 static void CLCD_Entry_Mode_Set(uint16_t select);
 static void CLCD_Display_ON_OFF_Control(uint16_t select);
 static void CLCD_Cursor_Or_Display_Shift(uint16_t select);
@@ -34,7 +31,6 @@ static void CLCD_Set_DDRAM_address(uint16_t row, uint16_t col);
 static void CLCD_Read_Busy_Flag_And_Address(void);
 static void CLCD_Write_Data_To_CG_OR_DDRAM(uint16_t data);
 static void CLCD_Read_Data_From_CG_OR_DDRAM(void);
-//void CLCD_Write(uint16_t row, uint16_t col, const uint8_t* str);
 
 static void CLCD_Pin_Set_Exec(uint16_t clcd_pin)
 {

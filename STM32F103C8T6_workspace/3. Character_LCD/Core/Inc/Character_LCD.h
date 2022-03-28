@@ -133,15 +133,6 @@ typedef struct
 void CLCD_Init(void);
 void CLCD_Clear_Display(void);
 void CLCD_Return_Home(void);
-//void CLCD_Entry_Mode_Set(uint16_t select);
-//void CLCD_Display_ON_OFF_Control(uint16_t select);
-//void CLCD_Cursor_Or_Display_Shift(uint16_t select);
-//void CLCD_Function_Set(void);
-//void CLCD_Set_CGRAM_Address(void);
-//void CLCD_Set_DDRAM_address(uint16_t row, uint16_t col);
-//void CLCD_Read_Busy_Flag_And_Address(void);
-//void CLCD_Write_Data_To_CG_OR_DDRAM(uint16_t addr);
-//void CLCD_Read_Data_From_CG_OR_DDRAM(void);
 void CLCD_Write(uint16_t row, uint16_t col, const uint8_t* str);
 
 
