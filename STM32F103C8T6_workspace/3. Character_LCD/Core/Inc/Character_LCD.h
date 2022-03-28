@@ -133,7 +133,8 @@ typedef enum
 	CLCD_EMS_S_I_D  = ((uint8_t)0x01),
 	CLCD_EMS_S_S    = ((uint8_t)0x02),
 	CLCD_EMS_S_ALL  = ((uint8_t)0x03),
-	CLCD_EMS_S_NONE = ((uint8_t)0x00)
+	CLCD_EMS_S_NONE = ((uint8_t)0x00),
+	CLCD_EMS_S_INIT = CLCD_I_EMS_I_D | CLCD_I_EMS_S
 } CLCD_EMS_E;
 
 typedef enum
