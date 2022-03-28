@@ -130,29 +130,29 @@ typedef enum
 /********* CLCD_Entry_Mode_Set_SELECT *********/
 typedef enum
 {
-	CLCD_EMS_S_I_D  = ((uint8_t)0x01),
-	CLCD_EMS_S_S    = ((uint8_t)0x02),
-	CLCD_EMS_S_ALL  = ((uint8_t)0x03),
-	CLCD_EMS_S_NONE = ((uint8_t)0x00),
-	CLCD_EMS_S_INIT = CLCD_I_EMS_I_D | CLCD_I_EMS_S
+	CLCD_EMS_E_I_D  = ((uint8_t)0x01),
+	CLCD_EMS_E_S    = ((uint8_t)0x02),
+	CLCD_EMS_E_ALL  = ((uint8_t)0x03),
+	CLCD_EMS_E_NONE = ((uint8_t)0x00),
+	CLCD_EMS_E_INIT = CLCD_I_EMS_I_D | CLCD_I_EMS_S
 } CLCD_EMS_E;
 
 typedef enum
 {
-	CLCD_DOC_S_D    = ((uint8_t)0x01),
-	CLCD_DOC_S_C    = ((uint8_t)0x02),
-	CLCD_DOC_S_B    = ((uint8_t)0x04),
-	CLCD_DOC_S_ALL  = ((uint8_t)0x07),
-	CLCD_DOC_S_NONE = ((uint8_t)0x00)
+	CLCD_DOC_E_D    = ((uint8_t)0x01),
+	CLCD_DOC_E_C    = ((uint8_t)0x02),
+	CLCD_DOC_E_B    = ((uint8_t)0x04),
+	CLCD_DOC_E_ALL  = ((uint8_t)0x07),
+	CLCD_DOC_E_NONE = ((uint8_t)0x00)
 } CLCD_DOC_E;
 
 /********* CLCD_Cursor_Or_Display_Shift_SELECT *********/
 typedef enum
 {
-	CLCD_CODS_S_S_C  = ((uint8_t)0x01),
-	CLCD_CODS_S_R_L	 = ((uint8_t)0x02),
-	CLCD_CODS_S_ALL  = ((uint8_t)0x03),
-	CLCD_CODS_S_NONE = ((uint8_t)0x00)
+	CLCD_CODS_E_S_C  = ((uint8_t)0x01),
+	CLCD_CODS_E_R_L	 = ((uint8_t)0x02),
+	CLCD_CODS_E_ALL  = ((uint8_t)0x03),
+	CLCD_CODS_E_NONE = ((uint8_t)0x00)
 } CLCD_CODS_E;
 
 

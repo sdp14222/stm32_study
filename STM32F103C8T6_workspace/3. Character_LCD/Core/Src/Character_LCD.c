@@ -132,13 +132,12 @@ void CLCD_Init(void)
 	CLCD_Pin_Set_Exec(CLCD_PIN_S_DB5 | CLCD_PIN_S_DB4);
 	CLCD_Pin_Set_Exec(CLCD_PIN_S_4_BIT_OP_ONCE | CLCD_PIN_S_DB5);
 	CLCD_Function_Set();
-	CLCD_Display_ON_OFF_Control(CLCD_DOC_S_NONE);
+	CLCD_Display_ON_OFF_Control(CLCD_DOC_E_NONE);
 	CLCD_Clear_Display();
-//	CLCD_Entry_Mode_Set(CLCD_EMS_S_I_D);
-	CLCD_Entry_Mode_Set(CLCD_EMS_S_INIT);
+	CLCD_Entry_Mode_Set(CLCD_EMS_E_INIT);
 	// Initialization Ends
 
-	CLCD_Display_ON_OFF_Control(CLCD_DOC_S_D | CLCD_DOC_S_C);
+	CLCD_Display_ON_OFF_Control(CLCD_DOC_E_D | CLCD_DOC_E_C);
 }
 
 void CLCD_Clear_Display(void)

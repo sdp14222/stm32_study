@@ -423,18 +423,17 @@ void CLCD_Init(void)
  8000394:	f7ff fee2 	bl	800015c <CLCD_Pin_Set_Exec>
 	CLCD_Function_Set();
  8000398:	f000 f882 	bl	80004a0 <CLCD_Function_Set>
-	CLCD_Display_ON_OFF_Control(CLCD_DOC_S_NONE);
+	CLCD_Display_ON_OFF_Control(CLCD_DOC_E_NONE);
  800039c:	2000      	movs	r0, #0
  800039e:	f000 f843 	bl	8000428 <CLCD_Display_ON_OFF_Control>
 	CLCD_Clear_Display();
  80003a2:	f000 f808 	bl	80003b6 <CLCD_Clear_Display>
-//	CLCD_Entry_Mode_Set(CLCD_EMS_S_I_D);
-	CLCD_Entry_Mode_Set(CLCD_EMS_S_INIT);
+	CLCD_Entry_Mode_Set(CLCD_EMS_E_INIT);
  80003a6:	2001      	movs	r0, #1
  80003a8:	f000 f80c 	bl	80003c4 <CLCD_Entry_Mode_Set>
 	// Initialization Ends
 
-	CLCD_Display_ON_OFF_Control(CLCD_DOC_S_D | CLCD_DOC_S_C);
+	CLCD_Display_ON_OFF_Control(CLCD_DOC_E_D | CLCD_DOC_E_C);
  80003ac:	2003      	movs	r0, #3
  80003ae:	f000 f83b 	bl	8000428 <CLCD_Display_ON_OFF_Control>
 }
