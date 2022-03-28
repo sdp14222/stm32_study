@@ -18,7 +18,7 @@ static CLCD_CODS	cods_ctrl;
 static const CLCD_FS*	fs_ctrl;
 static const CLCD_PIN* 	clcd_pin;
 
-static void CLCD_Pin_Set_Exec(uint16_t clcd_pin);
+static void CLCD_Pin_Set_Exec(CLCD_PIN_S clcd_pin);
 static void CLCD_GPIO_Set(uint16_t select_pin, int16_t last_pin_idx);
 static void CLCD_Config_Init();
 static void CLCD_Inst_Exec(void);
@@ -32,7 +32,7 @@ static void CLCD_Read_Busy_Flag_And_Address(void);
 static void CLCD_Write_Data_To_CG_OR_DDRAM(uint16_t data);
 static void CLCD_Read_Data_From_CG_OR_DDRAM(void);
 
-static void CLCD_Pin_Set_Exec(uint16_t clcd_pin)
+static void CLCD_Pin_Set_Exec(CLCD_PIN_S clcd_pin)
 {
 	//	---- 0000 0000 0000
 	int16_t last_pin_idx;

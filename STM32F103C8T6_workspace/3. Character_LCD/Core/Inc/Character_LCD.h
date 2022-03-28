@@ -109,45 +109,48 @@ typedef struct
 
 
 /********* CLCD_PIN_SELECT *********/
-#define CLCD_PIN_S_4_BIT_OP_ONCE	((uint16_t)0x800)
-#define CLCD_PIN_S_RS				((uint16_t)0x400)
-#define CLCD_PIN_S_RW				((uint16_t)0x200)
-#define CLCD_PIN_S_E				((uint16_t)0x100)
-#define CLCD_PIN_S_DB7				((uint16_t)0x080)
-#define CLCD_PIN_S_DB6				((uint16_t)0x040)
-#define CLCD_PIN_S_DB5				((uint16_t)0x020)
-#define CLCD_PIN_S_DB4				((uint16_t)0x010)
-#define CLCD_PIN_S_DB3				((uint16_t)0x008)
-#define CLCD_PIN_S_DB2				((uint16_t)0x004)
-#define CLCD_PIN_S_DB1				((uint16_t)0x002)
-#define CLCD_PIN_S_DB0				((uint16_t)0x001)
-#define CLCD_PIN_S_ALL_SET			((uint16_t)0x7FF)
-#define CLCD_PIN_S_ALL_RESET		((uint16_t)0x000)
+typedef enum
+{
+	CLCD_PIN_S_4_BIT_OP_ONCE = ((uint16_t)0x800),
+	CLCD_PIN_S_RS            = ((uint16_t)0x400),
+	CLCD_PIN_S_RW            = ((uint16_t)0x200),
+	CLCD_PIN_S_E             = ((uint16_t)0x100),
+	CLCD_PIN_S_DB7           = ((uint16_t)0x080),
+	CLCD_PIN_S_DB6           = ((uint16_t)0x040),
+	CLCD_PIN_S_DB5           = ((uint16_t)0x020),
+	CLCD_PIN_S_DB4           = ((uint16_t)0x010),
+	CLCD_PIN_S_DB3           = ((uint16_t)0x008),
+	CLCD_PIN_S_DB2           = ((uint16_t)0x004),
+	CLCD_PIN_S_DB1           = ((uint16_t)0x002),
+	CLCD_PIN_S_DB0           = ((uint16_t)0x001),
+	CLCD_PIN_S_ALL_SET       = ((uint16_t)0x7FF),
+	CLCD_PIN_S_ALL_RESET     = ((uint16_t)0x000)
+} CLCD_PIN_S;
 
 /********* CLCD_Entry_Mode_Set_SELECT *********/
 typedef enum
 {
-	CLCD_EMS_S_I_D = ((uint8_t)0x01),
-	CLCD_EMS_S_S = ((uint8_t)0x02),
-	CLCD_EMS_S_ALL = ((uint8_t)0x03),
+	CLCD_EMS_S_I_D  = ((uint8_t)0x01),
+	CLCD_EMS_S_S    = ((uint8_t)0x02),
+	CLCD_EMS_S_ALL  = ((uint8_t)0x03),
 	CLCD_EMS_S_NONE = ((uint8_t)0x00)
 } CLCD_EMS_E;
 
 typedef enum
 {
-	CLCD_DOC_S_D = ((uint8_t)0x01),
-	CLCD_DOC_S_C = ((uint8_t)0x02),
-	CLCD_DOC_S_B = ((uint8_t)0x04),
-	CLCD_DOC_S_ALL = ((uint8_t)0x07),
+	CLCD_DOC_S_D    = ((uint8_t)0x01),
+	CLCD_DOC_S_C    = ((uint8_t)0x02),
+	CLCD_DOC_S_B    = ((uint8_t)0x04),
+	CLCD_DOC_S_ALL  = ((uint8_t)0x07),
 	CLCD_DOC_S_NONE = ((uint8_t)0x00)
 } CLCD_DOC_E;
 
 /********* CLCD_Cursor_Or_Display_Shift_SELECT *********/
 typedef enum
 {
-	CLCD_CODS_S_S_C = ((uint8_t)0x01),
-	CLCD_CODS_S_R_L	= ((uint8_t)0x02),
-	CLCD_CODS_S_ALL = ((uint8_t)0x03),
+	CLCD_CODS_S_S_C  = ((uint8_t)0x01),
+	CLCD_CODS_S_R_L	 = ((uint8_t)0x02),
+	CLCD_CODS_S_ALL  = ((uint8_t)0x03),
 	CLCD_CODS_S_NONE = ((uint8_t)0x00)
 } CLCD_CODS_E;
 
