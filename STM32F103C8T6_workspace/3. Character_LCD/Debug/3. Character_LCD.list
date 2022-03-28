@@ -27,23 +27,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  11 .ARM.attributes 00000029  00000000  00000000  00020070  2**0
                   CONTENTS, READONLY
- 12 .debug_info   000035bb  00000000  00000000  00020099  2**0
+ 12 .debug_info   00003568  00000000  00000000  00020099  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 00001246  00000000  00000000  00023654  2**0
+ 13 .debug_abbrev 00001240  00000000  00000000  00023601  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_aranges 000004a8  00000000  00000000  000248a0  2**3
+ 14 .debug_aranges 000004a8  00000000  00000000  00024848  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_ranges 000003f0  00000000  00000000  00024d48  2**3
+ 15 .debug_ranges 000003f0  00000000  00000000  00024cf0  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  00016b28  00000000  00000000  00025138  2**0
+ 16 .debug_macro  00016b28  00000000  00000000  000250e0  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   00005ba2  00000000  00000000  0003bc60  2**0
+ 17 .debug_line   00005b9f  00000000  00000000  0003bc08  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    0007f52d  00000000  00000000  00041802  2**0
+ 18 .debug_str    0007f52d  00000000  00000000  000417a7  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000050  00000000  00000000  000c0d2f  2**0
+ 19 .comment      00000050  00000000  00000000  000c0cd4  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00001400  00000000  00000000  000c0d80  2**2
+ 20 .debug_frame  00001400  00000000  00000000  000c0d24  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -86,11 +86,11 @@ Disassembly of section .text:
  800015a:	4770      	bx	lr
 
 0800015c <CLCD_Pin_Set_Exec>:
-static CLCD_CODS	cods_ctrl;
-static const CLCD_FS*	fs_ctrl;
-static CLCD_PIN* 	clcd_pin;
+static void CLCD_Write_Data_To_CG_OR_DDRAM(uint16_t data);
+static void CLCD_Read_Data_From_CG_OR_DDRAM(void);
+//void CLCD_Write(uint16_t row, uint16_t col, const uint8_t* str);
 
-void CLCD_Pin_Set_Exec(uint16_t clcd_pin)
+static void CLCD_Pin_Set_Exec(uint16_t clcd_pin)
 {
  800015c:	b580      	push	{r7, lr}
  800015e:	b084      	sub	sp, #16
@@ -112,8 +112,8 @@ void CLCD_Pin_Set_Exec(uint16_t clcd_pin)
  8000170:	2300      	movs	r3, #0
  8000172:	81fb      	strh	r3, [r7, #14]
 		CLCD_GPIO_Set(clcd_pin, last_pin_idx);
- 8000174:	88fb      	ldrh	r3, [r7, #6]
- 8000176:	f9b7 200e 	ldrsh.w	r2, [r7, #14]
+ 8000174:	f9b7 200e 	ldrsh.w	r2, [r7, #14]
+ 8000178:	88fb      	ldrh	r3, [r7, #6]
  800017a:	4611      	mov	r1, r2
  800017c:	4618      	mov	r0, r3
  800017e:	f000 f831 	bl	80001e4 <CLCD_GPIO_Set>
@@ -127,8 +127,8 @@ void CLCD_Pin_Set_Exec(uint16_t clcd_pin)
  8000188:	2304      	movs	r3, #4
  800018a:	81fb      	strh	r3, [r7, #14]
 		CLCD_GPIO_Set(clcd_pin, last_pin_idx);
- 800018c:	88fb      	ldrh	r3, [r7, #6]
- 800018e:	f9b7 200e 	ldrsh.w	r2, [r7, #14]
+ 800018c:	f9b7 200e 	ldrsh.w	r2, [r7, #14]
+ 8000190:	88fb      	ldrh	r3, [r7, #6]
  8000192:	4611      	mov	r1, r2
  8000194:	4618      	mov	r0, r3
  8000196:	f000 f825 	bl	80001e4 <CLCD_GPIO_Set>
@@ -158,8 +158,8 @@ void CLCD_Pin_Set_Exec(uint16_t clcd_pin)
  80001be:	4313      	orrs	r3, r2
  80001c0:	80fb      	strh	r3, [r7, #6]
 			CLCD_GPIO_Set(clcd_pin, last_pin_idx);
- 80001c2:	88fb      	ldrh	r3, [r7, #6]
- 80001c4:	f9b7 200e 	ldrsh.w	r2, [r7, #14]
+ 80001c2:	f9b7 200e 	ldrsh.w	r2, [r7, #14]
+ 80001c6:	88fb      	ldrh	r3, [r7, #6]
  80001c8:	4611      	mov	r1, r2
  80001ca:	4618      	mov	r0, r3
  80001cc:	f000 f80a 	bl	80001e4 <CLCD_GPIO_Set>
@@ -179,7 +179,7 @@ void CLCD_Pin_Set_Exec(uint16_t clcd_pin)
 
 080001e4 <CLCD_GPIO_Set>:
 
-void CLCD_GPIO_Set(uint16_t select_pin, int16_t last_pin_idx)
+static void CLCD_GPIO_Set(uint16_t select_pin, int16_t last_pin_idx)
 {
  80001e4:	b580      	push	{r7, lr}
  80001e6:	b084      	sub	sp, #16
@@ -261,7 +261,7 @@ void CLCD_GPIO_Set(uint16_t select_pin, int16_t last_pin_idx)
 
 08000280 <CLCD_Config_Init>:
 
-void CLCD_Config_Init()
+static void CLCD_Config_Init()
 {
  8000280:	b480      	push	{r7}
  8000282:	af00      	add	r7, sp, #0
@@ -330,7 +330,7 @@ void CLCD_Config_Init()
 
 080002e0 <CLCD_Inst_Exec>:
 
-void CLCD_Inst_Exec(void)
+static void CLCD_Inst_Exec(void)
 {
  80002e0:	b580      	push	{r7, lr}
  80002e2:	b082      	sub	sp, #8
@@ -450,7 +450,7 @@ void CLCD_Clear_Display(void)
 	HAL_Delay(1);
 }
 
-void CLCD_Entry_Mode_Set(uint16_t select)
+static void CLCD_Entry_Mode_Set(uint16_t select)
 {
  80003a4:	b580      	push	{r7, lr}
  80003a6:	b084      	sub	sp, #16
@@ -547,7 +547,7 @@ void CLCD_Entry_Mode_Set(uint16_t select)
 
 08000444 <CLCD_Display_ON_OFF_Control>:
 
-void CLCD_Display_ON_OFF_Control(uint16_t select)
+static void CLCD_Display_ON_OFF_Control(uint16_t select)
 {
  8000444:	b580      	push	{r7, lr}
  8000446:	b084      	sub	sp, #16
@@ -659,7 +659,7 @@ void CLCD_Display_ON_OFF_Control(uint16_t select)
 	CLCD_Pin_Set_Exec(clcd_pin);
 }
 
-void CLCD_Function_Set(void)
+static void CLCD_Function_Set(void)
 {
  80004fc:	b580      	push	{r7, lr}
  80004fe:	b082      	sub	sp, #8
@@ -728,7 +728,7 @@ void CLCD_Function_Set(void)
 
 }
 
-void CLCD_Set_DDRAM_address(uint16_t row, uint16_t col)
+static void CLCD_Set_DDRAM_address(uint16_t row, uint16_t col)
 {
  8000570:	b580      	push	{r7, lr}
  8000572:	b084      	sub	sp, #16
@@ -798,7 +798,7 @@ void CLCD_Set_DDRAM_address(uint16_t row, uint16_t col)
 
 }
 
-void CLCD_Write_Data_To_CG_OR_DDRAM(uint16_t data)
+static void CLCD_Write_Data_To_CG_OR_DDRAM(uint16_t data)
 {
  80005cc:	b580      	push	{r7, lr}
  80005ce:	b084      	sub	sp, #16
@@ -1047,10 +1047,7 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
  8000742:	f7ff ff8b 	bl	800065c <MX_GPIO_Init>
-//  Entry_mode_set();
-//  HAL_Delay(1000);
-//  Write_data_to_CGRAM_DDRAM();
-//  HAL_Delay(1000);
+  /* USER CODE BEGIN 2 */
 
   	CLCD_Init();
  8000746:	f7ff fdfd 	bl	8000344 <CLCD_Init>
@@ -1081,10 +1078,6 @@ int main(void)
  800077c:	2100      	movs	r1, #0
  800077e:	2000      	movs	r0, #0
  8000780:	f7ff ff38 	bl	80005f4 <CLCD_Write>
-	Write_data_to_CGRAM_DDRAM();
-	Set_DDRRAM_address();
-	Write_data_to_CGRAM_DDRAM();
-*/
 
   	uint16_t cnt = 0;
  8000784:	2300      	movs	r3, #0

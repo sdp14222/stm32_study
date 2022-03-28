@@ -16,9 +16,27 @@ static CLCD_EMS	ems_ctrl;
 static CLCD_DOC	doc_ctrl;
 static CLCD_CODS	cods_ctrl;
 static const CLCD_FS*	fs_ctrl;
-static CLCD_PIN* 	clcd_pin;
+static const CLCD_PIN* 	clcd_pin;
 
-void CLCD_Pin_Set_Exec(uint16_t clcd_pin)
+static void CLCD_Pin_Set_Exec(uint16_t clcd_pin);
+static void CLCD_GPIO_Set(uint16_t select_pin, int16_t last_pin_idx);
+static void CLCD_Config_Init();
+static void CLCD_Inst_Exec(void);
+//void CLCD_Init(void);
+//void CLCD_Clear_Display(void);
+//void CLCD_Return_Home(void);
+static void CLCD_Entry_Mode_Set(uint16_t select);
+static void CLCD_Display_ON_OFF_Control(uint16_t select);
+static void CLCD_Cursor_Or_Display_Shift(uint16_t select);
+static void CLCD_Function_Set(void);
+static void CLCD_Set_CGRAM_Address(void);
+static void CLCD_Set_DDRAM_address(uint16_t row, uint16_t col);
+static void CLCD_Read_Busy_Flag_And_Address(void);
+static void CLCD_Write_Data_To_CG_OR_DDRAM(uint16_t data);
+static void CLCD_Read_Data_From_CG_OR_DDRAM(void);
+//void CLCD_Write(uint16_t row, uint16_t col, const uint8_t* str);
+
+static void CLCD_Pin_Set_Exec(uint16_t clcd_pin)
 {
 	//	---- 0000 0000 0000
 	int16_t last_pin_idx;
@@ -48,7 +66,7 @@ void CLCD_Pin_Set_Exec(uint16_t clcd_pin)
 	}
 }
 
-void CLCD_GPIO_Set(uint16_t select_pin, int16_t last_pin_idx)
+static void CLCD_GPIO_Set(uint16_t select_pin, int16_t last_pin_idx)
 {
 	int16_t i;
 	int16_t start_pin_idx = 10;
@@ -62,7 +80,7 @@ void CLCD_GPIO_Set(uint16_t select_pin, int16_t last_pin_idx)
 	}
 }
 
-void CLCD_Config_Init()
+static void CLCD_Config_Init()
 {
 	static const CLCD_PIN clcd_pin_sc[] = {
 			{ CLCD_PIN_D0_TYPE, CLCD_PIN_D0_NUM },	// idx =  0
@@ -98,7 +116,7 @@ void CLCD_Config_Init()
 	fs_ctrl = &fs_ctrl_v;
 }
 
-void CLCD_Inst_Exec(void)
+static void CLCD_Inst_Exec(void)
 {
 	uint16_t e_idx = 8;
 	HAL_GPIO_WritePin(clcd_pin[e_idx].lcd_gpio_type, clcd_pin[e_idx].pin_num, GPIO_PIN_SET);
@@ -137,7 +155,7 @@ void CLCD_Return_Home(void)
 	HAL_Delay(1);
 }
 
-void CLCD_Entry_Mode_Set(uint16_t select)
+static void CLCD_Entry_Mode_Set(uint16_t select)
 {
 	uint16_t clcd_pin = 0;
 	uint16_t i = 0;
@@ -158,7 +176,7 @@ void CLCD_Entry_Mode_Set(uint16_t select)
 	CLCD_Pin_Set_Exec(clcd_pin);
 }
 
-void CLCD_Display_ON_OFF_Control(uint16_t select)
+static void CLCD_Display_ON_OFF_Control(uint16_t select)
 {
 	uint16_t clcd_pin = 0;
 	uint16_t i = 0;
@@ -180,7 +198,7 @@ void CLCD_Display_ON_OFF_Control(uint16_t select)
 	CLCD_Pin_Set_Exec(clcd_pin);
 }
 
-void CLCD_Cursor_Or_Display_Shift(uint16_t select)
+static void CLCD_Cursor_Or_Display_Shift(uint16_t select)
 {
 	uint16_t clcd_pin = 0;
 	uint16_t i;
@@ -201,7 +219,7 @@ void CLCD_Cursor_Or_Display_Shift(uint16_t select)
 	CLCD_Pin_Set_Exec(clcd_pin);
 }
 
-void CLCD_Function_Set(void)
+static void CLCD_Function_Set(void)
 {
 	uint16_t clcd_pin = 0;
 
@@ -213,12 +231,12 @@ void CLCD_Function_Set(void)
 	CLCD_Pin_Set_Exec(clcd_pin);
 }
 
-void CLCD_Set_CGRAM_Address(void)
+static void CLCD_Set_CGRAM_Address(void)
 {
 
 }
 
-void CLCD_Set_DDRAM_address(uint16_t row, uint16_t col)
+static void CLCD_Set_DDRAM_address(uint16_t row, uint16_t col)
 {
 	uint16_t pin_s = CLCD_PIN_S_DB7;
 
@@ -238,19 +256,19 @@ void CLCD_Set_DDRAM_address(uint16_t row, uint16_t col)
 	CLCD_Pin_Set_Exec(pin_s);
 }
 
-void CLCD_Read_Busy_Flag_And_Address(void)
+static void CLCD_Read_Busy_Flag_And_Address(void)
 {
 
 }
 
-void CLCD_Write_Data_To_CG_OR_DDRAM(uint16_t data)
+static void CLCD_Write_Data_To_CG_OR_DDRAM(uint16_t data)
 {
 	uint16_t pin_s = CLCD_PIN_S_RS;
 	pin_s |= data;
 	CLCD_Pin_Set_Exec(pin_s);
 }
 
-void CLCD_Read_Data_From_CG_OR_DDRAM(void)
+static void CLCD_Read_Data_From_CG_OR_DDRAM(void)
 {
 
 }
