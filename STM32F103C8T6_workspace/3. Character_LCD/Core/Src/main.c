@@ -86,50 +86,27 @@ int main(void)
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
 
-  // test
-//  HAL_Delay(1000);
-////  Display_clear();
-////  HAL_Delay(1000);
-//  Function_set();
-//  HAL_Delay(1000);
-//  Function_set();
-//  HAL_Delay(1000);
-//  Function_set();
-//  HAL_Delay(1000);
-//
-//  Display_on_off_control();
-//  HAL_Delay(1000);
-//  Entry_mode_set();
-//  HAL_Delay(1000);
-//  Write_data_to_CGRAM_DDRAM();
-//  HAL_Delay(1000);
-
   	CLCD_Init();
   	uint8_t str[] = "Hello World!!";
 //  	uint8_t str[] = { 0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0xe0, 0xf0, 0xf1, 'f', 'F', 'e', 'E', 'i', 'I', 'j', 'J', 'y', 'Y' };
   	CLCD_Write(0, 0, str);
   	CLCD_Write(1, 0, str);
-//  	CLCD_Write_Data_To_CG_OR_DDRAM();
-//  	CLCD_Write_Data_To_CG_OR_DDRAM();
-//  	CLCD_Write_Data_To_CG_OR_DDRAM();
-/*
-  	Character_LCD_init();
-//  	Function_set();
-//  	Function_set();
-//  	Function_set();
-	Display_on_off_control();
-	Entry_mode_set();
-	Write_data_to_CGRAM_DDRAM();
-	Set_DDRRAM_address();
-	Write_data_to_CGRAM_DDRAM();
-*/
+  	HAL_Delay(3000);
+  	CLCD_Write(0, 0, "Hawawa Hoee..");
 
+  	uint16_t cnt = 0;
+  	char str1[16];
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  	CLCD_Clear_Display();
   while (1)
   {
+	  HAL_Delay(1000);
+	  sprintf(str1, "cnt = %d", cnt);
+	  CLCD_Write(1, 0, str1);
+	  cnt++;
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

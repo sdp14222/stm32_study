@@ -145,13 +145,4 @@ void CLCD_Read_Data_From_CG_OR_DDRAM(void);
 void CLCD_Write(uint16_t row, uint16_t col, const uint8_t* str);
 
 
-
-void Character_LCD_init(void);
-void Display_clear(void);
-void Function_set(void);
-void Display_on_off_control(void);
-void Entry_mode_set(void);
-void Write_data_to_CGRAM_DDRAM(void);
-void Set_DDRRAM_address(void);
-
 #endif /* INC_CHARACTER_LCD_H_ */
