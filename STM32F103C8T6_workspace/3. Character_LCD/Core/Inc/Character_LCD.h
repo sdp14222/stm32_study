@@ -59,31 +59,46 @@
 #define CLCD_I_FS_N		1		// 0 = 1 line,		1 = 2 lines
 #define CLCD_I_FS_F		0		// 0 = 5x8 dots,	1 = 5x10 dots
 
-
-typedef struct
+typedef union
 {
-	uint8_t i_d : 1;
-	uint8_t s : 1;
+	struct
+	{
+		uint8_t i_d : 1;
+		uint8_t s : 1;
+	};
+	uint8_t bits;
 } CLCD_EMS;
 
-typedef struct
+typedef union
 {
-	uint8_t d : 1;
-	uint8_t c : 1;
-	uint8_t b : 1;
+	struct
+	{
+		uint8_t d : 1;
+		uint8_t c : 1;
+		uint8_t b : 1;
+	};
+	uint8_t bits;
 } CLCD_DOC;
 
-typedef struct
+typedef union
 {
-	uint8_t s_c : 1;
-	uint8_t r_l : 1;
+	struct
+	{
+		uint8_t s_c : 1;
+		uint8_t r_l : 1;
+	};
+	uint8_t bits;
 } CLCD_CODS;
 
-typedef struct
+typedef union
 {
-	uint8_t d_l : 1;
-	uint8_t n : 1;
-	uint8_t f : 1;
+	struct
+	{
+		uint8_t d_l : 1;
+		uint8_t n : 1;
+		uint8_t f : 1;
+	};
+	uint8_t bits;
 } CLCD_FS;
 
 typedef struct
@@ -110,30 +125,37 @@ typedef struct
 #define CLCD_PIN_S_ALL_RESET		((uint16_t)0x000)
 
 /********* CLCD_Entry_Mode_Set_SELECT *********/
-#define CLCD_EMS_S_I_D				((uint16_t)0x001)
-#define CLCD_EMS_S_S				((uint16_t)0x002)
-#define CLCD_EMS_S_ALL				((uint16_t)0x003)
-#define CLCD_EMS_S_NONE				((uint16_t)0x000)
+typedef enum
+{
+	CLCD_EMS_S_I_D = ((uint8_t)0x01),
+	CLCD_EMS_S_S = ((uint8_t)0x02),
+	CLCD_EMS_S_ALL = ((uint8_t)0x03),
+	CLCD_EMS_S_NONE = ((uint8_t)0x00)
+} CLCD_EMS_E;
 
-/********* CLCD_Display_ON_OFF_Control_SELECT *********/
-#define CLCD_DOC_S_D				((uint16_t)0x001)
-#define CLCD_DOC_S_C				((uint16_t)0x002)
-#define CLCD_DOC_S_B				((uint16_t)0x004)
-#define CLCD_DOC_S_ALL				((uint16_t)0x007)
-#define CLCD_DOC_S_NONE				((uint16_t)0x000)
+typedef enum
+{
+	CLCD_DOC_S_D = ((uint8_t)0x01),
+	CLCD_DOC_S_C = ((uint8_t)0x02),
+	CLCD_DOC_S_B = ((uint8_t)0x04),
+	CLCD_DOC_S_ALL = ((uint8_t)0x07),
+	CLCD_DOC_S_NONE = ((uint8_t)0x00)
+} CLCD_DOC_E;
 
 /********* CLCD_Cursor_Or_Display_Shift_SELECT *********/
-#define CLCD_CODS_S_S_C				((uint16_t)0x001)
-#define CLCD_CODS_S_R_L				((uint16_t)0x002)
-#define CLCD_CODS_S_ALL				((uint16_t)0x003)
-#define CLCD_CODS_S_NONE			((uint16_t)0x000)
-
+typedef enum
+{
+	CLCD_CODS_S_S_C = ((uint8_t)0x01),
+	CLCD_CODS_S_R_L	= ((uint8_t)0x02),
+	CLCD_CODS_S_ALL = ((uint8_t)0x03),
+	CLCD_CODS_S_NONE = ((uint8_t)0x00)
+} CLCD_CODS_E;
 
 
 void CLCD_Init(void);
 void CLCD_Clear_Display(void);
 void CLCD_Return_Home(void);
-void CLCD_Write(uint16_t row, uint16_t col, const uint8_t* str);
+void CLCD_Write(uint16_t row, uint16_t col, const int8_t* str);
 
 
 #endif /* INC_CHARACTER_LCD_H_ */
