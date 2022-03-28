@@ -159,7 +159,7 @@ static void CLCD_Entry_Mode_Set(uint16_t select)
 {
 	uint16_t clcd_pin = 0;
 	uint16_t i = 0;
-	uint16_t *p = (uint16_t*)&ems_ctrl;
+	uint8_t *p = (uint16_t*)&ems_ctrl;
 
 	for(i = 0; i < 2; i++)
 	{
@@ -180,7 +180,7 @@ static void CLCD_Display_ON_OFF_Control(uint16_t select)
 {
 	uint16_t clcd_pin = 0;
 	uint16_t i = 0;
-	uint16_t *p = (uint16_t*)&doc_ctrl;
+	uint8_t *p = (uint16_t*)&doc_ctrl;
 
 	for(i = 0; i < 3; i++)
 	{
@@ -202,7 +202,7 @@ static void CLCD_Cursor_Or_Display_Shift(uint16_t select)
 {
 	uint16_t clcd_pin = 0;
 	uint16_t i;
-	uint16_t *p = (uint16_t*)&cods_ctrl;
+	uint8_t *p = (uint16_t*)&cods_ctrl;
 
 	for(i = 0; i < 2; i++)
 	{
