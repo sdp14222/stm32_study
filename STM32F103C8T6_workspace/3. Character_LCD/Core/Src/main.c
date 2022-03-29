@@ -89,10 +89,10 @@ int main(void)
   	CLCD_Init();
   	uint8_t str[] = "Hello World!!";
 //  	uint8_t str[] = { 0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0xe0, 0xf0, 0xf1, 'f', 'F', 'e', 'E', 'i', 'I', 'j', 'J', 'y', 'Y' };
-  	CLCD_Write(0, 0, str);
-  	CLCD_Write(1, 0, str);
+  	CLCD_Write(CLCD_ADDR_SET, 0, 0, str);
+  	CLCD_Write(CLCD_ADDR_SET, 1, 0, str);
   	HAL_Delay(3000);
-  	CLCD_Write(0, 0, "Hawawa Hoee..");
+  	CLCD_Write(CLCD_ADDR_SET, 0, 0, "Hawawa Hoee..");
   	HAL_Delay(1000);
 
   	uint16_t cnt = 0;
@@ -101,15 +101,12 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  	CLCD_Clear_Display();
-
-  	HAL_Delay(1000);
 
   while (1)
   {
 	  HAL_Delay(1000);
 	  sprintf(str1, "cnt = %d", cnt);
-	  CLCD_Write(1, 0, str1);
+	  CLCD_Write(CLCD_ADDR_SET, 1, 0, str1);
 	  cnt++;
 	  HAL_Delay(1000);
 	  CLCD_Return_Home();

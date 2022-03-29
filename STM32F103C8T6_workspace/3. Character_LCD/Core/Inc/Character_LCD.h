@@ -157,14 +157,18 @@ typedef enum
 	CLCD_CODS_E_NONE = ((uint8_t)0x00)
 } CLCD_CODS_E;
 
-typedef int16_t col_t;
+typedef enum
+{
+	CLCD_ADDR_NOT_SET = 0, // Set Current address
+	CLCD_ADDR_SET     = 1, // Set row, col address
+} CLCD_ADDR_SET_BOOL;
 
 void CLCD_Init(void);
 void CLCD_Clear_Display(void);
 void CLCD_Return_Home(void);
 void CLCD_Entry_Mode_Set(CLCD_EMS_E select);
 void CLCD_Cursor_Or_Display_Shift(CLCD_CODS_E select);
-void CLCD_Write(uint16_t row, col_t col, const int8_t* str);
+void CLCD_Write(CLCD_ADDR_SET_BOOL addr_set, uint16_t row, uint16_t col, const int8_t* str);
 
 
 #endif /* INC_CHARACTER_LCD_H_ */
