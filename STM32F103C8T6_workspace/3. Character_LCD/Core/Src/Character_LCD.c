@@ -15,7 +15,6 @@
 static CLCD_EMS	ems_ctrl;
 static CLCD_DOC	doc_ctrl;
 static CLCD_CODS	cods_ctrl;
-static const CLCD_FS*	fs_ctrl;
 static const CLCD_PIN* 	clcd_pin;
 
 static void CLCD_Pin_Set_Exec(CLCD_PIN_S clcd_pin);
@@ -38,31 +37,28 @@ static void CLCD_Pin_Set_Exec(CLCD_PIN_S clcd_pin)
 	int16_t last_pin_idx;
 	uint16_t tmp_pin;
 
-	if(fs_ctrl->d_l)
-	{
-		last_pin_idx = 0;
-		CLCD_GPIO_Set(clcd_pin, last_pin_idx);
-		CLCD_Inst_Exec();
-	}
+#if CLCD_I_FS_D_L == 1
+	last_pin_idx = 0;
+	CLCD_GPIO_Set(clcd_pin, last_pin_idx);
+	CLCD_Inst_Exec();
+#else
+	last_pin_idx = 4;
+	CLCD_GPIO_Set(clcd_pin, last_pin_idx);
+	CLCD_Inst_Exec();
+	if(clcd_pin & CLCD_PIN_S_4_BIT_OP_ONCE)
+		return;
 	else
 	{
-		last_pin_idx = 4;
+		tmp_pin = (clcd_pin & 0x00f) << 4;
+		clcd_pin &= 0x600;
+		clcd_pin |= tmp_pin;
 		CLCD_GPIO_Set(clcd_pin, last_pin_idx);
 		CLCD_Inst_Exec();
-		if(clcd_pin & CLCD_PIN_S_4_BIT_OP_ONCE)
-			return;
-		else
-		{
-			tmp_pin = (clcd_pin & 0x00f) << 4;
-			clcd_pin &= 0x600;
-			clcd_pin |= tmp_pin;
-			CLCD_GPIO_Set(clcd_pin, last_pin_idx);
-			CLCD_Inst_Exec();
-		}
 	}
+#endif
 }
 
-static void CLCD_GPIO_Set(uint16_t select_pin, int16_t last_pin_idx)
+static void CLCD_GPIO_Set(CLCD_PIN_S select_pin, int16_t last_pin_idx)
 {
 	int16_t i;
 	int16_t start_pin_idx = 10;
@@ -103,13 +99,6 @@ static void CLCD_Config_Init()
 
 	cods_ctrl.s_c = CLCD_I_CODS_S_C;
 	cods_ctrl.r_l = CLCD_I_CODS_R_L;
-
-	static const CLCD_FS fs_ctrl_v = {
-		CLCD_I_FS_D_L,
-		CLCD_I_FS_N,
-		CLCD_I_FS_F
-	};
-	fs_ctrl = &fs_ctrl_v;
 }
 
 static void CLCD_Inst_Exec(void)
@@ -193,9 +182,9 @@ static void CLCD_Function_Set(void)
 	uint16_t clcd_pin = 0;
 
 	clcd_pin |= CLCD_PIN_S_DB5;
-	clcd_pin |= (fs_ctrl->d_l ? CLCD_PIN_S_DB4 : 0);
-	clcd_pin |= (fs_ctrl->n ? CLCD_PIN_S_DB3 : 0);
-	clcd_pin |= (fs_ctrl->f ? CLCD_PIN_S_DB2 : 0);
+	clcd_pin |= (CLCD_I_FS_D_L ? CLCD_PIN_S_DB4 : 0);
+	clcd_pin |= (CLCD_I_FS_N ? CLCD_PIN_S_DB3 : 0);
+	clcd_pin |= (CLCD_I_FS_F ? CLCD_PIN_S_DB2 : 0);
 
 	CLCD_Pin_Set_Exec(clcd_pin);
 }
@@ -209,19 +198,17 @@ static void CLCD_Set_DDRAM_address(uint16_t row, uint16_t col)
 {
 	uint16_t pin_s = CLCD_PIN_S_DB7;
 
-	if(fs_ctrl->n)
-	{
-		if(row)
-			row = 0x40;
-		pin_s |= (row | col);
-	}
+#if CLCD_I_FS_N == 1
+	if(row)
+		row = 0x40;
+	pin_s |= (row | col);
+#else
+	if(row)
+		return;
 	else
-	{
-		if(row)
-			return;
-		else
-			pin_s |= col;
+		pin_s |= col;
 	}
+#endif
 	CLCD_Pin_Set_Exec(pin_s);
 }
 

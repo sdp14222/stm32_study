@@ -90,17 +90,6 @@ typedef union
 	uint8_t bits;
 } CLCD_CODS;
 
-typedef union
-{
-	struct
-	{
-		uint8_t d_l : 1;
-		uint8_t n : 1;
-		uint8_t f : 1;
-	};
-	uint8_t bits;
-} CLCD_FS;
-
 typedef struct
 {
 	GPIO_TypeDef* lcd_gpio_type;
