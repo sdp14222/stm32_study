@@ -138,10 +138,9 @@ void CLCD_Return_Home(void)
 
 void CLCD_Entry_Mode_Set(CLCD_EMS_E select)
 {
-	uint16_t clcd_pin = CLCD_PIN_S_DB3;
+	CLCD_EMS_E clcd_pin = CLCD_PIN_S_DB2;
 
 	ems_ctrl.bits = select;
-	clcd_pin |= CLCD_PIN_S_DB2;
 	clcd_pin |= (ems_ctrl.i_d ? CLCD_PIN_S_DB1 : 0);
 	clcd_pin |= (ems_ctrl.s ? CLCD_PIN_S_DB0 : 0);
 
@@ -150,10 +149,9 @@ void CLCD_Entry_Mode_Set(CLCD_EMS_E select)
 
 static void CLCD_Display_ON_OFF_Control(CLCD_DOC_E select)
 {
-	uint16_t clcd_pin = CLCD_PIN_S_DB3;
+	CLCD_DOC_E clcd_pin = CLCD_PIN_S_DB3;
 
 	doc_ctrl.bits = select;
-	clcd_pin |= CLCD_PIN_S_DB3;
 	clcd_pin |= (doc_ctrl.d ? CLCD_PIN_S_DB2 : 0);
 	clcd_pin |= (doc_ctrl.c ? CLCD_PIN_S_DB1 : 0);
 	clcd_pin |= (doc_ctrl.b ? CLCD_PIN_S_DB0 : 0);
@@ -163,10 +161,9 @@ static void CLCD_Display_ON_OFF_Control(CLCD_DOC_E select)
 
 void CLCD_Cursor_Or_Display_Shift(CLCD_CODS_E select)
 {
-	uint16_t clcd_pin = CLCD_PIN_S_DB3;
+	CLCD_CODS_E clcd_pin = CLCD_PIN_S_DB4;
 
 	cods_ctrl.bits = select;
-	clcd_pin |= CLCD_PIN_S_DB4;
 	clcd_pin |= (cods_ctrl.s_c ? CLCD_PIN_S_DB3 : 0);
 	clcd_pin |= (cods_ctrl.r_l ? CLCD_PIN_S_DB2 : 0);
 
@@ -175,9 +172,8 @@ void CLCD_Cursor_Or_Display_Shift(CLCD_CODS_E select)
 
 static void CLCD_Function_Set(void)
 {
-	uint16_t clcd_pin = 0;
+	uint16_t clcd_pin = CLCD_PIN_S_DB5;
 
-	clcd_pin |= CLCD_PIN_S_DB5;
 	clcd_pin |= (CLCD_I_FS_D_L ? CLCD_PIN_S_DB4 : 0);
 	clcd_pin |= (CLCD_I_FS_N ? CLCD_PIN_S_DB3 : 0);
 	clcd_pin |= (CLCD_I_FS_F ? CLCD_PIN_S_DB2 : 0);
@@ -225,7 +221,7 @@ static void CLCD_Read_Data_From_CG_OR_DDRAM(void)
 
 }
 
-void CLCD_Write(uint16_t row, uint16_t col, const int8_t* str)
+void CLCD_Write(uint16_t row, col_t col, const int8_t* str)
 {
 	int16_t i;
 	int32_t str_size;
@@ -234,7 +230,8 @@ void CLCD_Write(uint16_t row, uint16_t col, const int8_t* str)
 	if(str_size > 16)
 		str_size = 16;
 
-	CLCD_Set_DDRAM_address(row, col);
+	if(col != -1)
+		CLCD_Set_DDRAM_address(row, col);
 
 	for(i = 0; i < str_size; i++)
 		CLCD_Write_Data_To_CG_OR_DDRAM(str[i]);
