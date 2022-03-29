@@ -46,8 +46,8 @@
 #define CLCD_I_EMS_S	0		// 0 = No Shift,	1 = Accompanies display shift
 
 /********* DISPLAY_ON_OFF_INIT_CONFIG *********/
-#define CLCD_I_DOC_D	0		// 0 = Display off,		1 = Display on
-#define CLCD_I_DOC_C	0		// 0 = Cursor off,		1 = Cursor on
+#define CLCD_I_DOC_D	1		// 0 = Display off,		1 = Display on
+#define CLCD_I_DOC_C	1		// 0 = Cursor off,		1 = Cursor on
 #define CLCD_I_DOC_B	0		// 0 = Blinking off,	1 = Blinking on
 
 /********* CURSOR_OR_DISPLAY_SHIFTL_INIT_CONFIG *********/
@@ -134,7 +134,10 @@ typedef enum
 	CLCD_EMS_E_S    = ((uint8_t)0x02),
 	CLCD_EMS_E_ALL  = ((uint8_t)0x03),
 	CLCD_EMS_E_NONE = ((uint8_t)0x00),
-	CLCD_EMS_E_INIT = CLCD_I_EMS_I_D | CLCD_I_EMS_S
+	CLCD_EMS_E_INIT = \
+			  ((CLCD_I_EMS_I_D << CLCD_EMS_E_I_D) \
+			| (CLCD_I_EMS_S << CLCD_EMS_E_S)) \
+			>> 1
 } CLCD_EMS_E;
 
 typedef enum
@@ -143,7 +146,12 @@ typedef enum
 	CLCD_DOC_E_C    = ((uint8_t)0x02),
 	CLCD_DOC_E_B    = ((uint8_t)0x04),
 	CLCD_DOC_E_ALL  = ((uint8_t)0x07),
-	CLCD_DOC_E_NONE = ((uint8_t)0x00)
+	CLCD_DOC_E_NONE = ((uint8_t)0x00),
+	CLCD_DOC_E_INIT = \
+			  ((CLCD_I_DOC_D << CLCD_DOC_E_D) \
+			| (CLCD_I_DOC_C << CLCD_DOC_E_C) \
+			| (CLCD_I_DOC_B << CLCD_DOC_E_B)) \
+			>> 1
 } CLCD_DOC_E;
 
 /********* CLCD_Cursor_Or_Display_Shift_SELECT *********/

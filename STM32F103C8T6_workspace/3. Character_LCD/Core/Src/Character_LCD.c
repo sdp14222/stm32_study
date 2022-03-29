@@ -137,7 +137,7 @@ void CLCD_Init(void)
 	CLCD_Entry_Mode_Set(CLCD_EMS_E_INIT);
 	// Initialization Ends
 
-	CLCD_Display_ON_OFF_Control(CLCD_DOC_E_D | CLCD_DOC_E_C);
+	CLCD_Display_ON_OFF_Control(CLCD_DOC_E_INIT);
 }
 
 void CLCD_Clear_Display(void)

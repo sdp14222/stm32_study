@@ -27,23 +27,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  11 .ARM.attributes 00000029  00000000  00000000  00020070  2**0
                   CONTENTS, READONLY
- 12 .debug_info   000036dc  00000000  00000000  00020099  2**0
+ 12 .debug_info   000036e2  00000000  00000000  00020099  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 000011fe  00000000  00000000  00023775  2**0
+ 13 .debug_abbrev 000011fe  00000000  00000000  0002377b  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_aranges 000004a8  00000000  00000000  00024978  2**3
+ 14 .debug_aranges 000004a8  00000000  00000000  00024980  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_ranges 000003f0  00000000  00000000  00024e20  2**3
+ 15 .debug_ranges 000003f0  00000000  00000000  00024e28  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  000169e0  00000000  00000000  00025210  2**0
+ 16 .debug_macro  000169e0  00000000  00000000  00025218  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   00005a78  00000000  00000000  0003bbf0  2**0
+ 17 .debug_line   00005a78  00000000  00000000  0003bbf8  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    0007f392  00000000  00000000  00041668  2**0
+ 18 .debug_str    0007f3a2  00000000  00000000  00041670  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000050  00000000  00000000  000c09fa  2**0
+ 19 .comment      00000050  00000000  00000000  000c0a12  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00001400  00000000  00000000  000c0a4c  2**2
+ 20 .debug_frame  00001400  00000000  00000000  000c0a64  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -290,12 +290,12 @@ static void CLCD_Config_Init()
 	doc_ctrl.d = CLCD_I_DOC_D;
  80002a2:	4a13      	ldr	r2, [pc, #76]	; (80002f0 <CLCD_Config_Init+0x6c>)
  80002a4:	7813      	ldrb	r3, [r2, #0]
- 80002a6:	f36f 0300 	bfc	r3, #0, #1
+ 80002a6:	f043 0301 	orr.w	r3, r3, #1
  80002aa:	7013      	strb	r3, [r2, #0]
 	doc_ctrl.c = CLCD_I_DOC_C;
  80002ac:	4a10      	ldr	r2, [pc, #64]	; (80002f0 <CLCD_Config_Init+0x6c>)
  80002ae:	7813      	ldrb	r3, [r2, #0]
- 80002b0:	f36f 0341 	bfc	r3, #1, #1
+ 80002b0:	f043 0302 	orr.w	r3, r3, #2
  80002b4:	7013      	strb	r3, [r2, #0]
 	doc_ctrl.b = CLCD_I_DOC_B;
  80002b6:	4a0e      	ldr	r2, [pc, #56]	; (80002f0 <CLCD_Config_Init+0x6c>)
@@ -433,7 +433,7 @@ void CLCD_Init(void)
  80003a8:	f000 f80c 	bl	80003c4 <CLCD_Entry_Mode_Set>
 	// Initialization Ends
 
-	CLCD_Display_ON_OFF_Control(CLCD_DOC_E_D | CLCD_DOC_E_C);
+	CLCD_Display_ON_OFF_Control(CLCD_DOC_E_INIT);
  80003ac:	2003      	movs	r0, #3
  80003ae:	f000 f83b 	bl	8000428 <CLCD_Display_ON_OFF_Control>
 }
