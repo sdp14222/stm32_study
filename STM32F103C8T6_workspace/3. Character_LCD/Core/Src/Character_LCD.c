@@ -18,7 +18,7 @@ static CLCD_CODS	cods_ctrl;
 static const CLCD_PIN* 	clcd_pin;
 
 static void CLCD_Pin_Set_Exec(CLCD_PIN_S clcd_pin);
-static void CLCD_GPIO_Set(uint16_t select_pin, int16_t last_pin_idx);
+static void CLCD_GPIO_Set(CLCD_PIN_S select_pin, int16_t last_pin_idx);
 static void CLCD_Config_Init();
 static void CLCD_Inst_Exec(void);
 static void CLCD_Entry_Mode_Set(CLCD_EMS_E select);
@@ -119,7 +119,9 @@ void CLCD_Init(void)
 	CLCD_Pin_Set_Exec(CLCD_PIN_S_DB5 | CLCD_PIN_S_DB4);
 	HAL_Delay(1);
 	CLCD_Pin_Set_Exec(CLCD_PIN_S_DB5 | CLCD_PIN_S_DB4);
+#if CLCD_I_FS_D_L == 0
 	CLCD_Pin_Set_Exec(CLCD_PIN_S_4_BIT_OP_ONCE | CLCD_PIN_S_DB5);
+#endif
 	CLCD_Function_Set();
 	CLCD_Display_ON_OFF_Control(CLCD_DOC_E_NONE);
 	CLCD_Clear_Display();
