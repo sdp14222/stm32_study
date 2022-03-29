@@ -35,26 +35,22 @@ static void CLCD_Pin_Set_Exec(CLCD_PIN_S clcd_pin)
 {
 	//	---- 0000 0000 0000
 	int16_t last_pin_idx;
-	uint16_t tmp_pin;
 
 #if CLCD_I_FS_D_L == 1
 	last_pin_idx = 0;
 	CLCD_GPIO_Set(clcd_pin, last_pin_idx);
 	CLCD_Inst_Exec();
 #else
+	CLCD_PIN_S tmp_pin;
 	last_pin_idx = 4;
 	CLCD_GPIO_Set(clcd_pin, last_pin_idx);
 	CLCD_Inst_Exec();
-	if(clcd_pin & CLCD_PIN_S_4_BIT_OP_ONCE)
-		return;
-	else
-	{
-		tmp_pin = (clcd_pin & 0x00f) << 4;
-		clcd_pin &= 0x600;
-		clcd_pin |= tmp_pin;
-		CLCD_GPIO_Set(clcd_pin, last_pin_idx);
-		CLCD_Inst_Exec();
-	}
+
+	tmp_pin = (clcd_pin & 0x00f) << 4;
+	clcd_pin &= 0x600;
+	clcd_pin |= tmp_pin;
+	CLCD_GPIO_Set(clcd_pin, last_pin_idx);
+	CLCD_Inst_Exec();
 #endif
 }
 
@@ -120,7 +116,8 @@ void CLCD_Init(void)
 	HAL_Delay(1);
 	CLCD_Pin_Set_Exec(CLCD_PIN_S_DB5 | CLCD_PIN_S_DB4);
 #if CLCD_I_FS_D_L == 0
-	CLCD_Pin_Set_Exec(CLCD_PIN_S_4_BIT_OP_ONCE | CLCD_PIN_S_DB5);
+	CLCD_GPIO_Set(CLCD_PIN_S_DB5, 4);
+	CLCD_Inst_Exec();
 #endif
 	CLCD_Function_Set();
 	CLCD_Display_ON_OFF_Control(CLCD_DOC_E_NONE);

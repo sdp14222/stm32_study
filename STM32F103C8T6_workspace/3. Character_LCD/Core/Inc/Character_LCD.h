@@ -100,7 +100,6 @@ typedef struct
 /********* CLCD_PIN_SELECT *********/
 typedef enum
 {
-	CLCD_PIN_S_4_BIT_OP_ONCE = ((uint16_t)0x800),
 	CLCD_PIN_S_RS            = ((uint16_t)0x400),
 	CLCD_PIN_S_RW            = ((uint16_t)0x200),
 	CLCD_PIN_S_E             = ((uint16_t)0x100),
