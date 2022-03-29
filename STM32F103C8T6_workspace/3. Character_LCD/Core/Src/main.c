@@ -93,6 +93,7 @@ int main(void)
   	CLCD_Write(1, 0, str);
   	HAL_Delay(3000);
   	CLCD_Write(0, 0, "Hawawa Hoee..");
+  	HAL_Delay(1000);
 
   	uint16_t cnt = 0;
   	char str1[16];
@@ -101,6 +102,7 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   	CLCD_Clear_Display();
+
   while (1)
   {
 	  HAL_Delay(1000);

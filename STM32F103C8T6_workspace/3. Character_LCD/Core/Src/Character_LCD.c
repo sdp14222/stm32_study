@@ -18,7 +18,7 @@ static CLCD_CODS	cods_ctrl;
 static const CLCD_PIN* 	clcd_pin;
 
 static void CLCD_Pin_Set_Exec(CLCD_PIN_S clcd_pin);
-static void CLCD_GPIO_Set(CLCD_PIN_S select_pin, int16_t last_pin_idx);
+static void CLCD_GPIO_Set(CLCD_PIN_S select_pin);
 static void CLCD_Config_Init();
 static void CLCD_Inst_Exec(void);
 static void CLCD_Entry_Mode_Set(CLCD_EMS_E select);
@@ -33,33 +33,31 @@ static void CLCD_Read_Data_From_CG_OR_DDRAM(void);
 
 static void CLCD_Pin_Set_Exec(CLCD_PIN_S clcd_pin)
 {
-	//	---- 0000 0000 0000
-	int16_t last_pin_idx;
-
 #if CLCD_I_FS_D_L == 1
-	last_pin_idx = 0;
-	CLCD_GPIO_Set(clcd_pin, last_pin_idx);
+	CLCD_GPIO_Set(clcd_pin);
 	CLCD_Inst_Exec();
 #else
 	CLCD_PIN_S tmp_pin;
-	last_pin_idx = 4;
-	CLCD_GPIO_Set(clcd_pin, last_pin_idx);
+	CLCD_GPIO_Set(clcd_pin);
 	CLCD_Inst_Exec();
 
 	tmp_pin = (clcd_pin & 0x00f) << 4;
 	clcd_pin &= 0x600;
 	clcd_pin |= tmp_pin;
-	CLCD_GPIO_Set(clcd_pin, last_pin_idx);
+	CLCD_GPIO_Set(clcd_pin);
 	CLCD_Inst_Exec();
 #endif
 }
 
-static void CLCD_GPIO_Set(CLCD_PIN_S select_pin, int16_t last_pin_idx)
+static void CLCD_GPIO_Set(CLCD_PIN_S select_pin)
 {
 	int16_t i;
-	int16_t start_pin_idx = 10;
-
-	for(i = start_pin_idx; i >= last_pin_idx; i--)
+#if CLCD_I_FS_D_L == 1
+	for(i = 10; i >= 0; i--)
+#else
+	select_pin = select_pin >> 4;
+	for(i = 6; i >= 0; i--)
+#endif
 	{
 		if((select_pin >> i) & 0x001)
 			HAL_GPIO_WritePin(clcd_pin[i].lcd_gpio_type, clcd_pin[i].pin_num, GPIO_PIN_SET);
@@ -71,17 +69,19 @@ static void CLCD_GPIO_Set(CLCD_PIN_S select_pin, int16_t last_pin_idx)
 static void CLCD_Config_Init()
 {
 	static const CLCD_PIN clcd_pin_sc[] = {
-			{ CLCD_PIN_D0_TYPE, CLCD_PIN_D0_NUM },	// idx =  0
-			{ CLCD_PIN_D1_TYPE, CLCD_PIN_D1_NUM },  // idx =  1
-			{ CLCD_PIN_D2_TYPE, CLCD_PIN_D2_NUM },  // idx =  2
-			{ CLCD_PIN_D3_TYPE, CLCD_PIN_D3_NUM },  // idx =  3
-			{ CLCD_PIN_D4_TYPE, CLCD_PIN_D4_NUM },  // idx =  4
-			{ CLCD_PIN_D5_TYPE, CLCD_PIN_D5_NUM },  // idx =  5
-			{ CLCD_PIN_D6_TYPE, CLCD_PIN_D6_NUM },  // idx =  6
-			{ CLCD_PIN_D7_TYPE, CLCD_PIN_D7_NUM },  // idx =  7
-			{ CLCD_PIN_E_TYPE, 	CLCD_PIN_E_NUM 	},  // idx =  8
-			{ CLCD_PIN_RW_TYPE, CLCD_PIN_RW_NUM },	// idx =  9
-			{ CLCD_PIN_RS_TYPE, CLCD_PIN_RS_NUM }   // idx = 10
+#if CLCD_I_FS_D_L
+		{ CLCD_PIN_D0_TYPE, CLCD_PIN_D0_NUM },	// idx =  0
+		{ CLCD_PIN_D1_TYPE, CLCD_PIN_D1_NUM },  // idx =  1
+		{ CLCD_PIN_D2_TYPE, CLCD_PIN_D2_NUM },  // idx =  2
+		{ CLCD_PIN_D3_TYPE, CLCD_PIN_D3_NUM },  // idx =  3
+#endif
+		{ CLCD_PIN_D4_TYPE, CLCD_PIN_D4_NUM },  // idx =  4, 0
+		{ CLCD_PIN_D5_TYPE, CLCD_PIN_D5_NUM },  // idx =  5, 1
+		{ CLCD_PIN_D6_TYPE, CLCD_PIN_D6_NUM },  // idx =  6, 2
+		{ CLCD_PIN_D7_TYPE, CLCD_PIN_D7_NUM },  // idx =  7, 3
+		{ CLCD_PIN_E_TYPE , CLCD_PIN_E_NUM  },  // idx =  8, 4
+		{ CLCD_PIN_RW_TYPE, CLCD_PIN_RW_NUM },	// idx =  9, 5
+		{ CLCD_PIN_RS_TYPE, CLCD_PIN_RS_NUM },  // idx = 10, 6
 	};
 
 	clcd_pin = clcd_pin_sc;
@@ -99,10 +99,9 @@ static void CLCD_Config_Init()
 
 static void CLCD_Inst_Exec(void)
 {
-	uint16_t e_idx = 8;
-	HAL_GPIO_WritePin(clcd_pin[e_idx].lcd_gpio_type, clcd_pin[e_idx].pin_num, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(CLCD_PIN_E_TYPE, CLCD_PIN_E_NUM, GPIO_PIN_SET);
 	HAL_Delay(1);
-	HAL_GPIO_WritePin(clcd_pin[e_idx].lcd_gpio_type, clcd_pin[e_idx].pin_num, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(CLCD_PIN_E_TYPE, CLCD_PIN_E_NUM, GPIO_PIN_RESET);
 	HAL_Delay(1);
 }
 
@@ -116,7 +115,7 @@ void CLCD_Init(void)
 	HAL_Delay(1);
 	CLCD_Pin_Set_Exec(CLCD_PIN_S_DB5 | CLCD_PIN_S_DB4);
 #if CLCD_I_FS_D_L == 0
-	CLCD_GPIO_Set(CLCD_PIN_S_DB5, 4);
+	CLCD_GPIO_Set(CLCD_PIN_S_DB5);
 	CLCD_Inst_Exec();
 #endif
 	CLCD_Function_Set();
