@@ -21,9 +21,7 @@ static void CLCD_Pin_Set_Exec(CLCD_PIN_S clcd_pin);
 static void CLCD_GPIO_Set(CLCD_PIN_S select_pin);
 static void CLCD_Config_Init();
 static void CLCD_Inst_Exec(void);
-static void CLCD_Entry_Mode_Set(CLCD_EMS_E select);
 static void CLCD_Display_ON_OFF_Control(CLCD_DOC_E select);
-static void CLCD_Cursor_Or_Display_Shift(CLCD_CODS_E select);
 static void CLCD_Function_Set(void);
 static void CLCD_Set_CGRAM_Address(void);
 static void CLCD_Set_DDRAM_address(uint16_t row, uint16_t col);
@@ -138,7 +136,7 @@ void CLCD_Return_Home(void)
 	HAL_Delay(1);
 }
 
-static void CLCD_Entry_Mode_Set(CLCD_EMS_E select)
+void CLCD_Entry_Mode_Set(CLCD_EMS_E select)
 {
 	uint16_t clcd_pin = CLCD_PIN_S_DB3;
 
@@ -163,7 +161,7 @@ static void CLCD_Display_ON_OFF_Control(CLCD_DOC_E select)
 	CLCD_Pin_Set_Exec(clcd_pin);
 }
 
-static void CLCD_Cursor_Or_Display_Shift(CLCD_CODS_E select)
+void CLCD_Cursor_Or_Display_Shift(CLCD_CODS_E select)
 {
 	uint16_t clcd_pin = CLCD_PIN_S_DB3;
 

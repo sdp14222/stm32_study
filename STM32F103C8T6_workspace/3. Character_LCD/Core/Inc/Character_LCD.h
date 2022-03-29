@@ -58,9 +58,9 @@
 #define CLCD_I_DOC_C	1		// 0 = Cursor off,		1 = Cursor on
 #define CLCD_I_DOC_B	0		// 0 = Blinking off,	1 = Blinking on
 
-/********* CURSOR_OR_DISPLAY_SHIFTL_INIT_CONFIG *********/
+/********* CURSOR_OR_DISPLAY_SHIFT_INIT_CONFIG *********/
 #define CLCD_I_CODS_S_C	0		// 0 = Cursor move,			1 = Display shift
-#define CLCD_I_CODS_R_L	0		// 0 = Shift to the left,	1 = Shift to the left
+#define CLCD_I_CODS_R_L	0		// 0 = Shift to the left,	1 = Shift to the right
 
 /********* FUNTION_SET_INIT_CONFIG *********/
 #define CLCD_I_FS_D_L	OP_INTERFACE		// 0 = 4 bits,		1 = 8 bits
@@ -161,6 +161,8 @@ typedef enum
 void CLCD_Init(void);
 void CLCD_Clear_Display(void);
 void CLCD_Return_Home(void);
+void CLCD_Entry_Mode_Set(CLCD_EMS_E select);
+void CLCD_Cursor_Or_Display_Shift(CLCD_CODS_E select);
 void CLCD_Write(uint16_t row, uint16_t col, const int8_t* str);
 
 

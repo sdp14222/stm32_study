@@ -103,12 +103,16 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   	CLCD_Clear_Display();
 
+  	HAL_Delay(1000);
+
   while (1)
   {
 	  HAL_Delay(1000);
 	  sprintf(str1, "cnt = %d", cnt);
 	  CLCD_Write(1, 0, str1);
 	  cnt++;
+	  HAL_Delay(1000);
+	  CLCD_Return_Home();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
