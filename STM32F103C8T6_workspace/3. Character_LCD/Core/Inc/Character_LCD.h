@@ -168,7 +168,7 @@ void CLCD_Clear_Display(void);
 void CLCD_Return_Home(void);
 void CLCD_Entry_Mode_Set(CLCD_EMS_E select);
 void CLCD_Cursor_Or_Display_Shift(CLCD_CODS_E select);
-void CLCD_Write(CLCD_ADDR_SET_BOOL addr_set, uint16_t row, uint16_t col, const int8_t* str);
+void CLCD_Write(CLCD_ADDR_SET_BOOL addr_set, uint16_t row, uint16_t col, const char* str);
 
 
 #endif /* INC_CHARACTER_LCD_H_ */

@@ -221,7 +221,7 @@ static void CLCD_Read_Data_From_CG_OR_DDRAM(void)
 
 }
 
-void CLCD_Write(CLCD_ADDR_SET_BOOL addr_set, uint16_t row, uint16_t col, const int8_t* str)
+void CLCD_Write(CLCD_ADDR_SET_BOOL addr_set, uint16_t row, uint16_t col, const char* str)
 {
 	int16_t i;
 	int32_t str_size;

@@ -22,6 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <stdio.h>
 #include "Character_LCD.h"
 /* USER CODE END Includes */
 
@@ -87,8 +88,8 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   	CLCD_Init();
-  	uint8_t str[] = "Hello World!!";
-//  	uint8_t str[] = { 0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0xe0, 0xf0, 0xf1, 'f', 'F', 'e', 'E', 'i', 'I', 'j', 'J', 'y', 'Y' };
+  	char str[] = "Hello World!!";
+//  	char str[] = { 0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0xe0, 0xf0, 0xf1, 'f', 'F', 'e', 'E', 'i', 'I', 'j', 'J', 'y', 'Y' };
   	CLCD_Write(CLCD_ADDR_SET, 0, 0, str);
   	CLCD_Write(CLCD_ADDR_SET, 1, 0, str);
   	HAL_Delay(3000);
@@ -101,6 +102,8 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+
+  	CLCD_Clear_Display();
 
   while (1)
   {
