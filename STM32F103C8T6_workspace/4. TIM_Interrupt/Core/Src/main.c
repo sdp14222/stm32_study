@@ -23,7 +23,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <stdio.h>
+#include "Character_LCD.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -92,6 +93,10 @@ int main(void)
   MX_NVIC_Init();
   /* USER CODE BEGIN 2 */
 
+  CLCD_Init();
+  CLCD_Write(CLCD_ADDR_SET, 0, 0, "Hello World!!");
+  HAL_TIM_Base_Start_IT(&htim2);
+//  HAL_TIM_Base_Start(&htim2);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -151,17 +156,22 @@ void SystemClock_Config(void)
 static void MX_NVIC_Init(void)
 {
   /* TIM2_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(TIM2_IRQn, 0, 0);
+  HAL_NVIC_SetPriority(TIM2_IRQn, 15, 0);
   HAL_NVIC_EnableIRQ(TIM2_IRQn);
 }
 
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
+	static uint16_t cnt;
+	char str[16];
+
 	if(htim->Instance == TIM2)
 	{
-
+		sprintf(str, "cnt = %d", cnt);
+		CLCD_Write(CLCD_ADDR_SET, 1, 0, str);
 	}
+	cnt++;
 }
 /* USER CODE END 4 */
 
