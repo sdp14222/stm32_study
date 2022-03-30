@@ -156,13 +156,13 @@ void SystemClock_Config(void)
 static void MX_NVIC_Init(void)
 {
   /* TIM2_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(TIM2_IRQn, 15, 0);
+  HAL_NVIC_SetPriority(TIM2_IRQn, 14, 0);
   HAL_NVIC_EnableIRQ(TIM2_IRQn);
   /* EXTI1_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(EXTI1_IRQn, 0, 0);
+  HAL_NVIC_SetPriority(EXTI1_IRQn, 15, 0);
   HAL_NVIC_EnableIRQ(EXTI1_IRQn);
   /* EXTI2_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(EXTI2_IRQn, 0, 0);
+  HAL_NVIC_SetPriority(EXTI2_IRQn, 15, 0);
   HAL_NVIC_EnableIRQ(EXTI2_IRQn);
 }
 
@@ -177,6 +177,26 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		sprintf(str, "cnt = %d", cnt);
 		CLCD_Write(CLCD_ADDR_SET, 1, 0, str);
 		cnt++;
+	}
+}
+
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+	static uint16_t cnt1;
+	static uint16_t cnt2;
+	char str[16];
+
+	if(GPIO_Pin == GPIO_PIN_1)
+	{
+		sprintf(str, "1 : %d", cnt1);
+		CLCD_Write(CLCD_ADDR_SET, 0, 0, str);
+		cnt1++;
+	}
+	if(GPIO_Pin == GPIO_PIN_2)
+	{
+		sprintf(str, "2 = %d", cnt2);
+		CLCD_Write(CLCD_ADDR_SET, 0, 8, str);
+		cnt2++;
 	}
 }
 /* USER CODE END 4 */
