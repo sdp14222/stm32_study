@@ -101,10 +101,14 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
-  char str[20] = "Hello World!!\n";
+  static char str[20];
+  static uint32_t cnt;
+
   while (1)
   {
+	  sprintf(str, "Hello World!! : %d\n", cnt);
 	  HAL_UART_Transmit(&huart2, str, sizeof(str), 10);
+	  cnt++;
 	  HAL_Delay(1000);
     /* USER CODE END WHILE */
 
