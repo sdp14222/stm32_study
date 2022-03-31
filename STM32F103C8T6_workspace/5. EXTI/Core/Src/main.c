@@ -18,7 +18,6 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "tim.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -87,13 +86,12 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_TIM2_Init();
 
   /* Initialize interrupts */
   MX_NVIC_Init();
   /* USER CODE BEGIN 2 */
   CLCD_Init();
-  HAL_TIM_Base_Start_IT(&htim2);
+//  HAL_TIM_Base_Start_IT(&htim2);
   CLCD_Write(CLCD_ADDR_SET, 0, 0, "Hello World!!");
 
   /* USER CODE END 2 */
@@ -155,47 +153,49 @@ void SystemClock_Config(void)
   */
 static void MX_NVIC_Init(void)
 {
-  /* TIM2_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(TIM2_IRQn, 14, 0);
-  HAL_NVIC_EnableIRQ(TIM2_IRQn);
-  /* EXTI1_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(EXTI1_IRQn, 15, 0);
-  HAL_NVIC_EnableIRQ(EXTI1_IRQn);
-  /* EXTI2_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(EXTI2_IRQn, 15, 0);
-  HAL_NVIC_EnableIRQ(EXTI2_IRQn);
+  /* EXTI9_5_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 15, 0);
+  HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
 }
 
 /* USER CODE BEGIN 4 */
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
-{
-	static uint16_t cnt;
-	char str[16];
-
-	if(htim->Instance == TIM2)
-	{
-		sprintf(str, "cnt = %d", cnt);
-		CLCD_Write(CLCD_ADDR_SET, 1, 0, str);
-		cnt++;
-	}
-}
+//void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+//{
+//	static uint16_t cnt;
+//	char str[16];
+//
+//	if(htim->Instance == TIM2)
+//	{
+////		sprintf(str, "cnt = %d", cnt);
+////		CLCD_Write(CLCD_ADDR_SET, 1, 0, str);
+////		cnt++;
+//	}
+//}
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
+	static uint16_t cnt;
 	static uint16_t cnt1;
 	static uint16_t cnt2;
 	char str[16];
+	static uint8_t isFirst = 1;
 
-	if(GPIO_Pin == GPIO_PIN_1)
+	if(isFirst)
+	{
+		CLCD_Clear_Display();
+		isFirst = 0;
+	}
+
+	if(GPIO_Pin == GPIO_PIN_5)
 	{
 		sprintf(str, "1 : %d", cnt1);
 		CLCD_Write(CLCD_ADDR_SET, 0, 0, str);
 		cnt1++;
 	}
-	if(GPIO_Pin == GPIO_PIN_2)
+	if(GPIO_Pin == GPIO_PIN_7)
 	{
-		sprintf(str, "2 = %d", cnt2);
-		CLCD_Write(CLCD_ADDR_SET, 0, 8, str);
+		sprintf(str, "2 : %d", cnt2);
+		CLCD_Write(CLCD_ADDR_SET, 1, 0, str);
 		cnt2++;
 	}
 }
