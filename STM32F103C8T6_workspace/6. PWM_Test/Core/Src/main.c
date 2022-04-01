@@ -104,7 +104,8 @@ int main(void)
 	uint16_t ccr = 0;
   while (1)
   {
-	  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, ccr);
+//	  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, ccr);
+	  TIM2->CCR1 = ccr;
 	  ccr += 1000;
 	  if(ccr > TIM2->ARR) ccr = 0;
 	  HAL_Delay(50);
