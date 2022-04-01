@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -88,12 +89,13 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART2_UART_Init();
+  MX_TIM4_Init();
 
   /* Initialize interrupts */
   MX_NVIC_Init();
   /* USER CODE BEGIN 2 */
 //  CLCD_Init();
-//  HAL_TIM_Base_Start_IT(&htim2);
+  HAL_TIM_Base_Start_IT(&htim4);
 //  CLCD_Write(CLCD_ADDR_SET, 0, 0, "Hello World!!");
 
   /* USER CODE END 2 */
@@ -107,9 +109,9 @@ int main(void)
   while (1)
   {
 	  sprintf(str, "Hello World!! : %d\n", cnt);
-	  HAL_UART_Transmit(&huart2, str, sizeof(str), 10);
-	  cnt++;
-	  HAL_Delay(1000);
+//	  HAL_UART_Transmit(&huart2, str, sizeof(str), 10);
+//	  cnt++;
+//	  HAL_Delay(1000);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -171,6 +173,9 @@ static void MX_NVIC_Init(void)
   /* EXTI9_5_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(EXTI9_5_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
+  /* TIM4_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(TIM4_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(TIM4_IRQn);
 }
 
 /* USER CODE BEGIN 4 */
@@ -220,6 +225,19 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 		sprintf(str, "Button2 : %d\n", cnt2);
 		HAL_UART_Transmit_IT(&huart2, str, sizeof(str));
 		cnt2++;
+	}
+}
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+	volatile static uint16_t cnt;
+	volatile static char str[50];
+
+	if(htim->Instance == TIM4)
+	{
+		sprintf(str, "Hello World!! : %d\n", cnt);
+		HAL_UART_Transmit_IT(&huart2, str, sizeof(str));
+		cnt++;
 	}
 }
 /* USER CODE END 4 */
