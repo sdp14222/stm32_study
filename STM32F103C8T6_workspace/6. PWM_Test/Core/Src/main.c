@@ -106,7 +106,11 @@ int main(void)
   {
 //	  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, ccr);
 	  TIM2->CCR1 = ccr;
+	  TIM2->CCR2 = ccr;
+	  TIM2->CCR3 = ccr;
 	  TIM4->CCR1 = ccr;
+	  TIM4->CCR2 = ccr;
+	  TIM4->CCR3 = ccr;
 	  ccr += 1000;
 	  if(ccr > TIM2->ARR) ccr = 0;
 	  HAL_Delay(50);
