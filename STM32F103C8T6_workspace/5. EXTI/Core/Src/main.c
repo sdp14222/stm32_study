@@ -101,8 +101,8 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
-  static char str[20];
-  static uint32_t cnt;
+  volatile static char str[20];
+  volatile static uint32_t cnt;
 
   while (1)
   {
@@ -189,9 +189,9 @@ static void MX_NVIC_Init(void)
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-	static uint16_t cnt1;
-	static uint16_t cnt2;
-	static char str[50];
+	volatile static uint16_t cnt1;
+	volatile static uint16_t cnt2;
+	volatile static char str[50];
 //	static uint8_t isFirst = 1;
 
 //	if(isFirst)
