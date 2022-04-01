@@ -205,9 +205,12 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 //		sprintf(str, "1 : %d", cnt1);
 //		CLCD_Write(CLCD_ADDR_SET, 0, 0, str);
 //		cnt1++;
-		sprintf(str, "Button1 : %d\n", cnt1);
-		HAL_UART_Transmit_IT(&huart2, str, sizeof(str));
-		cnt1++;
+//		sprintf(str, "Button1 : %d\n", cnt1);
+//		HAL_UART_Transmit_IT(&huart2, str, sizeof(str));
+//		cnt1++;
+		HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0);
+		HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_1);
+		HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_10);
 	}
 	if(GPIO_Pin == GPIO_PIN_7)
 	{
