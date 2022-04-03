@@ -93,6 +93,10 @@ int main(void)
 
   // SG90 Servo
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1); // CW End(0.2ms)
+
+  // Buzzer(500Hz)
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
+
   HAL_Delay(1000);
   TIM2->CCR1 = 1500; // CCW End(3ms)
   /* USER CODE END 2 */
