@@ -66,7 +66,7 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	uint16_t adcval[4] = {0};
+	volatile uint16_t adcval[4] = {0};
 	char str[50] = {0};
   /* USER CODE END 1 */
 
