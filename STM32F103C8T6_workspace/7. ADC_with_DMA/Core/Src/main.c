@@ -66,7 +66,8 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+	uint16_t adcval[4] = {0};
+	char str[50] = {0};
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -91,13 +92,18 @@ int main(void)
   MX_ADC1_Init();
   MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
-
+  HAL_ADC_Start_DMA(&hadc1, &adcval[0], 4);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+
+  // 디버깅 시작할 때 가변저항 최대로 낮춰야(전부 제일 오른쪽으로 돌리면 됨 -극 쪽이 오른쪽) st-link 연결 오류가 안남
   while (1)
   {
+	  sprintf(str, "%4d  %4d  %4d  %4d\n", adcval[0], adcval[1], adcval[2], adcval[3]);
+	  HAL_UART_Transmit(&huart3, str, sizeof(str), 10);
+	  HAL_Delay(1000);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
