@@ -101,10 +101,31 @@ int main(void)
   TIM2->CCR1 = 1500; // CCW End(3ms)
   /* USER CODE END 2 */
 
+  TIM3->ARR = 500; // 1000Hz
+  TIM3->CCR1 = 250; // 50% Pulse Width == (TIM3->ARR / 2)
+
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  uint16_t arr = 1000;
+  uint8_t ud_flag = 0;
   while (1)
   {
+	  // Buzzer 500Hz ~ 200Hz repeat
+	  if(ud_flag == 0)
+	  {
+		  arr++;
+		  if(arr >= 2500) ud_flag = 1;
+	  }
+	  else
+	  {
+		  arr--;
+		  if(arr <= 1000) ud_flag = 0;
+	  }
+
+	  TIM3->ARR = arr;
+	  TIM3->CCR1 = TIM3->ARR / 2;
+
+	  HAL_Delay(1);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
