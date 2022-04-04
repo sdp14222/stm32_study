@@ -89,6 +89,7 @@ int main(void)
   MX_DAC_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
+  HAL_DAC_Start(&hdac, DAC_CHANNEL_1);
 
   /* USER CODE END 2 */
 
@@ -96,6 +97,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  HAL_DAC_SetValue(&hdac, DAC_CHANNEL_1, DAC_ALIGN_12B_R, 2047);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
