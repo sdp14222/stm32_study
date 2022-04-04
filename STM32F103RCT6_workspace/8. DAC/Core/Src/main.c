@@ -174,11 +174,14 @@ static void MX_NVIC_Init(void)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
 	static uint16_t cnt = 0;
+	static char str[20];
 
 	if(htim->Instance == TIM2)
 	{
 		// 50Hz sin파 출력 : 0~4094
 		HAL_DAC_SetValue(&hdac, DAC_CHANNEL_1, DAC_ALIGN_12B_R, (sinf(2 * 3.1415926535f * 50 * cnt / 1000.f) + 1) * 2047);
+		sprintf(str, "%d\n", cnt);
+		HAL_UART_Transmit_IT(&huart1, str, sizeof(str));
 		cnt++;
 		if(cnt > 999) cnt = 0;
 	}
