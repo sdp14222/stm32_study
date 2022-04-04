@@ -342,6 +342,7 @@ int main(void)
  800038c:	ca07      	ldmia	r2, {r0, r1, r2}
  800038e:	c303      	stmia	r3!, {r0, r1}
  8000390:	801a      	strh	r2, [r3, #0]
+//  uint8_t eeprom[10] = { 0x00 };
 
   HAL_I2C_Mem_Write(&hi2c1, 0xA0, 0x00, I2C_MEMADD_SIZE_8BIT, &eeprom[0], 10, 10);
  8000392:	230a      	movs	r3, #10

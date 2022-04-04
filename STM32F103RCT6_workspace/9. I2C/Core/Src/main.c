@@ -99,9 +99,11 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
+  // 풀업 저항 1k씩 연결하지 않으면 eeprom에 제대로 저장 및 읽기 안되는 듯함
   int i;
   char str[20] = {0};
   uint8_t eeprom[10] = { 0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99 };
+//  uint8_t eeprom[10] = { 0x00 };
 
   HAL_I2C_Mem_Write(&hi2c1, 0xA0, 0x00, I2C_MEMADD_SIZE_8BIT, &eeprom[0], 10, 10);
 
