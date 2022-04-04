@@ -95,9 +95,13 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  uint16_t dacVal = 0;
   while (1)
   {
-	  HAL_DAC_SetValue(&hdac, DAC_CHANNEL_1, DAC_ALIGN_12B_R, 2047);
+//	  HAL_DAC_SetValue(&hdac, DAC_CHANNEL_1, DAC_ALIGN_12B_R, 2047);
+	  HAL_DAC_SetValue(&hdac, DAC_CHANNEL_1, DAC_ALIGN_12B_R, dacVal);
+	  dacVal++;
+	  if(dacVal > 4095) dacVal = 0;
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
