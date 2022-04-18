@@ -88,14 +88,29 @@ int main(void)
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_2, GPIO_PIN_RESET);
+
+//  htim2.Instance->CCR1 = 10000-1;
+//  TIM2->CCR1 = 10000-1;
+
+  /* 3.3V output not working */
+//  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
+//  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_2, GPIO_PIN_RESET);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+//  volatile uint16_t cnt = 5000;
+
   while (1)
   {
+	  HAL_Delay(1000);
+	  htim2.Instance->CCR1 = 10000-1;
+	  HAL_Delay(1000);
+	  htim2.Instance->CCR1 = 5000;
+//	  htim2.Instance->CCR1 = cnt;
+//	  cnt += 100;
+//	  if(cnt > htim2.Instance->ARR) cnt = 0;
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
