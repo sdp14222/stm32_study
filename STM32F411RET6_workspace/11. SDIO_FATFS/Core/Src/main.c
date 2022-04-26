@@ -18,9 +18,6 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "dma.h"
-#include "fatfs.h"
-#include "sdio.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -88,9 +85,6 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_DMA_Init();
-  MX_SDIO_SD_Init();
-  MX_FATFS_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
@@ -99,9 +93,15 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
-
+  char str[20] = {0};
   while (1)
   {
+//	  HAL_UART_Transmit(&huart1, str, sizeof(str), 10);
+//	  HAL_Delay(1000);
+	  if((HAL_UART_Receive(&huart1, str, sizeof(str), 10) == HAL_OK))
+	  {
+		  HAL_UART_Transmit(&huart1, str, sizeof(str), 10);
+	  }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
