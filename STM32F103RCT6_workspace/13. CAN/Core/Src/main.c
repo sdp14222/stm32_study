@@ -87,7 +87,7 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_CAN_Init();
-  MX_USART2_UART_Init();
+  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
   HAL_CAN_Start(&hcan);
   /* USER CODE END 2 */
@@ -98,57 +98,6 @@ int main(void)
   {
     /* USER CODE END WHILE */
 
-	  if(SW1_flag)
-	  {
-		  canTxHeader.StdId = 0x102;
-		  canTxHeader.RTR = CAN_RTR_DATA;
-		  canTxHeader.IDE = CAN_ID_STD;
-		  canTxHeader.DLC = 8;
-
-		  for(int i = 0; i < 8; i++) can1Tx0Data[i]++;
-
-		  TxMailBox = HAL_CAN_GetTxMailboxesFreeLevel(&hcan);
-		  HAL_CAN_AddTxMessage(&hcan, &canTxHeader, &can1Tx0Data[0], &TxMailBox);
-	  }
-
-	  if(SW2_flag)
-	  {
-		  canTxHeader.StdId = 0x106;
-		  canTxHeader.RTR = CAN_RTR_DATA;
-		  canTxHeader.IDE = CAN_ID_STD;
-		  canTxHeader.DLC = 8;
-
-		  for(int i = 0; i < 8; i++) can1Tx0Data[i]++;
-
-		  TxMailBox = HAL_CAN_GetTxMailboxesFreeLevel(&hcan);
-		  HAL_CAN_AddTxMessage(&hcan, &canTxHeader, &can1Tx0Data[0], &TxMailBox);
-	  }
-
-	  if(SW3_flag)
-	  {
-		  canTxHeader.StdId = 0x10A;
-		  canTxHeader.RTR = CAN_RTR_DATA;
-		  canTxHeader.IDE = CAN_ID_STD;
-		  canTxHeader.DLC = 8;
-
-		  for(int i = 0; i < 8; i++) can1Tx0Data[i]++;
-
-		  TxMailBox = HAL_CAN_GetTxMailboxesFreeLevel(&hcan);
-		  HAL_CAN_AddTxMessage(&hcan, &canTxHeader, &can1Tx0Data[0], &TxMailBox);
-	  }
-
-	  if(SW4_flag)
-	  {
-		  canTxHeader.StdId = 0x10E;
-		  canTxHeader.RTR = CAN_RTR_DATA;
-		  canTxHeader.IDE = CAN_ID_STD;
-		  canTxHeader.DLC = 8;
-
-		  for(int i = 0; i < 8; i++) can1Tx0Data[i]++;
-
-		  TxMailBox = HAL_CAN_GetTxMailboxesFreeLevel(&hcan);
-		  HAL_CAN_AddTxMessage(&hcan, &canTxHeader, &can1Tx0Data[0], &TxMailBox);
-	  }
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
