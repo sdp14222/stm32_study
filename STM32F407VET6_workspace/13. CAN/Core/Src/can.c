@@ -21,7 +21,12 @@
 #include "can.h"
 
 /* USER CODE BEGIN 0 */
-
+CAN_FilterTypeDef canFilter1;
+CAN_RxHeaderTypeDef canRxHeader;
+CAN_TxHeaderTypeDef canTxHeader;
+uint8_t can1Rx0Data[8];
+uint32_t TxMailBox;
+uint8_t can1Tx0Data[8];
 /* USER CODE END 0 */
 
 CAN_HandleTypeDef hcan1;
