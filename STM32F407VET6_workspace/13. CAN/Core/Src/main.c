@@ -44,6 +44,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+volatile uint8_t uart_rx_data;
 volatile uint8_t SW1_flag = 0;
 volatile uint8_t SW2_flag = 0;
 volatile uint8_t SW3_flag = 0;
@@ -112,21 +113,32 @@ int main(void)
   HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING);
 
   HAL_CAN_Start(&hcan1);
+
+  char str[20] = {0};
   while (1)
   {
 	  if(can1_rx0_flag)
 	  {
 		  can1_rx0_flag = 0;
 
-		  sprintf(str, "Rx ID: 0x%3X", canRxHeader.StdId);
-		  // UART 출력
-		  sprintf(str, "Rx Data: 0x%2X", can1Rx0Data[0]);
-		  // UART 출력
+		  sprintf(str, "Rx ID: 0x%X\n", canRxHeader.StdId);
+		  HAL_UART_Transmit(&huart1, str, sizeof(str), 10);
+
+		  for(int i = 0; i < 8; i++)
+		  {
+			  sprintf(str, "Rx Data[%d]: 0x%X\n", i, can1Rx0Data[i]);
+			  HAL_UART_Transmit(&huart1, str, sizeof(str), 10);
+			  HAL_Delay(10);
+		  }
+		  sprintf(str, "\n\n");
+		  HAL_UART_Transmit(&huart1, str, sizeof(str), 10);
 	  }
 
 	  // flag1
 	  if(SW1_flag)
 	  {
+		  SW1_flag = 0;
+
 		  canTxHeader.StdId = 0x102;
 		  canTxHeader.RTR = CAN_RTR_DATA;
 		  canTxHeader.IDE = CAN_ID_STD;
@@ -141,6 +153,8 @@ int main(void)
 	  // flag2
 	  if(SW2_flag)
 	  {
+		  SW2_flag = 0;
+
 		  canTxHeader.StdId = 0x106;
 		  canTxHeader.RTR = CAN_RTR_DATA;
 		  canTxHeader.IDE = CAN_ID_STD;
@@ -155,6 +169,8 @@ int main(void)
 	  // flag3
 	  if(SW3_flag)
 	  {
+		  SW3_flag = 0;
+
 		  canTxHeader.StdId = 0x10A;
 		  canTxHeader.RTR = CAN_RTR_DATA;
 		  canTxHeader.IDE = CAN_ID_STD;
@@ -169,6 +185,8 @@ int main(void)
 	  // flag4
 	  if(SW4_flag)
 	  {
+		  SW4_flag = 0;
+
 		  canTxHeader.StdId = 0x10E;
 		  canTxHeader.RTR = CAN_RTR_DATA;
 		  canTxHeader.IDE = CAN_ID_STD;
@@ -233,6 +251,31 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+	if(huart->Instance == USART1)
+	{
+		HAL_UART_Receive_IT(&huart1, &uart_rx_data, 1);
+
+		if(uart_rx_data == 1)
+		{
+			SW1_flag = 1;
+		}
+		else if(uart_rx_data  == 2)
+		{
+			SW2_flag = 1;
+		}
+		else if(uart_rx_data == 3)
+		{
+			SW3_flag = 1;
+		}
+		else if(uart_rx_data == 4)
+		{
+			SW4_flag = 1;
+		}
+	}
+}
+
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 {
 	if(hcan->Instance == CAN1)
