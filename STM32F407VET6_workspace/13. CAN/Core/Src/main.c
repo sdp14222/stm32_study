@@ -94,6 +94,18 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  canFilter1.FilterMaskIdHigh = 0x7F3 << 5;
+  canFilter1.FilterIdHigh = 0x106 << 5;
+  canFilter1.FilterMaskIdLow = 0x7F3 << 5;
+  canFilter1.FilterIdLow = 0x106 << 5;
+  canFilter1.FilterMode = CAN_FILTERMODE_IDMASK;
+  canFilter1.FilterScale = CAN_FILTERSCALE_16BIT;
+  canFilter1.FilterFIFOAssignment = CAN_FILTER_FIFO0;
+  canFilter1.FilterBank = 0;
+
+  HAL_CAN_ConfigFilter(&hcan1, &canFilter1);
+  HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING);
+
   HAL_CAN_Start(&hcan1);
   while (1)
   {
