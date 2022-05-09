@@ -44,7 +44,11 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+volatile uint8_t SW1_flag = 0;
+volatile uint8_t SW2_flag = 0;
+volatile uint8_t SW3_flag = 0;
+volatile uint8_t SW4_flag = 0;
+volatile uint8_t can1_rx0_flag = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -109,8 +113,15 @@ int main(void)
   HAL_CAN_Start(&hcan1);
   while (1)
   {
+	  if(can1_rx0_flag)
+	  {
+		  can1_rx0_flag = 0;
+
+
+	  }
+
 	  // flag1
-	  if()
+	  if(SW1_flag)
 	  {
 		  canTxHeader.StdId = 0x102;
 		  canTxHeader.RTR = CAN_RTR_DATA;
@@ -119,7 +130,7 @@ int main(void)
 	  }
 
 	  // flag2
-	  if()
+	  if(SW2_flag)
 	  {
 		  canTxHeader.StdId = 0x106;
 		  canTxHeader.RTR = CAN_RTR_DATA;
@@ -128,7 +139,7 @@ int main(void)
 	  }
 
 	  // flag3
-	  if()
+	  if(SW3_flag)
 	  {
 		  canTxHeader.StdId = 0x10A;
 		  canTxHeader.RTR = CAN_RTR_DATA;
@@ -137,7 +148,7 @@ int main(void)
 	  }
 
 	  // flag4
-	  if()
+	  if(SW4_flag)
 	  {
 		  canTxHeader.StdId = 0x10E;
 		  canTxHeader.RTR = CAN_RTR_DATA;
@@ -203,7 +214,14 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
+{
+	if(hcan->Instance == CAN1)
+	{
+		HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &canRxHeader, &can1Rx0Data[0]);
+		can1_rx0_flag = 1;
+	}
+}
 /* USER CODE END 4 */
 
 /**
