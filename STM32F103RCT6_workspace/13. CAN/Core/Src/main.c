@@ -24,7 +24,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -44,7 +44,11 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+volatile uint8_t uart_rx_data;
+volatile uint8_t SW1_flag = 0;
+volatile uint8_t SW2_flag = 0;
+volatile uint8_t SW3_flag = 0;
+volatile uint8_t SW4_flag = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -94,8 +98,72 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  char str[20] = {0};
   while (1)
   {
+	  // flag1
+	  	  if(SW1_flag)
+	  	  {
+	  		  SW1_flag = 0;
+
+	  		  canTxHeader.StdId = 0x102;
+	  		  canTxHeader.RTR = CAN_RTR_DATA;
+	  		  canTxHeader.IDE = CAN_ID_STD;
+	  		  canTxHeader.DLC = 8;
+
+	  		  for(int i = 0; i < 8; i++) can1Tx0Data[i]++;
+
+	  		  TxMailBox = HAL_CAN_GetTxMailboxesFreeLevel(&hcan1);
+	  		  HAL_CAN_AddTxMessage(&hcan1, &canTxHeader, &can1Tx0Data[0], &TxMailBox);
+	  	  }
+
+	  	  // flag2
+	  	  if(SW2_flag)
+	  	  {
+	  		  SW2_flag = 0;
+
+	  		  canTxHeader.StdId = 0x106;
+	  		  canTxHeader.RTR = CAN_RTR_DATA;
+	  		  canTxHeader.IDE = CAN_ID_STD;
+	  		  canTxHeader.DLC = 8;
+
+	  		  for(int i = 0; i < 8; i++) can1Tx0Data[i]++;
+
+	  		  TxMailBox = HAL_CAN_GetTxMailboxesFreeLevel(&hcan1);
+	  		  HAL_CAN_AddTxMessage(&hcan1, &canTxHeader, &can1Tx0Data[0], &TxMailBox);
+	  	  }
+
+	  	  // flag3
+	  	  if(SW3_flag)
+	  	  {
+	  		  SW3_flag = 0;
+
+	  		  canTxHeader.StdId = 0x10A;
+	  		  canTxHeader.RTR = CAN_RTR_DATA;
+	  		  canTxHeader.IDE = CAN_ID_STD;
+	  		  canTxHeader.DLC = 8;
+
+	  		  for(int i = 0; i < 8; i++) can1Tx0Data[i]++;
+
+	  		  TxMailBox = HAL_CAN_GetTxMailboxesFreeLevel(&hcan1);
+	  		  HAL_CAN_AddTxMessage(&hcan1, &canTxHeader, &can1Tx0Data[0], &TxMailBox);
+	  	  }
+
+	  	  // flag4
+	  	  if(SW4_flag)
+	  	  {
+	  		  SW4_flag = 0;
+
+	  		  canTxHeader.StdId = 0x10E;
+	  		  canTxHeader.RTR = CAN_RTR_DATA;
+	  		  canTxHeader.IDE = CAN_ID_STD;
+	  		  canTxHeader.DLC = 8;
+
+	  		  for(int i = 0; i < 8; i++) can1Tx0Data[i]++;
+
+	  		  TxMailBox = HAL_CAN_GetTxMailboxesFreeLevel(&hcan1);
+	  		  HAL_CAN_AddTxMessage(&hcan1, &canTxHeader, &can1Tx0Data[0], &TxMailBox);
+	  	  }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -143,7 +211,30 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+	if(huart->Instance == USART1)
+	{
+		HAL_UART_Receive_IT(&huart1, &uart_rx_data, 1);
 
+		if(uart_rx_data == 1)
+		{
+			SW1_flag = 1;
+		}
+		else if(uart_rx_data  == 2)
+		{
+			SW2_flag = 1;
+		}
+		else if(uart_rx_data == 3)
+		{
+			SW3_flag = 1;
+		}
+		else if(uart_rx_data == 4)
+		{
+			SW4_flag = 1;
+		}
+	}
+}
 /* USER CODE END 4 */
 
 /**
