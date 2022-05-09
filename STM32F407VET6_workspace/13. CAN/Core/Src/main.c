@@ -106,6 +106,7 @@ int main(void)
   canFilter1.FilterScale = CAN_FILTERSCALE_16BIT;
   canFilter1.FilterFIFOAssignment = CAN_FILTER_FIFO0;
   canFilter1.FilterBank = 0;
+  canFilter1.FilterActivation = ENABLE;
 
   HAL_CAN_ConfigFilter(&hcan1, &canFilter1);
   HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING);
@@ -117,7 +118,10 @@ int main(void)
 	  {
 		  can1_rx0_flag = 0;
 
-
+		  sprintf(str, "Rx ID: 0x%3X", canRxHeader.StdId);
+		  // UART 출력
+		  sprintf(str, "Rx Data: 0x%2X", can1Rx0Data[0]);
+		  // UART 출력
 	  }
 
 	  // flag1
@@ -127,6 +131,11 @@ int main(void)
 		  canTxHeader.RTR = CAN_RTR_DATA;
 		  canTxHeader.IDE = CAN_ID_STD;
 		  canTxHeader.DLC = 8;
+
+		  for(int i = 0; i < 8; i++) can1Tx0Data[i]++;
+
+		  TxMailBox = HAL_CAN_GetTxMailboxesFreeLevel(&hcan1);
+		  HAL_CAN_AddTxMessage(&hcan1, &canTxHeader, &can1Tx0Data[0], &TxMailBox);
 	  }
 
 	  // flag2
@@ -136,6 +145,11 @@ int main(void)
 		  canTxHeader.RTR = CAN_RTR_DATA;
 		  canTxHeader.IDE = CAN_ID_STD;
 		  canTxHeader.DLC = 8;
+
+		  for(int i = 0; i < 8; i++) can1Tx0Data[i]++;
+
+		  TxMailBox = HAL_CAN_GetTxMailboxesFreeLevel(&hcan1);
+		  HAL_CAN_AddTxMessage(&hcan1, &canTxHeader, &can1Tx0Data[0], &TxMailBox);
 	  }
 
 	  // flag3
@@ -145,6 +159,11 @@ int main(void)
 		  canTxHeader.RTR = CAN_RTR_DATA;
 		  canTxHeader.IDE = CAN_ID_STD;
 		  canTxHeader.DLC = 8;
+
+		  for(int i = 0; i < 8; i++) can1Tx0Data[i]++;
+
+		  TxMailBox = HAL_CAN_GetTxMailboxesFreeLevel(&hcan1);
+		  HAL_CAN_AddTxMessage(&hcan1, &canTxHeader, &can1Tx0Data[0], &TxMailBox);
 	  }
 
 	  // flag4
@@ -154,12 +173,12 @@ int main(void)
 		  canTxHeader.RTR = CAN_RTR_DATA;
 		  canTxHeader.IDE = CAN_ID_STD;
 		  canTxHeader.DLC = 8;
+
+		  for(int i = 0; i < 8; i++) can1Tx0Data[i]++;
+
+		  TxMailBox = HAL_CAN_GetTxMailboxesFreeLevel(&hcan1);
+		  HAL_CAN_AddTxMessage(&hcan1, &canTxHeader, &can1Tx0Data[0], &TxMailBox);
 	  }
-
-	  for(int i = 0; i < 8; i++) can1Tx0Data[i]++;
-
-	  TxMailBox = HAL_CAN_GetTxMailboxesFreeLevel(&hcan1);
-	  HAL_CAN_AddTxMessage(&hcan1, &canTxHeader, &can1Tx0Data[0], &TxMailBox);
 
     /* USER CODE END WHILE */
 
