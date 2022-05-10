@@ -6,7 +6,7 @@
 
 ## Target Board(STM32F407VET6)
 ### Configuration
-- 100kbps
+- Bitrate : 100kbps
 - Prescaler : 21
 - Time Quantum : 500.0ns
 - Time Quanta in Bit Segment 1 : 14 Times
