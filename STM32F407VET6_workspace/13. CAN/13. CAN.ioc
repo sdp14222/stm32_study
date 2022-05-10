@@ -1,11 +1,11 @@
 #MicroXplorer Configuration settings - do not modify
 CAN1.BS1=CAN_BS1_14TQ
 CAN1.BS2=CAN_BS2_5TQ
-CAN1.CalculateBaudRate=9523
-CAN1.CalculateTimeBit=105000
-CAN1.CalculateTimeQuantum=5250.0
+CAN1.CalculateBaudRate=100000
+CAN1.CalculateTimeBit=10000
+CAN1.CalculateTimeQuantum=500.0
 CAN1.IPParameters=CalculateTimeQuantum,CalculateTimeBit,CalculateBaudRate,Prescaler,BS1,BS2
-CAN1.Prescaler=21
+CAN1.Prescaler=2
 File.Version=6
 GPIO.groupedBy=Group By Peripherals
 KeepUserPlacement=false
@@ -91,7 +91,7 @@ ProjectManager.StackSize=0x400
 ProjectManager.TargetToolchain=STM32CubeIDE
 ProjectManager.ToolChainLocation=
 ProjectManager.UnderRoot=true
-ProjectManager.functionlistsort=1-SystemClock_Config-RCC-false-HAL-false,2-MX_GPIO_Init-GPIO-false-HAL-true,3-MX_CAN1_Init-CAN1-false-HAL-true,4-MX_USART2_UART_Init-USART2-false-HAL-true
+ProjectManager.functionlistsort=1-SystemClock_Config-RCC-false-HAL-false,2-MX_GPIO_Init-GPIO-false-HAL-true,3-MX_CAN1_Init-CAN1-false-HAL-true,4-MX_USART1_UART_Init-USART1-false-HAL-true
 RCC.48MHZClocksFreq_Value=84000000
 RCC.AHBFreq_Value=16000000
 RCC.APB1CLKDivider=RCC_HCLK_DIV4
