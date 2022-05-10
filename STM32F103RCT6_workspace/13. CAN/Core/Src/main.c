@@ -49,6 +49,7 @@ volatile uint8_t SW1_flag = 0;
 volatile uint8_t SW2_flag = 0;
 volatile uint8_t SW3_flag = 0;
 volatile uint8_t SW4_flag = 0;
+volatile uint8_t can1_rx0_flag = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -93,77 +94,110 @@ int main(void)
   MX_CAN_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-  HAL_CAN_Start(&hcan);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  canFilter1.FilterMaskIdHigh = 0x7F3 << 5;
+  canFilter1.FilterIdHigh = 0x106 << 5;
+  canFilter1.FilterMaskIdLow = 0x7F3 << 5;
+  canFilter1.FilterIdLow = 0x106 << 5;
+  canFilter1.FilterMode = CAN_FILTERMODE_IDMASK;
+  canFilter1.FilterScale = CAN_FILTERSCALE_16BIT;
+  canFilter1.FilterFIFOAssignment = CAN_FILTER_FIFO0;
+  canFilter1.FilterBank = 0;
+  canFilter1.FilterActivation = ENABLE;
+
+  HAL_CAN_ConfigFilter(&hcan, &canFilter1);
+  HAL_CAN_ActivateNotification(&hcan, CAN_IT_RX_FIFO0_MSG_PENDING);
+
+  HAL_CAN_Start(&hcan);
+
   char str[20] = {0};
   while (1)
   {
+	  if(can1_rx0_flag)
+	  {
+		  can1_rx0_flag = 0;
+
+		  sprintf(str, "Rx ID: 0x%X\n", canRxHeader.StdId);
+		  HAL_UART_Transmit(&huart1, str, sizeof(str), 10);
+
+		  for(int i = 0; i < 8; i++)
+		  {
+			  sprintf(str, "Rx Data[%d]: 0x%X\n", i, can1Rx0Data[i]);
+			  HAL_UART_Transmit(&huart1, str, sizeof(str), 10);
+			  HAL_Delay(10);
+		  }
+		  sprintf(str, "\n\n");
+		  HAL_UART_Transmit(&huart1, str, sizeof(str), 10);
+	  }
+
 	  // flag1
-	  	  if(SW1_flag)
-	  	  {
-	  		  SW1_flag = 0;
+	  if(SW1_flag)
+	  {
+		  SW1_flag = 0;
 
-	  		  canTxHeader.StdId = 0x102;
-	  		  canTxHeader.RTR = CAN_RTR_DATA;
-	  		  canTxHeader.IDE = CAN_ID_STD;
-	  		  canTxHeader.DLC = 8;
+		  canTxHeader.StdId = 0x102;
+		  canTxHeader.RTR = CAN_RTR_DATA;
+		  canTxHeader.IDE = CAN_ID_STD;
+		  canTxHeader.DLC = 8;
 
-	  		  for(int i = 0; i < 8; i++) can1Tx0Data[i]++;
+		  for(int i = 0; i < 8; i++) can1Tx0Data[i]++;
 
-	  		  TxMailBox = HAL_CAN_GetTxMailboxesFreeLevel(&hcan1);
-	  		  HAL_CAN_AddTxMessage(&hcan1, &canTxHeader, &can1Tx0Data[0], &TxMailBox);
-	  	  }
+		  TxMailBox = HAL_CAN_GetTxMailboxesFreeLevel(&hcan);
+		  HAL_CAN_AddTxMessage(&hcan, &canTxHeader, &can1Tx0Data[0], &TxMailBox);
+	  }
 
-	  	  // flag2
-	  	  if(SW2_flag)
-	  	  {
-	  		  SW2_flag = 0;
+	  // flag2
+	  if(SW2_flag)
+	  {
+		  SW2_flag = 0;
 
-	  		  canTxHeader.StdId = 0x106;
-	  		  canTxHeader.RTR = CAN_RTR_DATA;
-	  		  canTxHeader.IDE = CAN_ID_STD;
-	  		  canTxHeader.DLC = 8;
+		  // STM32F407VET6 : 0x106 send
+		  canTxHeader.StdId = 0x107;
+		  canTxHeader.RTR = CAN_RTR_DATA;
+		  canTxHeader.IDE = CAN_ID_STD;
+		  canTxHeader.DLC = 8;
 
-	  		  for(int i = 0; i < 8; i++) can1Tx0Data[i]++;
+		  for(int i = 0; i < 8; i++) can1Tx0Data[i]++;
 
-	  		  TxMailBox = HAL_CAN_GetTxMailboxesFreeLevel(&hcan1);
-	  		  HAL_CAN_AddTxMessage(&hcan1, &canTxHeader, &can1Tx0Data[0], &TxMailBox);
-	  	  }
+		  TxMailBox = HAL_CAN_GetTxMailboxesFreeLevel(&hcan);
+		  HAL_CAN_AddTxMessage(&hcan, &canTxHeader, &can1Tx0Data[0], &TxMailBox);
+	  }
 
-	  	  // flag3
-	  	  if(SW3_flag)
-	  	  {
-	  		  SW3_flag = 0;
+	  // flag3
+	  if(SW3_flag)
+	  {
+		  SW3_flag = 0;
 
-	  		  canTxHeader.StdId = 0x10A;
-	  		  canTxHeader.RTR = CAN_RTR_DATA;
-	  		  canTxHeader.IDE = CAN_ID_STD;
-	  		  canTxHeader.DLC = 8;
+		  // STM32F407VET6 : 0x10A send
+		  canTxHeader.StdId = 0x10B;
+		  canTxHeader.RTR = CAN_RTR_DATA;
+		  canTxHeader.IDE = CAN_ID_STD;
+		  canTxHeader.DLC = 8;
 
-	  		  for(int i = 0; i < 8; i++) can1Tx0Data[i]++;
+		  for(int i = 0; i < 8; i++) can1Tx0Data[i]++;
 
-	  		  TxMailBox = HAL_CAN_GetTxMailboxesFreeLevel(&hcan1);
-	  		  HAL_CAN_AddTxMessage(&hcan1, &canTxHeader, &can1Tx0Data[0], &TxMailBox);
-	  	  }
+		  TxMailBox = HAL_CAN_GetTxMailboxesFreeLevel(&hcan);
+		  HAL_CAN_AddTxMessage(&hcan, &canTxHeader, &can1Tx0Data[0], &TxMailBox);
+	  }
 
-	  	  // flag4
-	  	  if(SW4_flag)
-	  	  {
-	  		  SW4_flag = 0;
+	  // flag4
+	  if(SW4_flag)
+	  {
+		  SW4_flag = 0;
 
-	  		  canTxHeader.StdId = 0x10E;
-	  		  canTxHeader.RTR = CAN_RTR_DATA;
-	  		  canTxHeader.IDE = CAN_ID_STD;
-	  		  canTxHeader.DLC = 8;
+		  canTxHeader.StdId = 0x10E;
+		  canTxHeader.RTR = CAN_RTR_DATA;
+		  canTxHeader.IDE = CAN_ID_STD;
+		  canTxHeader.DLC = 8;
 
-	  		  for(int i = 0; i < 8; i++) can1Tx0Data[i]++;
+		  for(int i = 0; i < 8; i++) can1Tx0Data[i]++;
 
-	  		  TxMailBox = HAL_CAN_GetTxMailboxesFreeLevel(&hcan1);
-	  		  HAL_CAN_AddTxMessage(&hcan1, &canTxHeader, &can1Tx0Data[0], &TxMailBox);
-	  	  }
+		  TxMailBox = HAL_CAN_GetTxMailboxesFreeLevel(&hcan);
+		  HAL_CAN_AddTxMessage(&hcan, &canTxHeader, &can1Tx0Data[0], &TxMailBox);
+	  }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -233,6 +267,15 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 		{
 			SW4_flag = 1;
 		}
+	}
+}
+
+void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
+{
+	if(hcan->Instance == CAN1)
+	{
+		HAL_CAN_GetRxMessage(&hcan, CAN_RX_FIFO0, &canRxHeader, &can1Rx0Data[0]);
+		can1_rx0_flag = 1;
 	}
 }
 /* USER CODE END 4 */
