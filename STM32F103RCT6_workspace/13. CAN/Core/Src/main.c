@@ -112,16 +112,13 @@ int main(void)
   HAL_CAN_ActivateNotification(&hcan, CAN_IT_RX_FIFO0_MSG_PENDING);
 
   HAL_CAN_Start(&hcan);
+
   HAL_UART_Receive_IT(&huart1, &uart_rx_data, sizeof(uart_rx_data));
 
   char str[20] = {0};
+
   while (1)
   {
-
-//	  sprintf(str, "hawawa\n");
-//	  HAL_UART_Transmit(&huart1, str, sizeof(str), 10);
-//	  HAL_Delay(1000);
-
 	  if(can1_rx0_flag)
 	  {
 		  can1_rx0_flag = 0;
@@ -142,9 +139,6 @@ int main(void)
 	  // flag1
 	  if(SW1_flag)
 	  {
-		  sprintf(str, "hawawa\n");
-		  HAL_UART_Transmit(&huart1, str, sizeof(str), 10);
-
 		  SW1_flag = 0;
 
 		  canTxHeader.StdId = 0x102;
