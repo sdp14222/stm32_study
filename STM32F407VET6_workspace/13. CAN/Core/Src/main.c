@@ -124,6 +124,10 @@ int main(void)
 	  {
 		  can1_rx0_flag = 0;
 
+		  sprintf(str, "\n\n=============\n");
+		  HAL_UART_Transmit(&huart1, str, sizeof(str), 10);
+		  sprintf(str, "STM32F407VET6\n");
+		  HAL_UART_Transmit(&huart1, str, sizeof(str), 10);
 		  sprintf(str, "Rx ID: 0x%X\n", canRxHeader.StdId);
 		  HAL_UART_Transmit(&huart1, str, sizeof(str), 10);
 
@@ -131,9 +135,8 @@ int main(void)
 		  {
 			  sprintf(str, "Rx Data[%d]: 0x%X\n", i, can1Rx0Data[i]);
 			  HAL_UART_Transmit(&huart1, str, sizeof(str), 10);
-			  HAL_Delay(10);
 		  }
-		  sprintf(str, "\n\n");
+		  sprintf(str, "\n=============\n\n");
 		  HAL_UART_Transmit(&huart1, str, sizeof(str), 10);
 	  }
 
