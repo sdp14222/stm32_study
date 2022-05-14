@@ -39,11 +39,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  17 .debug_line   00009f8f  00000000  00000000  00044a85  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    00093093  00000000  00000000  0004ea14  2**0
+ 18 .debug_str    00093080  00000000  00000000  0004ea14  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000050  00000000  00000000  000e1aa7  2**0
+ 19 .comment      00000050  00000000  00000000  000e1a94  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  000023e0  00000000  00000000  000e1af8  2**2
+ 20 .debug_frame  000023e0  00000000  00000000  000e1ae4  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -243,13 +243,13 @@ void HAL_CAN_MspInit(CAN_HandleTypeDef* canHandle)
  8000310:	f001 fcec 	bl	8001cec <HAL_GPIO_Init>
 
     /* CAN1 interrupt Init */
-    HAL_NVIC_SetPriority(CAN1_RX1_IRQn, 0, 0);
+    HAL_NVIC_SetPriority(USB_LP_CAN1_RX0_IRQn, 0, 0);
  8000314:	2200      	movs	r2, #0
  8000316:	2100      	movs	r1, #0
- 8000318:	2015      	movs	r0, #21
+ 8000318:	2014      	movs	r0, #20
  800031a:	f001 fb6e 	bl	80019fa <HAL_NVIC_SetPriority>
-    HAL_NVIC_EnableIRQ(CAN1_RX1_IRQn);
- 800031e:	2015      	movs	r0, #21
+    HAL_NVIC_EnableIRQ(USB_LP_CAN1_RX0_IRQn);
+ 800031e:	2014      	movs	r0, #20
  8000320:	f001 fb87 	bl	8001a32 <HAL_NVIC_EnableIRQ>
   /* USER CODE BEGIN CAN1_MspInit 1 */
 
@@ -985,13 +985,13 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 
 080007c0 <HAL_CAN_RxFifo0MsgPendingCallback>:
 
-void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan_param)
+void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan_handle)
 {
  80007c0:	b580      	push	{r7, lr}
  80007c2:	b082      	sub	sp, #8
  80007c4:	af00      	add	r7, sp, #0
  80007c6:	6078      	str	r0, [r7, #4]
-	if(hcan_param->Instance == CAN1)
+	if(hcan_handle->Instance == CAN1)
  80007c8:	687b      	ldr	r3, [r7, #4]
  80007ca:	681b      	ldr	r3, [r3, #0]
  80007cc:	4a07      	ldr	r2, [pc, #28]	; (80007ec <HAL_CAN_RxFifo0MsgPendingCallback+0x2c>)
@@ -1270,24 +1270,24 @@ void SysTick_Handler(void)
  80008bc:	bd80      	pop	{r7, pc}
 	...
 
-080008c0 <CAN1_RX1_IRQHandler>:
+080008c0 <USB_LP_CAN1_RX0_IRQHandler>:
 
 /**
-  * @brief This function handles CAN RX1 interrupt.
+  * @brief This function handles USB low priority or CAN RX0 interrupts.
   */
-void CAN1_RX1_IRQHandler(void)
+void USB_LP_CAN1_RX0_IRQHandler(void)
 {
  80008c0:	b580      	push	{r7, lr}
  80008c2:	af00      	add	r7, sp, #0
-  /* USER CODE BEGIN CAN1_RX1_IRQn 0 */
+  /* USER CODE BEGIN USB_LP_CAN1_RX0_IRQn 0 */
 
-  /* USER CODE END CAN1_RX1_IRQn 0 */
+  /* USER CODE END USB_LP_CAN1_RX0_IRQn 0 */
   HAL_CAN_IRQHandler(&hcan);
- 80008c4:	4802      	ldr	r0, [pc, #8]	; (80008d0 <CAN1_RX1_IRQHandler+0x10>)
+ 80008c4:	4802      	ldr	r0, [pc, #8]	; (80008d0 <USB_LP_CAN1_RX0_IRQHandler+0x10>)
  80008c6:	f000 fd9d 	bl	8001404 <HAL_CAN_IRQHandler>
-  /* USER CODE BEGIN CAN1_RX1_IRQn 1 */
+  /* USER CODE BEGIN USB_LP_CAN1_RX0_IRQn 1 */
 
-  /* USER CODE END CAN1_RX1_IRQn 1 */
+  /* USER CODE END USB_LP_CAN1_RX0_IRQn 1 */
 }
  80008ca:	bf00      	nop
  80008cc:	bd80      	pop	{r7, pc}

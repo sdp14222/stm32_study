@@ -276,9 +276,9 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 	}
 }
 
-void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan_param)
+void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan_handle)
 {
-	if(hcan_param->Instance == CAN1)
+	if(hcan_handle->Instance == CAN1)
 	{
 		HAL_CAN_GetRxMessage(&hcan, CAN_RX_FIFO0, &canRxHeader, &can1Rx0Data[0]);
 		can1_rx0_flag = 1;
