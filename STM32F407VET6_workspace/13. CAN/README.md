@@ -32,7 +32,7 @@
 - Time Quantum : 500.0 ns
 - Time Quanta in Bit Segment 1 : 14 Times
 - Time Quanta in Bit Segment 2 : 5 Times
-- CAN RX1 interrupt
+- USB low priority or CAN RX0 interrupts
 
 ### Filter
 - Filter Mask ID : 0x7F3
