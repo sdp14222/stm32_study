@@ -151,6 +151,6 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/windows,eclipse,c
 
 ### Add ###
-.mxproject
-.project
-.ioc
+#.mxproject
+#.project
+#.ioc
