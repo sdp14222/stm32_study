@@ -5,6 +5,10 @@
 - SN65HVD230
 
 ## Target Board(STM32F407VET6)
+### Clock Configuration
+- HSI RC
+- HCLK = 16MHz(Max : 168 MHz)
+
 ### Configuration
 - Bitrate : 100kbps
 - Prescaler : 2
