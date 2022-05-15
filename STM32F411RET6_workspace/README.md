@@ -7,8 +7,6 @@
 - SWCLK : PA14
 - SWDIO : PA13
 
-## RCC
-- HSE : Crystal/Ceramic Resonator
+## Clock Configuration
+- HSI RC - PLL Source Mux - PLLCLK
 - HCLK = 100MHz(Max)
-- RCC_OSC_IN : PD0
-- RCC_OSC_OUT : PD1
