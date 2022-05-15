@@ -7,7 +7,8 @@ stm32 공부
 ## Target board
 1. STM32F103C8T6
 2. STM32F103RCT6
-3. STM32F411RET6(Nucleo-64)
+3. STM32F407VET6
+4. STM32F411RET6(Nucleo-64)
 
 ## 실습환경
 STM32CubeIDE(version 1.9.0)
