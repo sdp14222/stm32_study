@@ -96,12 +96,13 @@ int main(void)
   char str[20] = {0};
   while (1)
   {
-//	  HAL_UART_Transmit(&huart1, str, sizeof(str), 10);
-//	  HAL_Delay(1000);
-	  if((HAL_UART_Receive(&huart1, str, sizeof(str), 10) == HAL_OK))
-	  {
-		  HAL_UART_Transmit(&huart1, str, sizeof(str), 10);
-	  }
+	  sprintf(str, "Hello World!!\n");
+	  HAL_UART_Transmit(&huart1, str, sizeof(str), 10);
+	  HAL_Delay(1000);
+//	  if((HAL_UART_Receive(&huart1, str, sizeof(str), 10) == HAL_OK))
+//	  {
+//		  HAL_UART_Transmit(&huart1, str, sizeof(str), 10);
+//	  }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -126,12 +127,13 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
-  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-  RCC_OscInitStruct.PLL.PLLM = 12;
-  RCC_OscInitStruct.PLL.PLLN = 96;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
+  RCC_OscInitStruct.PLL.PLLM = 8;
+  RCC_OscInitStruct.PLL.PLLN = 100;
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
   RCC_OscInitStruct.PLL.PLLQ = 5;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
