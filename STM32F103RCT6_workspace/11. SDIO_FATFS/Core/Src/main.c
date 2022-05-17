@@ -23,7 +23,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -33,6 +33,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+#define RECV_SIZE 20
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -43,7 +44,8 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+char recv_str[RECV_SIZE];
+volatile uint8_t flag1;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -88,15 +90,18 @@ int main(void)
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
+	HAL_UART_Receive_IT(&huart1, recv_str, RECV_SIZE);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  char str[20] = "Hello World!!\n";
   while (1)
   {
-	  HAL_UART_Transmit(&huart1, str, 20, 10);
-	  HAL_Delay(1000);
+	  if(flag1)
+	  {
+		  flag1 = 0;
+		  HAL_UART_Transmit(&huart1, recv_str, RECV_SIZE, 10);
+	  }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -144,7 +149,14 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+	if(huart->Instance == USART1)
+	{
+		HAL_UART_Receive_IT(&huart1, recv_str, RECV_SIZE);
+		flag1 = 1;
+	}
+}
 /* USER CODE END 4 */
 
 /**
