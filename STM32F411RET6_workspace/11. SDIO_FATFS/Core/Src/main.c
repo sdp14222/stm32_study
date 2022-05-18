@@ -18,6 +18,9 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "dma.h"
+#include "fatfs.h"
+#include "sdio.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -88,6 +91,9 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART1_UART_Init();
+  MX_DMA_Init();
+  MX_FATFS_Init();
+  MX_SDIO_SD_Init();
   /* USER CODE BEGIN 2 */
   HAL_UART_Receive_IT(&huart1, recv_str, RECV_SIZE);
   /* USER CODE END 2 */
