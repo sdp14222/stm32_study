@@ -95,8 +95,12 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
+  char str[RECV_SIZE] = "Hello World!!\n";
   while (1)
   {
+	  HAL_UART_Transmit(&huart1, str, RECV_SIZE, 10);
+	  HAL_Delay(1000);
+
 	  if(flag1)
 	  {
 		  flag1 = 0;
