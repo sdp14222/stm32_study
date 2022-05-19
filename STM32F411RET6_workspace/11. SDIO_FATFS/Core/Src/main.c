@@ -137,7 +137,9 @@ int main(void)
   */
 
   // 3. File read
-  if((retSD = f_open(&SDFile, "0:/sdp.txt", FA_OPEN_EXISTING | FA_READ)) == FR_OK)
+//  if((retSD = f_open(&SDFile, "0:/sdp.txt", FA_OPEN_EXISTING | FA_READ)) == FR_OK)
+  // if file not exist
+  if((retSD = f_open(&SDFile, "0:/sdp1234.txt", FA_OPEN_EXISTING | FA_READ)) == FR_OK)
   {
 	  f_read(&SDFile, buf, 32, &br);
 	  sprintf(str, "%s\n", buf);

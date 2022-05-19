@@ -7,23 +7,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
   1 .text         00008d04  080001a0  080001a0  000101a0  2**4
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .rodata       0000055c  08008ea4  08008ea4  00018ea4  2**2
+  2 .rodata       00000560  08008ea4  08008ea4  00018ea4  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  3 .ARM.extab    00000000  08009400  08009400  00020070  2**0
+  3 .ARM.extab    00000000  08009404  08009404  00020070  2**0
                   CONTENTS
-  4 .ARM          00000008  08009400  08009400  00019400  2**2
+  4 .ARM          00000008  08009404  08009404  00019404  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  5 .preinit_array 00000000  08009408  08009408  00020070  2**0
+  5 .preinit_array 00000000  0800940c  0800940c  00020070  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  6 .init_array   00000004  08009408  08009408  00019408  2**2
+  6 .init_array   00000004  0800940c  0800940c  0001940c  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  7 .fini_array   00000004  0800940c  0800940c  0001940c  2**2
+  7 .fini_array   00000004  08009410  08009410  00019410  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  8 .data         00000070  20000000  08009410  00020000  2**2
+  8 .data         00000070  20000000  08009414  00020000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  9 .bss          00000890  20000070  08009480  00020070  2**2
+  9 .bss          00000890  20000070  08009484  00020070  2**2
                   ALLOC
- 10 ._user_heap_stack 00000600  20000900  08009480  00020900  2**0
+ 10 ._user_heap_stack 00000600  20000900  08009484  00020900  2**0
                   ALLOC
  11 .ARM.attributes 00000030  00000000  00000000  00020070  2**0
                   CONTENTS, READONLY
@@ -635,12 +635,12 @@ int main(void)
  80006d0:	4926      	ldr	r1, [pc, #152]	; (800076c <main+0x12c>)
  80006d2:	4827      	ldr	r0, [pc, #156]	; (8000770 <main+0x130>)
  80006d4:	f003 fa9a 	bl	8003c0c <HAL_UART_Transmit>
-	  HAL_UART_Transmit(&huart1, str, STR_SIZE, 10);
-  }
   */
 
   // 3. File read
-  if((retSD = f_open(&SDFile, "0:/sdp.txt", FA_OPEN_EXISTING | FA_READ)) == FR_OK)
+//  if((retSD = f_open(&SDFile, "0:/sdp.txt", FA_OPEN_EXISTING | FA_READ)) == FR_OK)
+  // if file not exist
+  if((retSD = f_open(&SDFile, "0:/sdp1234.txt", FA_OPEN_EXISTING | FA_READ)) == FR_OK)
  80006d8:	2201      	movs	r2, #1
  80006da:	492c      	ldr	r1, [pc, #176]	; (800078c <main+0x14c>)
  80006dc:	482c      	ldr	r0, [pc, #176]	; (8000790 <main+0x150>)
@@ -728,7 +728,7 @@ int main(void)
  800076a:	bf00      	nop
  800076c:	2000008c 	.word	0x2000008c
  8000770:	20000200 	.word	0x20000200
- 8000774:	08008ef0 	.word	0x08008ef0
+ 8000774:	08008ef4 	.word	0x08008ef4
  8000778:	2000024c 	.word	0x2000024c
  800077c:	20000250 	.word	0x20000250
  8000780:	20000248 	.word	0x20000248
@@ -736,9 +736,9 @@ int main(void)
  8000788:	08008eb4 	.word	0x08008eb4
  800078c:	08008ec8 	.word	0x08008ec8
  8000790:	20000484 	.word	0x20000484
- 8000794:	08008ed4 	.word	0x08008ed4
- 8000798:	08008ed8 	.word	0x08008ed8
- 800079c:	08008ee4 	.word	0x08008ee4
+ 8000794:	08008ed8 	.word	0x08008ed8
+ 8000798:	08008edc 	.word	0x08008edc
+ 800079c:	08008ee8 	.word	0x08008ee8
  80007a0:	200000b4 	.word	0x200000b4
 
 080007a4 <SystemClock_Config>:
@@ -1986,7 +1986,7 @@ LoopFillZerobss:
   ldr r1, =_edata
  8000dd4:	20000070 	.word	0x20000070
   ldr r2, =_sidata
- 8000dd8:	08009410 	.word	0x08009410
+ 8000dd8:	08009414 	.word	0x08009414
   ldr r2, =_sbss
  8000ddc:	20000070 	.word	0x20000070
   ldr r4, =_ebss
@@ -4003,7 +4003,7 @@ static uint32_t DMA_CalcBaseAndBitshift(DMA_HandleTypeDef *hdma)
  8001850:	4770      	bx	lr
  8001852:	bf00      	nop
  8001854:	aaaaaaab 	.word	0xaaaaaaab
- 8001858:	08008f70 	.word	0x08008f70
+ 8001858:	08008f74 	.word	0x08008f74
 
 0800185c <DMA_CheckFifoParam>:
   * @param  hdma       pointer to a DMA_HandleTypeDef structure that contains
@@ -5898,7 +5898,7 @@ HAL_StatusTypeDef HAL_RCC_ClockConfig(RCC_ClkInitTypeDef  *RCC_ClkInitStruct, ui
  8002302:	bf00      	nop
  8002304:	40023c00 	.word	0x40023c00
  8002308:	40023800 	.word	0x40023800
- 800230c:	08008f58 	.word	0x08008f58
+ 800230c:	08008f5c 	.word	0x08008f5c
  8002310:	20000000 	.word	0x20000000
  8002314:	20000004 	.word	0x20000004
 
@@ -6153,7 +6153,7 @@ uint32_t HAL_RCC_GetPCLK1Freq(void)
  80024d8:	4618      	mov	r0, r3
  80024da:	bd80      	pop	{r7, pc}
  80024dc:	40023800 	.word	0x40023800
- 80024e0:	08008f68 	.word	0x08008f68
+ 80024e0:	08008f6c 	.word	0x08008f6c
 
 080024e4 <HAL_RCC_GetPCLK2Freq>:
   * @note   Each time PCLK2 changes, this function must be called to update the
@@ -6179,7 +6179,7 @@ uint32_t HAL_RCC_GetPCLK2Freq(void)
  8002500:	4618      	mov	r0, r3
  8002502:	bd80      	pop	{r7, pc}
  8002504:	40023800 	.word	0x40023800
- 8002508:	08008f68 	.word	0x08008f68
+ 8002508:	08008f6c 	.word	0x08008f6c
 
 0800250c <HAL_SD_Init>:
             SD_HandleTypeDef and create the associated handle.
@@ -14799,7 +14799,7 @@ void MX_FATFS_Init(void)
  800575c:	bf00      	nop
  800575e:	bd80      	pop	{r7, pc}
  8005760:	2000024c 	.word	0x2000024c
- 8005764:	08008f78 	.word	0x08008f78
+ 8005764:	08008f7c 	.word	0x08008f7c
  8005768:	20000248 	.word	0x20000248
 
 0800576c <get_fattime>:
@@ -18438,7 +18438,7 @@ int cmp_lfn (				/* 1:matched, 0:not matched */
  8006c42:	46bd      	mov	sp, r7
  8006c44:	bd90      	pop	{r4, r7, pc}
  8006c46:	bf00      	nop
- 8006c48:	0800900c 	.word	0x0800900c
+ 8006c48:	08009010 	.word	0x08009010
 
 08006c4c <put_lfn>:
 	const WCHAR* lfn,	/* Pointer to the LFN */
@@ -18562,7 +18562,7 @@ int cmp_lfn (				/* 1:matched, 0:not matched */
  8006d12:	46bd      	mov	sp, r7
  8006d14:	bd80      	pop	{r7, pc}
  8006d16:	bf00      	nop
- 8006d18:	0800900c 	.word	0x0800900c
+ 8006d18:	08009010 	.word	0x08009010
 
 08006d1c <gen_numname>:
 	BYTE* dst,			/* Pointer to the buffer to store numbered SFN */
@@ -19728,9 +19728,9 @@ FRESULT create_name (	/* FR_OK: successful, FR_INVALID_NAME: could not create */
 		if (!w) break;					/* Break on end of the LFN */
  80074b4:	bf00      	nop
  80074b6:	e006      	b.n	80074c6 <create_name+0x2da>
- 80074b8:	08008f10 	.word	0x08008f10
- 80074bc:	08008f8c 	.word	0x08008f8c
- 80074c0:	08008f1c 	.word	0x08008f1c
+ 80074b8:	08008f14 	.word	0x08008f14
+ 80074bc:	08008f90 	.word	0x08008f90
+ 80074c0:	08008f20 	.word	0x08008f20
 			if (si > di) break;			/* No extension */
  80074c4:	bf00      	nop
 	}
@@ -22144,7 +22144,7 @@ WCHAR ff_convert (	/* Converted character, Returns zero on error */
  800842c:	f85d 7b04 	ldr.w	r7, [sp], #4
  8008430:	4770      	bx	lr
  8008432:	bf00      	nop
- 8008434:	0800901c 	.word	0x0800901c
+ 8008434:	08009020 	.word	0x08009020
 
 08008438 <ff_wtoupper>:
 
@@ -22304,8 +22304,8 @@ WCHAR ff_wtoupper (	/* Returns upper converted character */
  800853c:	f85d 7b04 	ldr.w	r7, [sp], #4
  8008540:	4770      	bx	lr
  8008542:	bf00      	nop
- 8008544:	0800911c 	.word	0x0800911c
- 8008548:	08009310 	.word	0x08009310
+ 8008544:	08009120 	.word	0x08009120
+ 8008548:	08009314 	.word	0x08009314
 
 0800854c <__errno>:
  800854c:	4b01      	ldr	r3, [pc, #4]	; (8008554 <__errno+0x8>)
@@ -22340,10 +22340,10 @@ WCHAR ff_wtoupper (	/* Returns upper converted character */
  800858a:	4798      	blx	r3
  800858c:	3601      	adds	r6, #1
  800858e:	e7f2      	b.n	8008576 <__libc_init_array+0x1e>
- 8008590:	08009408 	.word	0x08009408
- 8008594:	08009408 	.word	0x08009408
- 8008598:	08009408 	.word	0x08009408
- 800859c:	0800940c 	.word	0x0800940c
+ 8008590:	0800940c 	.word	0x0800940c
+ 8008594:	0800940c 	.word	0x0800940c
+ 8008598:	0800940c 	.word	0x0800940c
+ 800859c:	08009410 	.word	0x08009410
 
 080085a0 <memset>:
  80085a0:	4402      	add	r2, r0
@@ -22661,11 +22661,11 @@ WCHAR ff_wtoupper (	/* Returns upper converted character */
  800888c:	f000 f87a 	bl	8008984 <_printf_i>
  8008890:	e7eb      	b.n	800886a <_svfiprintf_r+0x1c2>
  8008892:	bf00      	nop
- 8008894:	080093cc 	.word	0x080093cc
- 8008898:	080093d6 	.word	0x080093d6
+ 8008894:	080093d0 	.word	0x080093d0
+ 8008898:	080093da 	.word	0x080093da
  800889c:	00000000 	.word	0x00000000
  80088a0:	080085f1 	.word	0x080085f1
- 80088a4:	080093d2 	.word	0x080093d2
+ 80088a4:	080093d6 	.word	0x080093d6
 
 080088a8 <_printf_common>:
  80088a8:	e92d 47f0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, lr}
@@ -23001,8 +23001,8 @@ WCHAR ff_wtoupper (	/* Returns upper converted character */
  8008bc0:	f104 0619 	add.w	r6, r4, #25
  8008bc4:	e7f5      	b.n	8008bb2 <_printf_i+0x22e>
  8008bc6:	bf00      	nop
- 8008bc8:	080093dd 	.word	0x080093dd
- 8008bcc:	080093ee 	.word	0x080093ee
+ 8008bc8:	080093e1 	.word	0x080093e1
+ 8008bcc:	080093f2 	.word	0x080093f2
 
 08008bd0 <memcpy>:
  8008bd0:	440a      	add	r2, r1
