@@ -36,7 +36,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define RECV_SIZE 20
+#define STR_SIZE 40
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -47,7 +47,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-char recv_str[RECV_SIZE];
+char str[STR_SIZE];
 uint8_t flag1;
 /* USER CODE END PV */
 
@@ -95,22 +95,30 @@ int main(void)
   MX_FATFS_Init();
   MX_SDIO_SD_Init();
   /* USER CODE BEGIN 2 */
-  HAL_UART_Receive_IT(&huart1, recv_str, RECV_SIZE);
+  HAL_UART_Receive_IT(&huart1, str, STR_SIZE);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
-  char str[RECV_SIZE] = "Hello World!!\n";
+  BYTE buf[32] = "Hello world";	// file copy buffer
+  uint32_t bw, br;
+
+  // 1. FS Initialization("0:/"drive allocation)
+//  if((retSD = f_mount(&SDFatFS, "0:/", 1)) == FR_OK)
+  if((retSD = f_mount(&SDFatFS, &SDPath[0], 1)) == FR_OK)
+  {
+	  sprintf(str, "f_mount OK %d\n", retSD);
+	  HAL_UART_Transmit(&huart1, str, STR_SIZE, 10);
+  }
+
   while (1)
   {
-	  HAL_UART_Transmit(&huart1, str, RECV_SIZE, 10);
-	  HAL_Delay(1000);
 
 	  if(flag1)
 	  {
 		  flag1 = 0;
-		  HAL_UART_Transmit(&huart1, recv_str, RECV_SIZE, 10);
+		  HAL_UART_Transmit(&huart1, str, STR_SIZE, 10);
 	  }
     /* USER CODE END WHILE */
 
@@ -170,7 +178,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
 	if(huart->Instance == USART1)
 	{
-		HAL_UART_Receive_IT(&huart1, recv_str, RECV_SIZE);
+		HAL_UART_Receive_IT(&huart1, str, STR_SIZE);
 		flag1 = 1;
 	}
 }
