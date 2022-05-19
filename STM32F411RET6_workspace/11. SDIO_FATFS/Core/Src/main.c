@@ -117,6 +117,23 @@ int main(void)
 	  HAL_UART_Transmit(&huart1, str, STR_SIZE, 10);
   }
 
+  // 2. File create & write
+  if((retSD = f_open(&SDFile, "0:/Hello_world.txt", FA_CREATE_NEW | FA_WRITE)) == FR_OK)
+  {
+	  sprintf(buf, "Hello world~!");
+	  f_write(&SDFile, buf, sizeof(buf),  &bw);
+
+	  sprintf(str, "%d bytes\n", bw);
+	  HAL_UART_Transmit(&huart1, str, STR_SIZE, 10);
+
+	  f_close(&SDFile);
+  }
+  else
+  {
+	  sprintf(str, "error %d\n", retSD);
+	  HAL_UART_Transmit(&huart1, str, STR_SIZE, 10);
+  }
+
   while (1)
   {
 
