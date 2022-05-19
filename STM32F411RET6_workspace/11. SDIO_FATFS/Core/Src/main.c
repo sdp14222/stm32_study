@@ -111,6 +111,11 @@ int main(void)
 	  sprintf(str, "f_mount OK %d\n", retSD);
 	  HAL_UART_Transmit(&huart1, str, STR_SIZE, 10);
   }
+  else
+  {
+	  sprintf(str, "f_mount failed %d\n", retSD);
+	  HAL_UART_Transmit(&huart1, str, STR_SIZE, 10);
+  }
 
   while (1)
   {
