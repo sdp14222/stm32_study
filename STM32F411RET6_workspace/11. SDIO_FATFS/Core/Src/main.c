@@ -54,7 +54,7 @@ uint8_t flag1;
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-
+void uart_buffer_clean(char *str, uint32_t cnt);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -116,6 +116,7 @@ int main(void)
 	  sprintf(str, "f_mount failed %d\n", retSD);
 	  HAL_UART_Transmit(&huart1, str, STR_SIZE, 10);
   }
+  uart_buffer_clean(str, STR_SIZE);
 
   /*
   // 2. File create & write
@@ -136,6 +137,33 @@ int main(void)
   }
   */
 
+  // 4. Read file info in folder
+  DIR dir;
+  FILINFO filinfo;
+  uint16_t filecnt = 0;
+  if((retSD = f_opendir(&dir, "0:/")) == FR_OK)
+  {
+	  while(1)
+	  {
+		  retSD = f_readdir(&dir, &filinfo);
+		  if(dir.sect == 0) break;
+
+		  sprintf(str, "%s\t 0x%x\n", filinfo.fname, filinfo.fattrib);
+		  HAL_UART_Transmit(&huart1, str, STR_SIZE, 10);
+		  uart_buffer_clean(str, STR_SIZE);
+		  filecnt++;
+	  }
+	  uart_buffer_clean(str, STR_SIZE);
+	  sprintf(str, "\nTotal %d file(s)..\n\n", filecnt);
+	  HAL_UART_Transmit(&huart1, str, STR_SIZE, 10);
+  }
+  else
+  {
+	  sprintf(str, "The file/directory object is invalid! %d\n", retSD);
+	  HAL_UART_Transmit(&huart1, str, STR_SIZE, 10);
+  }
+  uart_buffer_clean(str, STR_SIZE);
+
   // 3. File read
 //  if((retSD = f_open(&SDFile, "0:/sdp.txt", FA_OPEN_EXISTING | FA_READ)) == FR_OK)
   // if file not exist
@@ -144,14 +172,17 @@ int main(void)
 	  f_read(&SDFile, buf, 32, &br);
 	  sprintf(str, "%s\n", buf);
 	  HAL_UART_Transmit(&huart1, str, STR_SIZE, 10);
+	  uart_buffer_clean(str, STR_SIZE);
 
 	  sprintf(str, "%d bytes\n", br);
 	  HAL_UART_Transmit(&huart1, str, STR_SIZE, 10);
+	  uart_buffer_clean(str, STR_SIZE);
   }
   else
   {
 	  sprintf(str, "error %d\n", retSD);
 	  HAL_UART_Transmit(&huart1, str, STR_SIZE, 10);
+	  uart_buffer_clean(str, STR_SIZE);
   }
 
   while (1)
@@ -223,6 +254,12 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 		HAL_UART_Receive_IT(&huart1, str, STR_SIZE);
 		flag1 = 1;
 	}
+}
+
+void uart_buffer_clean(char *str, uint32_t cnt)
+{
+	while(cnt--)
+		*str++ = 0;
 }
 /* USER CODE END 4 */
 
