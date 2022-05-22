@@ -21,4 +21,4 @@
 ## Example
 - SDIO settings
 - Using [Micro SD Card Storage Board](https://www.waveshare.com/wiki/Micro_SD_Storage_Board)
-- FATFS : File Create & Write & Read
+- FATFS : File Create & Write & Read & Read file info in directory
