@@ -18,13 +18,11 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "can.h"
-#include "usart.h"
-#include "gpio.h"
+#include "lwip.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include <stdio.h>
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -42,18 +40,16 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
+ UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
-volatile uint8_t uart_rx_data;
-volatile uint8_t SW1_flag = 0;
-volatile uint8_t SW2_flag = 0;
-volatile uint8_t SW3_flag = 0;
-volatile uint8_t SW4_flag = 0;
-volatile uint8_t can1_rx0_flag = 0;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+static void MX_GPIO_Init(void);
+static void MX_USART1_UART_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -76,7 +72,7 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-   HAL_Init();
+  HAL_Init();
 
   /* USER CODE BEGIN Init */
 
@@ -91,119 +87,16 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_CAN1_Init();
   MX_USART1_UART_Init();
+  MX_LWIP_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  canFilter1.FilterMaskIdHigh = 0x7F3 << 5;
-  canFilter1.FilterIdHigh = 0x106 << 5;
-  canFilter1.FilterMaskIdLow = 0x7F3 << 5;
-  canFilter1.FilterIdLow = 0x106 << 5;
-  canFilter1.FilterMode = CAN_FILTERMODE_IDMASK;
-  canFilter1.FilterScale = CAN_FILTERSCALE_16BIT;
-  canFilter1.FilterFIFOAssignment = CAN_FILTER_FIFO0;
-  canFilter1.FilterBank = 0;
-  canFilter1.FilterActivation = ENABLE;
-
-  HAL_CAN_ConfigFilter(&hcan1, &canFilter1);
-  HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING);
-
-  HAL_CAN_Start(&hcan1);
-
-  HAL_UART_Receive_IT(&huart1, &uart_rx_data, sizeof(uart_rx_data));
-
-  char str[20] = {0};
-
   while (1)
   {
-	  if(can1_rx0_flag)
-	  {
-		  can1_rx0_flag = 0;
-
-		  sprintf(str, "\n\n=============\n");
-		  HAL_UART_Transmit(&huart1, str, sizeof(str), 10);
-		  sprintf(str, "STM32F407VET6\n");
-		  HAL_UART_Transmit(&huart1, str, sizeof(str), 10);
-		  sprintf(str, "Rx ID: 0x%X\n", canRxHeader.StdId);
-		  HAL_UART_Transmit(&huart1, str, sizeof(str), 10);
-
-		  for(int i = 0; i < 8; i++)
-		  {
-			  sprintf(str, "Rx Data[%d]: 0x%X\n", i, can1Rx0Data[i]);
-			  HAL_UART_Transmit(&huart1, str, sizeof(str), 10);
-		  }
-		  sprintf(str, "\n=============\n\n");
-		  HAL_UART_Transmit(&huart1, str, sizeof(str), 10);
-	  }
-
-	  // flag1
-	  if(SW1_flag)
-	  {
-		  SW1_flag = 0;
-
-		  canTxHeader.StdId = 0x102;
-		  canTxHeader.RTR = CAN_RTR_DATA;
-		  canTxHeader.IDE = CAN_ID_STD;
-		  canTxHeader.DLC = 8;
-
-		  for(int i = 0; i < 8; i++) can1Tx0Data[i]++;
-
-		  TxMailBox = HAL_CAN_GetTxMailboxesFreeLevel(&hcan1);
-		  HAL_CAN_AddTxMessage(&hcan1, &canTxHeader, &can1Tx0Data[0], &TxMailBox);
-	  }
-
-	  // flag2
-	  if(SW2_flag)
-	  {
-		  SW2_flag = 0;
-
-		  canTxHeader.StdId = 0x106;
-		  canTxHeader.RTR = CAN_RTR_DATA;
-		  canTxHeader.IDE = CAN_ID_STD;
-		  canTxHeader.DLC = 8;
-
-		  for(int i = 0; i < 8; i++) can1Tx0Data[i]++;
-
-		  TxMailBox = HAL_CAN_GetTxMailboxesFreeLevel(&hcan1);
-		  HAL_CAN_AddTxMessage(&hcan1, &canTxHeader, &can1Tx0Data[0], &TxMailBox);
-	  }
-
-	  // flag3
-	  if(SW3_flag)
-	  {
-		  SW3_flag = 0;
-
-		  canTxHeader.StdId = 0x10A;
-		  canTxHeader.RTR = CAN_RTR_DATA;
-		  canTxHeader.IDE = CAN_ID_STD;
-		  canTxHeader.DLC = 8;
-
-		  for(int i = 0; i < 8; i++) can1Tx0Data[i]++;
-
-		  TxMailBox = HAL_CAN_GetTxMailboxesFreeLevel(&hcan1);
-		  HAL_CAN_AddTxMessage(&hcan1, &canTxHeader, &can1Tx0Data[0], &TxMailBox);
-	  }
-
-	  // flag4
-	  if(SW4_flag)
-	  {
-		  SW4_flag = 0;
-
-		  canTxHeader.StdId = 0x10E;
-		  canTxHeader.RTR = CAN_RTR_DATA;
-		  canTxHeader.IDE = CAN_ID_STD;
-		  canTxHeader.DLC = 8;
-
-		  for(int i = 0; i < 8; i++) can1Tx0Data[i]++;
-
-		  TxMailBox = HAL_CAN_GetTxMailboxesFreeLevel(&hcan1);
-		  HAL_CAN_AddTxMessage(&hcan1, &canTxHeader, &can1Tx0Data[0], &TxMailBox);
-	  }
-
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -231,7 +124,12 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
+  RCC_OscInitStruct.PLL.PLLM = 8;
+  RCC_OscInitStruct.PLL.PLLN = 168;
+  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+  RCC_OscInitStruct.PLL.PLLQ = 4;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
     Error_Handler();
@@ -241,51 +139,67 @@ void SystemClock_Config(void)
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5) != HAL_OK)
   {
     Error_Handler();
   }
 }
 
+/**
+  * @brief USART1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART1_UART_Init(void)
+{
+
+  /* USER CODE BEGIN USART1_Init 0 */
+
+  /* USER CODE END USART1_Init 0 */
+
+  /* USER CODE BEGIN USART1_Init 1 */
+
+  /* USER CODE END USART1_Init 1 */
+  huart1.Instance = USART1;
+  huart1.Init.BaudRate = 115200;
+  huart1.Init.WordLength = UART_WORDLENGTH_8B;
+  huart1.Init.StopBits = UART_STOPBITS_1;
+  huart1.Init.Parity = UART_PARITY_NONE;
+  huart1.Init.Mode = UART_MODE_TX_RX;
+  huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart1.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART1_Init 2 */
+
+  /* USER CODE END USART1_Init 2 */
+
+}
+
+/**
+  * @brief GPIO Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_GPIO_Init(void)
+{
+
+  /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOC_CLK_ENABLE();
+  __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
+
+}
+
 /* USER CODE BEGIN 4 */
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-{
-	if(huart->Instance == USART1)
-	{
-		HAL_UART_Receive_IT(&huart1, &uart_rx_data, 1);
 
-		if(uart_rx_data == '1')
-		{
-			SW1_flag = 1;
-		}
-		else if(uart_rx_data  == '2')
-		{
-			SW2_flag = 1;
-		}
-		else if(uart_rx_data == '3')
-		{
-			SW3_flag = 1;
-		}
-		else if(uart_rx_data == '4')
-		{
-			SW4_flag = 1;
-		}
-	}
-}
-
-void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
-{
-	if(hcan->Instance == CAN1)
-	{
-		HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &canRxHeader, &can1Rx0Data[0]);
-		can1_rx0_flag = 1;
-	}
-}
 /* USER CODE END 4 */
 
 /**
