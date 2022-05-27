@@ -22,7 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "udp_echoserver.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -91,12 +91,22 @@ int main(void)
   MX_LWIP_Init();
   /* USER CODE BEGIN 2 */
 
+  /* tcp echo server Init */
+  udp_echoserver_init();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+
   while (1)
   {
+	  /* Read a received packet from the Ethernet buffers and send it to the lwIP for handling */
+	  ethernetif_input(&gnetif);
+
+	  /* Handle timeouts */
+	  sys_check_timeouts();
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
