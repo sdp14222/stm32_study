@@ -98,8 +98,11 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
+//  char str[20] = "Hello World!!\n";
   while (1)
   {
+//	  HAL_UART_Transmit(&huart1, str, 20, 10);
+//	  HAL_Delay(1000);
 	  /* Read a received packet from the Ethernet buffers and send it to the lwIP for handling */
 	  ethernetif_input(&gnetif);
 
